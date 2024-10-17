@@ -1,6 +1,6 @@
 import { prisma } from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-import { articleCreationSchema } from "../validationSchema";
+import { articleCreationSchema } from "../../validationSchema";
 
 export async function GET() {
   try {
@@ -20,8 +20,7 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  let body = await req.json();
-
+  const body = await req.json();
   const validation = articleCreationSchema.safeParse(body);
   if (!validation.success)
     return NextResponse.json(validation.error.errors, { status: 400 });

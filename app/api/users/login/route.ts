@@ -1,5 +1,4 @@
-import { NextResponse } from "next/server";
-import type { NextApiRequest } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/prisma/client";
 import { userLoginSchema } from "../../validationSchema";
 import { loginCookie } from "@/app/lib/sessionManagement";
@@ -12,24 +11,27 @@ export async function GET() {
   return NextResponse.json(users);
 }
 
-export async function POST(req: NextApiRequest) {
+export async function POST(req: NextRequest) {
   const jwtsecret = JWT_SECRET;
 
-  const { email, password } = req.body;
-  const validation = userLoginSchema.safeParse({ email, password });
+  let body = await req.json();
+  let query = req.cookies
+  console.log(query)
+  const validation = userLoginSchema.safeParse(body);
   if (!validation.success)
     return NextResponse.json(validation.error.errors, { status: 400 });
 
   const user = await prisma.utilisateur.findUnique({
     where: {
-      email: email,
+      email: body.email,
     },
   });
+
 
   if (!user)
     return NextResponse.json({ message: "User not found" }, { status: 400 });
 
-  const isValidPassword = await bcrypt.compare(password, user.motdepasse);
+  const isValidPassword = await bcrypt.compare(body.password, user.motdepasse);
   if (!isValidPassword)
     return NextResponse.json(
       { message: "Invalid credentials" },

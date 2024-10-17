@@ -1,5 +1,4 @@
-import { NextResponse } from "next/server";
-import type { NextApiRequest } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/prisma/client";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -7,23 +6,18 @@ import { JWT_SECRET } from "@/app/constants/url";
 import { userCreationSchema } from "../../validationSchema";
 import { loginCookie } from "@/app/lib/sessionManagement";
 
-export async function POST(req: NextApiRequest) {
+export async function POST(req: NextRequest) {
   const jwtsecret = JWT_SECRET;
 
-  const { email, nom, prenom, password } = req.body;
-  const validation = userCreationSchema.safeParse({
-    email,
-    nom,
-    prenom,
-    password,
-  });
+  let body = await req.json();
+  const validation = userCreationSchema.safeParse(body);
   if (!validation.success)
     return NextResponse.json(validation.error.errors, { status: 400 });
 
   try {
     const user = await prisma.utilisateur.findUnique({
       where: {
-        email: email,
+        email: body.email,
       },
     });
 
@@ -34,13 +28,13 @@ export async function POST(req: NextApiRequest) {
       );
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(body.password, 10);
 
     const newUser = await prisma.utilisateur.create({
       data: {
-        email: email,
-        nom: nom,
-        prenom: prenom,
+        email: body.email,
+        nom: body.nom,
+        prenom: body.prenom,
         motdepasse: hashedPassword,
       },
     });
