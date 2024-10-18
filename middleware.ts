@@ -3,12 +3,14 @@ import { getSession } from "./app/lib/sessionManagement";
 import jwt from "jsonwebtoken";
 
 interface IToken {
-  id: number;
-  nom: string;
-  prenom: string;
-  email: string;
-  motdepasse: string;
-  isAdmin: boolean;
+  user: {
+    id: number;
+    nom: string;
+    prenom: string;
+    email: string;
+    motdepasse: string;
+    isAdmin: boolean;
+  };
 }
 
 const adminPage = "/admin";
@@ -22,7 +24,7 @@ export async function middleware(request: NextRequest) {
   }
 
   const decoded = <IToken>jwt.decode(JSON.parse(session));
-  if (decoded.isAdmin) {
+  if (decoded.user.isAdmin) {
     if (currentPath.startsWith(adminPage)) {
       return NextResponse.next();
     }

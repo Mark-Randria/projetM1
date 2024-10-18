@@ -1,6 +1,6 @@
 import { prisma } from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-import { articleCreationSchema } from "../../validationSchema";
+import { articleCreationSchema } from "../validationSchema";
 
 export async function GET() {
   try {

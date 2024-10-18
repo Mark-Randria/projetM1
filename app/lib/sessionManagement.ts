@@ -23,7 +23,7 @@ export async function getSession() {
   return session;
 }
 
-export async function updateSession(req: NextRequest) {
+export async function updateSession() {
   const session = cookies().get("session")?.value;
   if (!session) return;
 

@@ -5,7 +5,7 @@ interface IProps {
   params: { id: number };
 }
 
-export async function GET({ params: { id } }: IProps) {
+export async function GET(req: NextRequest, { params: { id } }: IProps) {
   try {
     const userCritiques = await prisma.critique.findMany({
       where: { reviewerId: Number(id) }, // Fetch all critiques by this bruh (reviewer)
