@@ -1,14 +1,16 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { CACHE_KEY } from "../constants/cacheKeys";
-import articleService from "../services/articleService";
-import { IArticle } from "../types/type";
+import { findArticleService } from "../services/articleService";
 
-const useFindUser = (searchParams: string) => {
-  return useQuery<IArticle, Error>({
-    queryKey: [CACHE_KEY.article, searchParams],
-    queryFn: () => articleService.findOne(searchParams),
-    staleTime: 1000 * 15, // 15 seconds
+const useFindArticle = (onSuccessCallback: () => void) => {
+  return useMutation({
+    mutationKey: CACHE_KEY.articles,
+    mutationFn: findArticleService.post,
+    retry: 3,
+    onSuccess: () => {
+      onSuccessCallback();
+    },
   });
 };
 
-export default useFindUser;
+export default useFindArticle;

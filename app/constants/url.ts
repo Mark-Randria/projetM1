@@ -5,6 +5,7 @@ export const USER_ENDPOINT_URL = `${BASE_API_URL}/users`;
 export const LOGIN_ENDPOINT_URL = `${USER_ENDPOINT_URL}/login`;
 export const SIGNUP_ENDPOINT_URL = `${USER_ENDPOINT_URL}/signup`;
 export const ARTICLES_URL = `${BASE_API_URL}/articles`;
+export const FIND_ARTICLE_URL = `${ARTICLES_URL}/filter`;
 export const CRITIQUES_URL = `${BASE_API_URL}/critiques`;
 
 export function GET_CRITIQUES_OF_AN_USER_URL(userId: string) {

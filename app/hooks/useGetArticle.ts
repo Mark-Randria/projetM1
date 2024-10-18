@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { CACHE_KEY } from "../constants/cacheKeys";
-import articleService from "../services/articleService";
+import {articleService} from "../services/articleService";
 import { IArticle } from "../types/type";
 
 const useGetArticle = () => {
