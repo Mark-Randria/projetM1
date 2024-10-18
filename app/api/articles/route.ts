@@ -2,7 +2,8 @@ import { prisma } from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { articleCreationSchema } from "../validationSchema";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  
   try {
     const articles = await prisma.article.findMany({
       include: {

@@ -2,11 +2,18 @@
 
 import { Button } from "@mantine/core";
 import useAssignReviewer from "@/app/hooks/useAssignReviewer";
+import useGetUser from "@/app/hooks/useGetUser";
 
-export default function AssignPage() {
+interface IProps {
+  params: { articleId: number };
+}
+
+export default function AssignPage({ params: { articleId } }: IProps) {
+  const { data: userList, isLoading, isError } = useGetUser();
+  console.log(userList);
   const onSuccessCallback = () => {};
 
-  const { mutate: assign } = useAssignReviewer(onSuccessCallback);
+  const { mutate: assign } = useAssignReviewer(() => onSuccessCallback);
 
   const handleAssignReviewer = () => {
     assign(
@@ -25,7 +32,7 @@ export default function AssignPage() {
   };
   return (
     <div>
-      Assigning Page
+      Assigning Page {articleId}
       <Button onClick={handleAssignReviewer}>Assign user</Button>
     </div>
   );
