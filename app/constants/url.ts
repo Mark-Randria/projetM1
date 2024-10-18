@@ -22,3 +22,8 @@ export function CRITIQUES_WITH_PARAMS_URL(critiqueId: string) {
 export function ASSIGN_REVIEWER_URL(articleId: string) {
   return `${ARTICLES_URL}/${articleId}/assign_reviewer`;
 }
+
+export function ADMIN_ARTICLE_ACTION_URL(articleId: string) {
+    return `${ARTICLES_URL}/${articleId}/actions`;
+  }
+  

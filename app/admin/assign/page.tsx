@@ -1,7 +1,7 @@
 "use client";
 
-import useAssignReviewer from "@/app/hooks/useAssignReviewer";
 import { Button } from "@mantine/core";
+import useAssignReviewer from "@/app/hooks/useAssignReviewer";
 
 export default function AssignPage() {
   const onSuccessCallback = () => {};
@@ -25,7 +25,7 @@ export default function AssignPage() {
   };
   return (
     <div>
-      Assign
+      Assigning Page
       <Button onClick={handleAssignReviewer}>Assign user</Button>
     </div>
   );

@@ -46,11 +46,11 @@ export async function POST(req: NextRequest) {
     },
     jwtsecret,
     {
-      expiresIn: 60 * 1000,
+      expiresIn: "1h",
     }
   );
 
-  loginCookie(JSON.stringify(token));
+  await loginCookie(JSON.stringify(token));
   const returnedData = { token, user };
   return NextResponse.json(returnedData, { status: 200 });
 }

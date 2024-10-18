@@ -5,10 +5,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { Box, Button, Container, TextInput } from "@mantine/core";
 import useSignupUser from "@/app/hooks/auth/useSignupUser";
-import { Utilisateur } from "@/app/types/type";
+
+interface IFormInput {
+  nom: string;
+  prenom: string;
+  email: string;
+  password: string;
+}
 
 export default function Signup() {
-  const form = useForm<Utilisateur>({
+  const form = useForm<IFormInput>({
     mode: "controlled",
     initialValues: {
       nom: "",
@@ -28,7 +34,7 @@ export default function Signup() {
   const signupTriggered = () => {};
   const { mutate: signup, isPending } = useSignupUser(signupTriggered);
 
-  const handleSubmit = (values: Utilisateur) => {
+  const handleSubmit = (values: IFormInput) => {
     const { nom, prenom, email, password } = values;
     signup(
       { nom, prenom, email, password },
@@ -53,7 +59,7 @@ export default function Signup() {
             gap: 4,
           }}
         >
-            <TextInput
+          <TextInput
             classNames={{
               label: "bg-red-100",
             }}

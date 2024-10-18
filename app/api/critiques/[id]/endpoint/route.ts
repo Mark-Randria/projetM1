@@ -7,15 +7,14 @@ interface IProps {
 }
 
 export async function DELETE(req: NextRequest,{ params: { id } }: IProps) {
-  const Id = id
   try {
     const deletedCritique = await prisma.critique.delete({
-      where: { id: Number(Id) },
+      where: { id: Number(id) },
     });
     return NextResponse.json(deletedCritique, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { message: "There deleting critique", error },
+      { message: "Error deleting critique", error },
       { status: 500 }
     );
   }

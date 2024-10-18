@@ -1,6 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import articleService from "@/app/services/articleService";
-import authService from "../services/authService";
+import assignService from "@/app/services/assignService";
 
 const useAssignReviewer = (onSuccessCallback: () => void) => {
   return useMutation({
@@ -9,8 +8,8 @@ const useAssignReviewer = (onSuccessCallback: () => void) => {
       reviewerData,
     }: {
       articleId: string;
-      reviewerData: any;
-    }) => articleService.assignReviewer(articleId, reviewerData),
+      reviewerData: unknown;
+    }) => assignService.assignReviewer<unknown>(articleId, reviewerData),
 
     retry: 3,
 

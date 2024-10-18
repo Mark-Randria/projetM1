@@ -3,11 +3,13 @@ import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
 export async function loginCookie(data: string) {
-  const expires = new Date(Date.now() + 5 * 60 * 1000);
+  const expires = new Date(Date.now() + 60 * 60 * 1000);
 
   cookies().set("session", data, {
     expires,
     httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict"
   });
 }
 
@@ -35,6 +37,8 @@ export async function updateSession() {
     value: session,
     httpOnly: true,
     expires: newExpire,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict"
   });
   return res;
 }

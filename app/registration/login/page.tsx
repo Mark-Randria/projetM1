@@ -10,6 +10,7 @@ interface IFormInput {
   email: string;
   password: string;
 }
+
 export default function Login() {
   const form = useForm<IFormInput>({
     mode: "controlled",

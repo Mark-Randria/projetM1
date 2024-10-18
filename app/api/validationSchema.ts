@@ -1,4 +1,4 @@
-import { number, z } from "zod";
+import { z } from "zod";
 
 export const userCreationSchema = z.object({
   nom: z.string().min(2),
