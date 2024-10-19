@@ -1,25 +1,41 @@
 "use client";
 
-import { Button } from "@mantine/core";
+import { Box, Button, LoadingOverlay, Select } from "@mantine/core";
+import { useQueryClient } from "@tanstack/react-query";
 import useAssignReviewer from "@/app/hooks/useAssignReviewer";
 import useGetUser from "@/app/hooks/useGetUser";
+import useGetAssignedReviewers from "@/app/hooks/useGetAssignedReviewers";
+import { useState } from "react";
+import { CACHE_KEY } from "@/app/constants/cacheKeys";
 
 interface IProps {
   params: { articleId: number };
 }
 
 export default function AssignPage({ params: { articleId } }: IProps) {
+  const queryClient = useQueryClient();
+  const [selectedReviewer, setSelectedReviewer] = useState<string | null>("");
+
+  const {
+    data: reviewerList,
+    isLoading: reviewerIsLoading,
+    isError: reviewerIsError,
+  } = useGetAssignedReviewers(articleId.toString());
+
   const { data: userList, isLoading, isError } = useGetUser();
   console.log(userList);
+  console.log(reviewerList);
   const onSuccessCallback = () => {};
 
-  const { mutate: assign } = useAssignReviewer(() => onSuccessCallback);
+  const { mutate: assign, isPending } = useAssignReviewer(
+    () => onSuccessCallback
+  );
 
   const handleAssignReviewer = () => {
     assign(
       {
-        articleId: "1", // Article ID
-        reviewerData: { reviewerId: 5 }, // Data to post (e.g., reviewer ID)
+        articleId: articleId.toString(),
+        reviewerData: { reviewerId: selectedUser!.id },
       },
       {
         onSuccess(data) {
@@ -30,10 +46,49 @@ export default function AssignPage({ params: { articleId } }: IProps) {
       }
     );
   };
+
+  const availableReviewer = userList?.filter(
+    (user) =>
+      !reviewerList?.some(
+        (reviewer) => reviewer.email === user.email || user.isAdmin
+      )
+  );
+
+  const selectedUser = userList?.find(
+    (user) => `${user.nom} ${user.prenom}` === selectedReviewer
+  );
+
+  const selectData = availableReviewer?.map(
+    (reviewer) => `${reviewer.nom} ${reviewer.prenom}`
+  );
+
+  if (reviewerIsLoading && isLoading)
+    return (
+      <LoadingOverlay
+        visible
+        zIndex={1000}
+        overlayProps={{ radius: "sm", blur: 2 }}
+      />
+    );
+  console.log(selectedUser?.id);
   return (
     <div>
       Assigning Page {articleId}
-      <Button onClick={handleAssignReviewer}>Assign user</Button>
+      <Box>
+        <Select
+          label="Reviewer name"
+          placeholder="select a reviewer"
+          data={selectData || []}
+          value={selectedReviewer}
+          onChange={setSelectedReviewer}
+        />
+      </Box>
+      <Button
+        disabled={selectedReviewer === "" || isPending}
+        onClick={handleAssignReviewer}
+      >
+        {isPending ? "Loading..." : "Assign"}
+      </Button>
     </div>
   );
 }

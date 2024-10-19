@@ -6,6 +6,7 @@ export interface IUserLogin {
 export interface IUser extends IUserLogin {
   nom: string;
   prenom: string;
+  isAdmin: string;
 }
 
 export interface IArticle {

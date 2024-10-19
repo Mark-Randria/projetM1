@@ -35,6 +35,25 @@ export async function POST(req: NextRequest, { params: { id } }: IProps) {
     return NextResponse.json(validation.error.errors, { status: 400 });
 
   try {
+    const article = await prisma.article.findUnique({
+      where: {
+        id: Number(id),
+      },
+      select: {
+        auteurId: true,
+      },
+    });
+
+    if (article!.auteurId === body.reviewerId) {
+      return NextResponse.json(
+        {
+          message:
+            "The author cannot be assigned as a reviewer to their own article",
+        },
+        { status: 400 }
+      );
+    }
+
     const assignReviewer = await prisma.utilisateurArticle.create({
       data: {
         utilisateurId: body.reviewerId,

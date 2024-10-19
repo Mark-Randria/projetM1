@@ -3,4 +3,5 @@ export const CACHE_KEY = {
     articles: ['articles'],
     article: ['article'],
     loggedUser: ['loggedUser'],
+    listReviewers: ['listReviewers']
 }
