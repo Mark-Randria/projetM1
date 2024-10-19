@@ -6,6 +6,28 @@ interface IProps {
   params: { id: number };
 }
 
+export async function GET(req: NextRequest, { params: { id } }: IProps) {
+  try {
+    const reviewers = await prisma.utilisateurArticle.findMany({
+      where: {
+        articleId: Number(id),
+        role: "REVIEWER",
+      },
+      include: {
+        utilisateur: true,
+      },
+    });
+
+    const users = reviewers.map((reviewer) => reviewer.utilisateur);
+    return NextResponse.json(users, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Error fetching reviewer", error },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(req: NextRequest, { params: { id } }: IProps) {
   const body = await req.json();
   const validation = assignReviewerSchema.safeParse(body);
@@ -24,6 +46,34 @@ export async function POST(req: NextRequest, { params: { id } }: IProps) {
   } catch (err) {
     return NextResponse.json(
       { message: "Error assigning reviewer", err },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(req: NextRequest, { params: { id } }: IProps) {
+  const { reviewerId } = await req.json();
+  try {
+    const result = await prisma.utilisateurArticle.deleteMany({
+      where: {
+        articleId: Number(id),
+        utilisateurId: reviewerId,
+        role: "REVIEWER",
+      },
+    });
+    if (result.count === 0) {
+      return NextResponse.json(
+        { message: "Reviewer not found for this article" },
+        { status: 404 }
+      );
+    }
+    return NextResponse.json(
+      { message: "Reviewer removed successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Error removing reviewer", error },
       { status: 500 }
     );
   }

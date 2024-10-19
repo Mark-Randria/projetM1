@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Box, Button, Container } from "@mantine/core";
+import { Box, Button, Container, Text } from "@mantine/core";
 import { ARTICLES_URL } from "../constants/url";
 import { IArticle } from "../types/type";
 
@@ -23,9 +23,14 @@ export default async function Page() {
         {articles.length > 0 ? (
           articles.map((article) => (
             <Box key={article.id}>
-              <Button component={Link} href={`admin/${article.id}/assign`}>
-                See article
-              </Button>
+              <Text
+                c="blue"
+                td="underline"
+                component={Link}
+                href={`admin/${article.id}/assign`}
+              >
+                Assign reviewer
+              </Text>
               <p>{article.titreArticle}</p>
               <p>{article.contenu}</p>
               <p>{article.status}</p>
