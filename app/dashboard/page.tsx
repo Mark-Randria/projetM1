@@ -48,23 +48,36 @@ export default async function Dashboard({ searchParams }: IProps) {
     return matchesTitle && matchesContent;
   });
 
-
   return (
     <Container>
-      <Box>Not an organisateur</Box>
-      <Box>
+      <Box
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          marginBottom: 10,
+        }}
+      >
+        <Text size="md">Not an organisateur</Text>
+      </Box>
+      <Box
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+        }}
+      >
         <SearchBar />
-        <Space h="md"/>
-        <Button component={Link} href="/dashboard/article">
+        <Space h="md" />
+        {/* <Button component={Link} href="/dashboard/article">
           My Article
-        </Button>
-        <Button component={Link} href="/dashboard/review">
+        </Button> */}
+        {/* <Button component={Link} href="/dashboard/review">
           My Review
-        </Button>
-        <Button component={Link} href="/dashboard/publish">
+        </Button> */}
+        <Button variant="light" component={Link} href="/dashboard/publish">
           Publish new Article
         </Button>
-        
       </Box>
       <Box
         style={{
@@ -74,16 +87,21 @@ export default async function Dashboard({ searchParams }: IProps) {
       >
         {filteredArticles.length > 0 ? (
           filteredArticles.map((article) => (
-            <Box key={article.id}>
-              <Text size="lg">My Articles</Text>
+            <Box key={article.id} mb="20">
+              <Text size="lg">Liste de mes articles</Text>
               <p>{article.titreArticle}</p>
-              <Button component={Link} href={`dashboard/article/${article.id}`}>
+              <Text
+                c="blue"
+                td="underline"
+                component={Link}
+                href={`dashboard/article/${article.id}`}
+              >
                 See article
-              </Button>
+              </Text>
               <p>{article.contenu}</p>
               <p>{article.status}</p>
               <p>{article.archive}</p>
-              <p>{new Date(article.datePubArticle).toLocaleString("fr")}</p>
+              <p>posté le {new Date(article.datePubArticle).toLocaleString("fr")}</p>
               <p>{article.auteur.nom}</p>
               <p>{article.auteur.prenom}</p>
             </Box>
@@ -94,10 +112,10 @@ export default async function Dashboard({ searchParams }: IProps) {
         {articles.length > 0 ? (
           critiques.map((critique) => (
             <Box key={critique.id}>
-              <Text size="lg">My Critiques</Text>
-              <p>{critique.titreCritique}</p>
-              <p>{critique.descriptionCritique}</p>
-              <p>{new Date(critique.datePubCritique).toLocaleString("fr")}</p>
+              <Text size="lg">Liste des articles a critiquer</Text>
+              <p>{critique.Article.titreArticle}</p>
+              <p>{critique.Article.contenu}</p>
+              <p>critiqué le {new Date(critique.datePubCritique).toLocaleString("fr")}</p>
             </Box>
           ))
         ) : (
