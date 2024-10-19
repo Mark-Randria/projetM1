@@ -2,6 +2,18 @@ import { prisma } from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { articleCreationSchema } from "../validationSchema";
 
+
+/**
+ * @swagger
+ * /api/articles:
+ *   get:
+ *     description: Returns the list of all article
+ *     responses:
+ *       200:
+ *         description: return the list of all articles
+ */
+
+
 export async function GET(req: NextRequest) {
   
   try {

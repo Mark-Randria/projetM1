@@ -116,6 +116,14 @@ export default async function Dashboard({ searchParams }: IProps) {
               <p>{critique.Article.titreArticle}</p>
               <p>{critique.Article.contenu}</p>
               <p>critiqué le {new Date(critique.datePubCritique).toLocaleString("fr")}</p>
+              <Text
+                c="blue"
+                td="underline"
+                component={Link}
+                href={`dashboard/article/${critique.articleId}/review`}
+              >
+                See article
+              </Text>
             </Box>
           ))
         ) : (
