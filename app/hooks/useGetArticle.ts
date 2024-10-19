@@ -7,7 +7,7 @@ const useGetArticle = () => {
   return useQuery<IArticle[], Error>({
     queryKey: CACHE_KEY.articles,
     queryFn: () => articleService.getAll(),
-    staleTime: 1000 * 15, // 15 seconds
+    staleTime: 1000 * 60, // 60 seconds
   });
 };
 

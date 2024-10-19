@@ -17,9 +17,30 @@ export interface IArticle {
   datePubArticle: Date;
   auteurId: number;
   auteur: IAuteur;
-  critiques: any;
+  critiques: ICritique[];
+}
+
+export interface ICritique {
+  id: number;
+  datePubCritique: Date;
+  reviewerId: number;
+  articleId: number;
+  titreCritique: string;
+  descriptionCritique: string;
+  Article: IArticle;
 }
 
 export interface IAuteur extends IUser {
   id: number;
+}
+
+export interface IToken {
+  user: {
+    id: number;
+    nom: string;
+    prenom: string;
+    email: string;
+    motdepasse: string;
+    isAdmin: boolean;
+  };
 }

@@ -1,17 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "./app/lib/sessionManagement";
 import jwt from "jsonwebtoken";
-
-interface IToken {
-  user: {
-    id: number;
-    nom: string;
-    prenom: string;
-    email: string;
-    motdepasse: string;
-    isAdmin: boolean;
-  };
-}
+import { IToken } from "./app/types/type";
 
 const adminPage = "/admin";
 const dashboardPage = "/dashboard";
