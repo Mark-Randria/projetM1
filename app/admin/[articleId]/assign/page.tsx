@@ -1,19 +1,16 @@
 "use client";
 
 import { Box, Button, LoadingOverlay, Select } from "@mantine/core";
-import { useQueryClient } from "@tanstack/react-query";
 import useAssignReviewer from "@/app/hooks/useAssignReviewer";
 import useGetUser from "@/app/hooks/useGetUser";
 import useGetAssignedReviewers from "@/app/hooks/useGetAssignedReviewers";
 import { useState } from "react";
-import { CACHE_KEY } from "@/app/constants/cacheKeys";
 
 interface IProps {
   params: { articleId: number };
 }
 
 export default function AssignPage({ params: { articleId } }: IProps) {
-  const queryClient = useQueryClient();
   const [selectedReviewer, setSelectedReviewer] = useState<string | null>("");
 
   const {
@@ -23,10 +20,8 @@ export default function AssignPage({ params: { articleId } }: IProps) {
   } = useGetAssignedReviewers(articleId.toString());
 
   const { data: userList, isLoading, isError } = useGetUser();
-  console.log(userList);
-  console.log(reviewerList);
-  const onSuccessCallback = () => {};
 
+  const onSuccessCallback = () => {};
   const { mutate: assign, isPending } = useAssignReviewer(
     () => onSuccessCallback
   );

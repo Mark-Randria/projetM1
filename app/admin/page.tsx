@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Box, Button, Container, Text } from "@mantine/core";
+import ArticleActions from "./ArticleActions";
 import { ARTICLES_URL } from "../constants/url";
 import { IArticle } from "../types/type";
 
@@ -15,10 +16,10 @@ export default async function Page() {
   });
 
   const articles = (await data.json()) as IArticle[];
-  console.log(articles);
+
   return (
     <Container>
-      <p>Hehehe</p>
+      <p>Hehehe Admin</p>
       <Box>
         {articles.length > 0 ? (
           articles.map((article) => (
@@ -38,6 +39,7 @@ export default async function Page() {
               <p>{new Date(article.datePubArticle).toLocaleString("fr")}</p>
               <p>{article.auteur.nom}</p>
               <p>{article.auteur.prenom}</p>
+              <ArticleActions articleId={article.id} />
             </Box>
           ))
         ) : (

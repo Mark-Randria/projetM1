@@ -24,22 +24,22 @@ class APIClient<T> {
   post = (data: T) => {
     return axiosInstance.post<any>(this.endpoint, data).then((res) => res.data);
   };
-  delete = (params: number | string) => {
+  delete = () => {
     return axiosInstance
-      .delete<T>(`${this.endpoint}/${params}`)
+      .delete<T>(`${this.endpoint}`)
       .then((res) => res.data);
   };
 
-  // patch = (id: number | string, data: Partial<T>) => {
-  //   return axiosInstance
-  //     .patch<T>(`${this.endpoint}/${id}`, data)
-  //     .then((res) => res.data);
-  // };
+  patch = (data: Partial<T>) => {
+    return axiosInstance
+      .patch<T>(`${this.endpoint}`, data)
+      .then((res) => res.data);
+  };
 
-  // put = (id: number | string, data: T) => {
-  //   return axiosInstance
-  //     .put<T>(`${this.endpoint}/${id}`, data)
-  //     .then((res) => res.data);
-  // };
+  put = (id: number | string, data: T) => {
+    return axiosInstance
+      .put<T>(`${this.endpoint}/${id}`, data)
+      .then((res) => res.data);
+  };
 }
 export default APIClient;
