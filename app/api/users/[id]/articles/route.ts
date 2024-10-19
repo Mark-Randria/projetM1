@@ -11,11 +11,6 @@ export async function GET(req: NextRequest, { params: { id } }: IProps) {
       where: {
         OR: [
           { auteurId: Number(id) }, // Articles where the bruh is the author
-          {
-            UtilisateurArticle: {
-              some: { utilisateurId: Number(id), role: "REVIEWER" },
-            },
-          }, // Articles where the bruh is a reviewer
         ],
       },
       include: { auteur: true, critiques: true },

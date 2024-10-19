@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Box, Button, Container, Text } from "@mantine/core";
+import { Box, Button, Container, Space, Text } from "@mantine/core";
 import { getSession } from "../lib/sessionManagement";
 import jwt from "jsonwebtoken";
 import { IToken, IArticle, ICritique } from "../types/type";
@@ -8,10 +8,18 @@ import {
   GET_ARTICLES_OF_AN_USER_URL,
   GET_CRITIQUES_OF_AN_USER_URL,
 } from "../constants/url";
+import SearchBar from "./SearchBar";
 
-export default async function Dashboard() {
+interface IProps {
+  searchParams: { title?: string; content?: string };
+}
+
+export default async function Dashboard({ searchParams }: IProps) {
   const session = await getSession();
   const decoded = jwt.decode(JSON.parse(session!)) as IToken;
+
+  const title = searchParams.title?.toLowerCase() || "";
+  const content = searchParams.content?.toLowerCase() || "";
 
   let articleData = await fetch(
     GET_ARTICLES_OF_AN_USER_URL(decoded.user.id.toString()),
@@ -33,11 +41,20 @@ export default async function Dashboard() {
   const articles = (await articleData.json()) as IArticle[];
   const critiques = (await critiqueData.json()) as ICritique[];
 
-  console.log(articles, critiques);
+  const filteredArticles = articles.filter((article) => {
+    const matchesTitle = article.titreArticle.toLowerCase().includes(title);
+    const matchesContent = article.contenu.toLowerCase().includes(content);
+
+    return matchesTitle && matchesContent;
+  });
+
+
   return (
     <Container>
       <Box>Not an organisateur</Box>
       <Box>
+        <SearchBar />
+        <Space h="md"/>
         <Button component={Link} href="/dashboard/article">
           My Article
         </Button>
@@ -47,6 +64,7 @@ export default async function Dashboard() {
         <Button component={Link} href="/dashboard/publish">
           Publish new Article
         </Button>
+        
       </Box>
       <Box
         style={{
@@ -54,11 +72,14 @@ export default async function Dashboard() {
           justifyContent: "space-evenly",
         }}
       >
-        {articles.length > 0 ? (
-          articles.map((article) => (
+        {filteredArticles.length > 0 ? (
+          filteredArticles.map((article) => (
             <Box key={article.id}>
               <Text size="lg">My Articles</Text>
               <p>{article.titreArticle}</p>
+              <Button component={Link} href={`dashboard/article/${article.id}`}>
+                See article
+              </Button>
               <p>{article.contenu}</p>
               <p>{article.status}</p>
               <p>{article.archive}</p>
@@ -68,7 +89,7 @@ export default async function Dashboard() {
             </Box>
           ))
         ) : (
-          <>No article at the moment</>
+          <Box>No article at the moment</Box>
         )}
         {articles.length > 0 ? (
           critiques.map((critique) => (
@@ -80,7 +101,7 @@ export default async function Dashboard() {
             </Box>
           ))
         ) : (
-          <>No article at the moment</>
+          <Box>No critique at the moment</Box>
         )}
       </Box>
     </Container>
