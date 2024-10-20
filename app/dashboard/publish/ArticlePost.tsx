@@ -74,7 +74,9 @@ export default function ArticlePost({ userId }: IProps) {
           placeholder="Input placeholder"
           {...form.getInputProps("content")}
         />
-        <Button type="submit">Soumettre</Button>
+        <Button type="submit" disabled={isPending}>
+          {isPending ? "Loading..." : "Soumettre"}
+        </Button>
       </Box>
     </form>
   );

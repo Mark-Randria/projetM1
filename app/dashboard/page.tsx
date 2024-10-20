@@ -120,7 +120,7 @@ export default async function Dashboard({ searchParams }: IProps) {
                 c="blue"
                 td="underline"
                 component={Link}
-                href={`dashboard/article/${critique.articleId}/review`}
+                href={`dashboard/article/${critique.articleId}`}
               >
                 See article
               </Text>

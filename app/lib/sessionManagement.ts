@@ -25,11 +25,17 @@ export async function getSession() {
   return session;
 }
 
+export async function getSessionFromRequest(req: NextRequest) {
+  const sessionCookie = req.cookies.get("session");
+  if (!sessionCookie) return null;
+  return sessionCookie;
+}
+
 export async function updateSession() {
   const session = cookies().get("session")?.value;
   if (!session) return;
 
-  const newExpire = new Date(Date.now() + 5 * 60 * 1000);
+  const newExpire = new Date(Date.now() + 30 * 60 * 1000);
 
   const res = NextResponse.next();
   res.cookies.set({

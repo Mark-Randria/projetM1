@@ -16,9 +16,9 @@ class APIClient<T> {
   getAll = () => {
     return axiosInstance.get<T[]>(this.endpoint).then((res) => res.data);
   };
-  findOne = (searchParams: string) => {
+  findOne = () => {
     return axiosInstance
-      .get<T>(`${this.endpoint}?${searchParams}`)
+      .get<T>(`${this.endpoint}`)
       .then((res) => res.data);
   };
   post = (data: Partial<T>) => {

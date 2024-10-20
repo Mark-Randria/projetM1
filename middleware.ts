@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSession } from "./app/lib/sessionManagement";
+import { getSession, updateSession } from "./app/lib/sessionManagement";
 import jwt from "jsonwebtoken";
 import { IToken } from "./app/types/type";
 
@@ -13,16 +13,18 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/registration/login", request.url));
   }
 
+  const updatedSessionResponse = await updateSession();
+
   const decoded = <IToken>jwt.decode(JSON.parse(session));
   if (decoded.user.isAdmin) {
     if (currentPath.startsWith(adminPage)) {
-      return NextResponse.next();
+      return updatedSessionResponse || NextResponse.next();
     }
 
     return NextResponse.redirect(new URL(adminPage, request.url));
   } else {
     if (currentPath.startsWith(dashboardPage)) {
-      return NextResponse.next();
+      return updatedSessionResponse || NextResponse.next();
     }
 
     return NextResponse.redirect(new URL(dashboardPage, request.url));
