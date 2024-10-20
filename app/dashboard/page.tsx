@@ -127,7 +127,7 @@ export default async function Dashboard({ searchParams }: IProps) {
             </Box>
           ))
         ) : (
-          <Box>No critique at the moment</Box>
+          <Box>No Article to review</Box>
         )}
       </Box>
     </Container>

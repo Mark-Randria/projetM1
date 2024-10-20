@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import assignService from "@/app/services/assignService";
-import { CACHE_KEY } from "../constants/cacheKeys";
+import { CACHE_KEY } from "../../constants/cacheKeys";
 
 const useAssignReviewer = (onSuccessCallback: () => void) => {
   const queryClient = useQueryClient();

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CACHE_KEY } from "../constants/cacheKeys";
-import { findArticleService } from "../services/articleService";
+import { CACHE_KEY } from "../../constants/cacheKeys";
+import { findArticleService } from "../../services/articleService";
 
 const useFindArticle = (onSuccessCallback: () => void) => {
   const queryClient = useQueryClient();

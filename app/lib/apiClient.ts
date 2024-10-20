@@ -21,13 +21,11 @@ class APIClient<T> {
       .get<T>(`${this.endpoint}?${searchParams}`)
       .then((res) => res.data);
   };
-  post = (data: T) => {
+  post = (data: Partial<T>) => {
     return axiosInstance.post<any>(this.endpoint, data).then((res) => res.data);
   };
   delete = () => {
-    return axiosInstance
-      .delete<T>(`${this.endpoint}`)
-      .then((res) => res.data);
+    return axiosInstance.delete<T>(`${this.endpoint}`).then((res) => res.data);
   };
 
   patch = (data: Partial<T>) => {

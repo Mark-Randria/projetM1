@@ -71,8 +71,12 @@ export default function Login() {
             // type="password"
             {...form.getInputProps("password")}
           />
-          <Button className="btn btn-primary" type="submit">
-            Login
+          <Button
+            disabled={isPending}
+            className="btn btn-primary"
+            type="submit"
+          >
+            {isPending ? ("Please wait...") : ("Login")}
           </Button>
           <Button onClick={() => form.reset()}>Reset</Button>
         </Box>

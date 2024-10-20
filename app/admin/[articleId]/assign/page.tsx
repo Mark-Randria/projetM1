@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Button, LoadingOverlay, Select } from "@mantine/core";
-import useAssignReviewer from "@/app/hooks/useAssignReviewer";
+import useAssignReviewer from "@/app/hooks/adminArticleAction/useAssignReviewer";
 import useGetUser from "@/app/hooks/useGetUser";
 import useGetAssignedReviewers from "@/app/hooks/useGetAssignedReviewers";
 import { useState } from "react";
