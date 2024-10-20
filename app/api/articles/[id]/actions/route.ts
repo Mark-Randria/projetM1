@@ -10,8 +10,10 @@ export async function PATCH(req: NextRequest, { params: { id } }: IProps) {
   const body = await req.json();
 
   const validation = articleStatusSchema.safeParse(body);
+
   if (!validation.success)
     return NextResponse.json(validation.error.errors, { status: 400 });
+
   const { status } = body; // "APPROVED" or "REJECTED"
   try {
     const updatedArticle = await prisma.article.update({

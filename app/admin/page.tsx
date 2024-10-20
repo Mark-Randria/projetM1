@@ -5,46 +5,55 @@ import ArticleActions from "./ArticleActions";
 import { ARTICLES_URL } from "../constants/url";
 import { IArticle } from "../types/type";
 
-// DELETE AND NAVIGATION AND STATUS TO AN ARTICLE ATAOVY ATO
-// SERVER COMPONENT ITO FA AZA ATAO CLIENT COMPONENTS
-// DONC FADY USE CLIENT FA RAKETO LINK AN' NEXT
 export default async function Page() {
   let data = await fetch(ARTICLES_URL, {
     next: {
-      revalidate: 10,
+      revalidate: 0,
     },
   });
 
   const articles = (await data.json()) as IArticle[];
 
   return (
-    <Container>
+    <Container size="sm">
       <p>Hehehe Admin</p>
-      <Box>
-        {articles.length > 0 ? (
-          articles.map((article) => (
-            <Box key={article.id}>
-              <Text
-                c="blue"
-                td="underline"
-                component={Link}
-                href={`admin/${article.id}/assign`}
-              >
-                Assign reviewer
-              </Text>
-              <p>{article.titreArticle}</p>
-              <p>{article.contenu}</p>
-              <p>{article.status}</p>
-              <p>{article.archive}</p>
-              <p>{new Date(article.datePubArticle).toLocaleString("fr")}</p>
-              <p>{article.auteur.nom}</p>
-              <p>{article.auteur.prenom}</p>
-              <ArticleActions articleId={article.id} />
-            </Box>
-          ))
-        ) : (
-          <>No article at the moment</>
-        )}
+      <Box
+        m={40}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: "column",
+        }}
+      >
+        <Box>
+          {articles.length > 0 ? (
+            articles.map((article) => (
+              <Box key={article.id}>
+                <Text
+                  c="blue"
+                  td="underline"
+                  component={Link}
+                  href={`admin/${article.id}/assign`}
+                >
+                  Assign reviewer
+                </Text>
+                <p>{article.titreArticle}</p>
+                <p>{article.contenu}</p>
+                <p>{article.status}</p>
+                <p>{article.archive}</p>
+                <p>{new Date(article.datePubArticle).toLocaleString("fr")}</p>
+                <p>{article.auteur.nom}</p>
+                <p>{article.auteur.prenom}</p>
+                <ArticleActions
+                  articleId={article.id}
+                  status={article.status}
+                />
+              </Box>
+            ))
+          ) : (
+            <>No article at the moment</>
+          )}
+        </Box>
       </Box>
     </Container>
   );
