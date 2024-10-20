@@ -37,8 +37,6 @@ export async function GET(req: NextRequest, { params: { id } }: IProps) {
       { status: 403 }
     );
   }
-
-  console.log(article)
   
   return NextResponse.json(article, { status: 200 });
 }
