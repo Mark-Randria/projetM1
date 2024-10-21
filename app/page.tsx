@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Box, Button, Container } from "@mantine/core";
 import { CustomButton } from "./components/Button";
+import { CustomInput } from "./components/Input";
 
 export default function Home() {
 
@@ -20,11 +21,13 @@ export default function Home() {
           gap: 2
         }}
       >
-        <h1>
+        <h1 className="text-red-400">
           De aona ral...deadline am 26 octobre 2024
         </h1>
         <p>Minana tsika raha midororo</p>
         <Button className="btn-link" component={Link} href="/items/lists">Lien</Button>
+        <Button variant="filled" color="teal">Button</Button>
+        <CustomInput label="Nom" placeholder="Nom" type="password"/>
         <CustomButton onClick={afficherAlerte} text="coucou"/>
       </Box>
     </Container>

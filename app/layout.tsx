@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "e-Science",
-  description: "A scienific platform or something",
+  description: "A scienific platform",
 };
 
 export default function RootLayout({
@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} bg-gray-100 text-gray-800 h-screen`}>
         <MantineProvider>{children}</MantineProvider>
       </body>
     </html>
