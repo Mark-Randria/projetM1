@@ -28,7 +28,7 @@ export default function Home() {
         <Button className="btn-link" component={Link} href="/items/lists">Lien</Button>
         <Button variant="filled" color="teal">Button</Button>
         <CustomInput label="Nom" placeholder="Nom" type="password"/>
-        <CustomButton onClick={afficherAlerte} text="coucou"/>
+  
       </Box>
     </Container>
   );

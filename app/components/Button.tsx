@@ -1,14 +1,17 @@
+
+
 import React from 'react'
 import { Button } from '@mantine/core'
 
 
 type CustomButtonProps={
-    onClick: VoidFunction;
+    onClick?: VoidFunction;
     text:string;
     leftSection?:any;
     rightSection?:any;
     size?:"md"|"lg"|"xl"
-    //variant:"filled"|"light"|"transparent"
+    variant:"filled"|"light"|"transparent"
+    className?:string
     
 }
 
@@ -19,8 +22,8 @@ export const CustomButton: React.FC<CustomButtonProps> = (props) => {
         rightSection,
         text,
         size="xl",
-        //variant="filled"
-
+        variant="filled",
+        className
     } =props
 
     return <Button 
@@ -30,7 +33,8 @@ export const CustomButton: React.FC<CustomButtonProps> = (props) => {
                 size={size}
                 radius="lg"
                 color='teal'
-                variant="filled"
+                variant={variant}
+                className={className}
             >
             {text}</Button>
 }
