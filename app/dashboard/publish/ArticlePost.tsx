@@ -3,7 +3,6 @@
 import usePostArticle from "@/app/hooks/article/usePostArticle";
 import { Box, Button, TextInput, Textarea } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useState } from "react";
 
 interface IProps {
   userId: number;
@@ -27,8 +26,6 @@ export default function ArticlePost({ userId }: IProps) {
       content: (value) => (value !== "" ? null : "Empty content"),
     },
   });
-  const [content, setContent] = useState<string>("");
-  const [title, setTitle] = useState<string>("");
 
   const onSuccessCallback = () => {};
 

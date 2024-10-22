@@ -69,12 +69,6 @@ export default async function Dashboard({ searchParams }: IProps) {
       >
         <SearchBar />
         <Space h="md" />
-        {/* <Button component={Link} href="/dashboard/article">
-          My Article
-        </Button> */}
-        {/* <Button component={Link} href="/dashboard/review">
-          My Review
-        </Button> */}
         <Button variant="light" component={Link} href="/dashboard/publish">
           Publish new Article
         </Button>
