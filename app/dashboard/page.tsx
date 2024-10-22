@@ -95,7 +95,9 @@ export default async function Dashboard({ searchParams }: IProps) {
               <p>{article.contenu}</p>
               <p>{article.status}</p>
               <p>{article.archive}</p>
-              <p>posté le {new Date(article.datePubArticle).toLocaleString("fr")}</p>
+              <p>
+                posté le {new Date(article.datePubArticle).toLocaleString("fr")}
+              </p>
               <p>{article.auteur.nom}</p>
               <p>{article.auteur.prenom}</p>
             </Box>
@@ -109,7 +111,11 @@ export default async function Dashboard({ searchParams }: IProps) {
               <Text size="lg">Liste des articles a critiquer</Text>
               <p>{critique.Article.titreArticle}</p>
               <p>{critique.Article.contenu}</p>
-              <p>critiqué le {new Date(critique.datePubCritique).toLocaleString("fr")}</p>
+              <p>
+                critiqué le{" "}
+                {new Date(critique.datePubCritique).toLocaleString("fr")}
+              </p>
+
               <Text
                 c="blue"
                 td="underline"

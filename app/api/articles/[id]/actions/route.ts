@@ -20,7 +20,11 @@ export async function GET(req: NextRequest, { params: { id } }: IProps) {
       where: { id: Number(id) },
       include: {
         UtilisateurArticle: true,
-        critiques: true,
+        critiques: {
+          include: {
+            reviewer: true,
+          },
+        },
       },
     });
 

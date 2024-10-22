@@ -14,6 +14,7 @@ import {
 import Link from "next/link";
 import usePostCritique from "@/app/hooks/critique/usePostCritique";
 import { useForm } from "@mantine/form";
+import useDeleteCritique from "@/app/hooks/critique/useDeleteCritique";
 
 interface IProps {
   userId: number;
@@ -50,9 +51,12 @@ export default function ArticleBox({ userId, articleId }: IProps) {
 
   const onSuccessCallback = () => {};
 
-  const { mutate: postCritique, isPending } = usePostCritique(() =>
-    onSuccessCallback()
+  const { mutate: postCritique, isPending: isPostingPending } = usePostCritique(
+    () => onSuccessCallback()
   );
+
+  const { mutate: deleteCritique, isPending: isDeletePending } =
+    useDeleteCritique(() => onSuccessCallback());
 
   const handlePostCritique = (values: IFormInput) => {
     const { titreCritique, descriptionCritique } = values;
@@ -65,10 +69,23 @@ export default function ArticleBox({ userId, articleId }: IProps) {
       },
       {
         onSuccess(data) {
-          console.log(data)
+          console.log(data);
         },
         onSettled() {},
         onError() {},
+      }
+    );
+  };
+
+  const handleDeleteCritique = (critiqueId: string) => {
+    deleteCritique(
+      {
+        critiqueId: critiqueId,
+      },
+      {
+        onSuccess(data) {},
+        onSettled() {},
+        onError(err) {},
       }
     );
   };
@@ -143,7 +160,7 @@ export default function ArticleBox({ userId, articleId }: IProps) {
             placeholder="Input placeholder"
             {...form.getInputProps("descriptionCritique")}
           />
-          <Button type="submit" disabled={isPending}>
+          <Button type="submit" disabled={isPostingPending}>
             Poster
           </Button>
         </Box>
@@ -158,9 +175,22 @@ export default function ArticleBox({ userId, articleId }: IProps) {
               <p>{critique.titreCritique}</p>
               <p>{critique.descriptionCritique}</p>
               <p>
+                {critique.reviewer.id === userId ? (
+                  <Button
+                    disabled={isDeletePending}
+                    onClick={() => handleDeleteCritique(critique.id.toString())}
+                  >
+                    Delete
+                  </Button>
+                ) : (
+                  <Button disabled>Cannot delete</Button>
+                )}
+              </p>
+              <p>
                 posté le{" "}
                 {new Date(critique.datePubCritique).toLocaleString("fr")}
               </p>
+              <p>par {critique.reviewer.nom}</p>
             </Box>
           ))
         ) : (

@@ -29,6 +29,7 @@ export interface ICritique {
   titreCritique: string;
   descriptionCritique: string;
   Article: IArticle;
+  reviewer: IAuteur;
 }
 
 export interface IAuteur extends IUser {

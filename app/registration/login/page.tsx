@@ -3,7 +3,7 @@
 import { useForm } from "@mantine/form";
 import Image from "next/image";
 import Link from "next/link";
-import { Box, Button, Container, TextInput } from "@mantine/core";
+import { Box, Button, Container, PasswordInput, TextInput } from "@mantine/core";
 import useLoginUser from "@/app/hooks/auth/useLoginUser";
 
 interface IFormInput {
@@ -13,7 +13,7 @@ interface IFormInput {
 
 export default function Login() {
   const form = useForm<IFormInput>({
-    mode: "controlled",
+    mode: "uncontrolled",
     initialValues: {
       email: "",
       password: "",
@@ -62,13 +62,12 @@ export default function Login() {
             placeholder="JohnDoe@email.com"
             {...form.getInputProps("email")}
           />
-          <TextInput
+          <PasswordInput
             classNames={{
               label: "bg-blue-100",
             }}
             withAsterisk
             label="Mot de passe"
-            // type="password"
             {...form.getInputProps("password")}
           />
           <Button
