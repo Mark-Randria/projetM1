@@ -1,43 +1,85 @@
-"use client"
+"use client";
 
-import { CustomInput } from '@/app/components/Input'
-import { Button, Paper, Stack, Text, Title } from '@mantine/core'
-import Link from 'next/link'
-import React from 'react'
+import { useForm } from "@mantine/form";
+import Image from "next/image";
+import Link from "next/link";
+import { Box, Button, Container, PasswordInput, TextInput } from "@mantine/core";
+import useLoginUser from "@/app/hooks/auth/useLoginUser";
 
-type LoginProps ={
-
+interface IFormInput {
+  email: string;
+  password: string;
 }
 
-const Login = () => {
+export default function Login() {
+  const form = useForm<IFormInput>({
+    mode: "uncontrolled",
+    initialValues: {
+      email: "",
+      password: "",
+    },
 
+    validate: {
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : "email invalide"),
+      password: (value) => (value.length >= 8 ? null : "Mot de passe invalide"),
+    },
+  });
+
+  const loginTriggered = () => {};
+  const { mutate: login, isPending } = useLoginUser(loginTriggered);
+
+  const handleSubmit = (values: IFormInput) => {
+    const { email, password } = values;
+    login(
+      { email, password },
+      {
+        onSuccess(data) {
+          console.log(data);
+        },
+        onSettled() {},
+        onError() {},
+      }
+    );
+  };
   return (
-    <>
-     <div className='flex flex-col items-center pt-10'>
-      <Paper shadow='md' radius="md" withBorder className="px-6 py-8">
-        <div>
-          <Title order={2} ta="center" className='mb-8'>Bienvenue sur e-science</Title>
-        </div>
-        
-        <form className='w-96'>
-          <Stack justify='center' align='center'>
-            <CustomInput label="Email" placeholder="e-science@science.com" type="text"/>
-            <CustomInput label="Mot de passe" placeholder="Mot de passe" type='password' />
-            <div className='flex flex-col'>
-                <Button type='submit' color='teal' variant='filled'>Se connecter</Button>
-                <div className='flex items-center'>
-                  <Text size='sm'> Pas encore de compte ?</Text>
-                 <Link href="/registration/signup">
-                    <Button color='teal' variant='transparent'>S'inscrire</Button>
-                 </Link>
-                </div>
-              </div>
-            </Stack>
-        </form>
-      </Paper>
-     </div>
-    </>
-  )
+    <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+      <Container size="sm h-fit">
+        <Box
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            display: "flex",
+            flexDirection: "column",
+            gap: 4,
+          }}
+        >
+          <TextInput
+            classNames={{
+              label: "bg-red-100",
+            }}
+            withAsterisk
+            label="email"
+            placeholder="JohnDoe@email.com"
+            {...form.getInputProps("email")}
+          />
+          <PasswordInput
+            classNames={{
+              label: "bg-blue-100",
+            }}
+            withAsterisk
+            label="Mot de passe"
+            {...form.getInputProps("password")}
+          />
+          <Button
+            disabled={isPending}
+            className="btn btn-primary"
+            type="submit"
+          >
+            {isPending ? ("Please wait...") : ("Login")}
+          </Button>
+          <Button onClick={() => form.reset()}>Reset</Button>
+        </Box>
+      </Container>
+    </form>
+  );
 }
-
-export default Login

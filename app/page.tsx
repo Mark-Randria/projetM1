@@ -18,7 +18,7 @@ export default function Home() {
           justifyContent: "center",
           display: "flex",
           flexDirection: "column",
-          gap: 2
+          gap: 2,
         }}
       >
         <h1 className="text-red-400">
