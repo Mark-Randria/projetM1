@@ -10,14 +10,25 @@ export default function Home() {
           justifyContent: "center",
           display: "flex",
           flexDirection: "column",
-          gap: 2
+          gap: 2,
         }}
       >
-        <h1>
-          De aona ral...deadline am 26 octobre 2024
-        </h1>
+        <h1>Bienvenue</h1>
         <p>Minana tsika raha midororo</p>
-        <Button className="btn-link" component={Link} href="/items/lists">Lien</Button>
+        <Button
+          className="btn-link"
+          component={Link}
+          href="/registration/login"
+        >
+          Se connecter
+        </Button>
+        <Button
+          className="btn-link"
+          component={Link}
+          href="/registration/signup"
+        >
+          S'inscrire
+        </Button>
       </Box>
     </Container>
   );
