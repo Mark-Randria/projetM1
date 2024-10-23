@@ -13,11 +13,13 @@ const Page = () => {
 
   return (
     <div>
-      <Title order={2}> Bienvenue Monsieur Antonio</Title>
-     <Link href="/auteur/1/lists">
-        <CustomButton text="Ma liste" variant="light"  />
-     </Link>
-      <Space h="md" />
+      <div className="flex flex-row items-center">
+        <Title order={2}> Bienvenue Monsieur Antonio</Title>
+        <Link href="/auteur/1/lists">
+          <CustomButton text="Ma liste" variant="light"/>
+        </Link>
+      </div>
+      <Space h="md"/>
       <form className="flex justify-center mt-20">
         <Paper shadow="md" radius="md" withBorder className=" px-6 py-8 w-1/2">
           <Stack className="w-full">
