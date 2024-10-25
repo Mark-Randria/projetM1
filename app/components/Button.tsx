@@ -6,6 +6,8 @@ import { Button } from '@mantine/core'
 
 type CustomButtonProps={
     onClick?: VoidFunction;
+    type?: "button" | "submit" | "reset";
+    disabled?:boolean;
     text:string;
     leftSection?:any;
     rightSection?:any;
@@ -23,7 +25,9 @@ export const CustomButton: React.FC<CustomButtonProps> = (props) => {
         text,
         size="xl",
         variant="filled",
-        className
+        className,
+        type,
+        disabled
     } =props
 
     return <Button 
@@ -35,6 +39,8 @@ export const CustomButton: React.FC<CustomButtonProps> = (props) => {
                 color='teal'
                 variant={variant}
                 className={className}
+                type={type}
+                disabled={disabled}
             >
             {text}</Button>
 }

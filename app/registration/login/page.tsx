@@ -3,8 +3,10 @@
 import { useForm } from "@mantine/form";
 import Image from "next/image";
 import Link from "next/link";
-import { Box, Button, Container, PasswordInput, TextInput } from "@mantine/core";
+import { Paper, Button, Container, PasswordInput, TextInput, Stack, } from "@mantine/core";
 import useLoginUser from "@/app/hooks/auth/useLoginUser";
+import { CustomInput } from "@/app/components/Input";
+import { CustomButton } from "@/app/components/Button";
 
 interface IFormInput {
   email: string;
@@ -42,44 +44,43 @@ export default function Login() {
     );
   };
   return (
-    <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-      <Container size="sm h-fit">
-        <Box
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            display: "flex",
-            flexDirection: "column",
-            gap: 4,
-          }}
-        >
-          <TextInput
+  <Container>
+    <Paper shadow="sm" radius="md" className="px-6 py-8">
+      <div className="flex w-full">
+          <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+              <Stack>
+                <CustomInput placeholder="Email" label="Email"/>
+                <CustomInput placeholder="Mot de passe" label="Mot de passe"/>
+              </Stack>
+              <CustomButton text={isPending ? ("Please wait...") : ("Login")} disabled={isPending} type="submit" variant="filled" className="w-3/4"/>
+              <Button classNames={{root:"w-80"}} onClick={() => form.reset()}>Reset</Button>
+          </form>
+          <div className="image">
+            
+          </div>
+      </div>
+    </Paper>
+  </Container>
+  );
+}
+
+
+
+{/* <TextInput
             classNames={{
               label: "bg-red-100",
+              input:"focus:border-red-700 focus:border-2 outline-none"
             }}
             withAsterisk
             label="email"
             placeholder="JohnDoe@email.com"
             {...form.getInputProps("email")}
-          />
-          <PasswordInput
+          /> */}
+          {/* <PasswordInput
             classNames={{
               label: "bg-blue-100",
             }}
             withAsterisk
             label="Mot de passe"
             {...form.getInputProps("password")}
-          />
-          <Button
-            disabled={isPending}
-            className="btn btn-primary"
-            type="submit"
-          >
-            {isPending ? ("Please wait...") : ("Login")}
-          </Button>
-          <Button onClick={() => form.reset()}>Reset</Button>
-        </Box>
-      </Container>
-    </form>
-  );
-}
+          /> */}
