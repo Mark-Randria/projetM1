@@ -3,13 +3,14 @@ import { HTMLInputTypeAttribute, useState } from "react";
 
 
 type CustomInputProps={
+    type?:string,
     placeholder:string;
     label?: string;
     
 }
 
 export const CustomInput: React.FC<CustomInputProps> = (props) => {
-    const{placeholder,label}=props;
+    const{placeholder,label,type}=props;
 
    
     return (
@@ -18,6 +19,7 @@ export const CustomInput: React.FC<CustomInputProps> = (props) => {
           input:" focus:border-teal-500 focus:border-2 outline-none",
           root:"w-full"
         }}
+        type={type}
         radius="md"
         size="md"
         placeholder={placeholder}
