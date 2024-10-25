@@ -3,10 +3,11 @@
 import { useForm } from "@mantine/form";
 import Image from "next/image";
 import Link from "next/link";
-import { Paper, Button, Container, PasswordInput, TextInput, Stack, } from "@mantine/core";
+import { Paper, Button, Container, PasswordInput, TextInput, Stack, Title,Text } from "@mantine/core";
 import useLoginUser from "@/app/hooks/auth/useLoginUser";
 import { CustomInput } from "@/app/components/Input";
 import { CustomButton } from "@/app/components/Button";
+import { headImage } from "@/app/constants/images";
 
 interface IFormInput {
   email: string;
@@ -44,19 +45,40 @@ export default function Login() {
     );
   };
   return (
-  <Container>
-    <Paper shadow="sm" radius="md" className="px-6 py-8">
-      <div className="flex w-full">
-          <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-              <Stack>
+  <Container className="pt-8">
+    <Paper shadow="sm" radius="md" withBorder className="">
+      <div className="flex gap-2 w-full ">
+          <div  className=" flex flex-col w-2/5 px-4 mt-8">
+            <Text
+              size="xl"
+              fw={900}
+              variant="gradient"
+              gradient={{ from: 'blue', to: 'green', deg: 90 }}
+             >
+              Bienvenue sur e-Science
+            </Text>
+            <form className="flex flex-col gap-5 mt-8 items-center" onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+              <Stack className="w-full">
                 <CustomInput placeholder="Email" label="Email"/>
                 <CustomInput placeholder="Mot de passe" label="Mot de passe"/>
               </Stack>
-              <CustomButton text={isPending ? ("Please wait...") : ("Login")} disabled={isPending} type="submit" variant="filled" className="w-3/4"/>
-              <Button classNames={{root:"w-80"}} onClick={() => form.reset()}>Reset</Button>
+              <div className=" flex flex-col gap-1 w-1/2 ">
+                <CustomButton text={isPending ? ("Please wait...") : ("Login")} disabled={isPending} type="submit" variant="filled" size='lg'  />
+                <div>
+                  <Text size="sm" className="text-center">
+                    Vous n'avez pas de compte ? 
+                  </Text>
+                  <Link href="/registration/signup">
+                      <CustomButton variant='transparent' text="S'inscrire" size='md'/>
+                    </Link>
+                </div>
+              </div>
+              {/* <Button classNames={{root:"w-80"}} onClick={() => form.reset()}>Reset</Button> */}
           </form>
-          <div className="image">
-            
+          </div>
+          <div className=" relative border-2  w-3/5">
+            <Image src={headImage} alt="head" className="object-cover"/>
+            <div className="absolute inset-0 bg-teal-400 opacity-30 filter " /> 
           </div>
       </div>
     </Paper>

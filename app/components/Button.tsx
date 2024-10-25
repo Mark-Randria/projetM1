@@ -41,6 +41,7 @@ export const CustomButton: React.FC<CustomButtonProps> = (props) => {
                 className={className}
                 type={type}
                 disabled={disabled}
+                fullWidth
             >
             {text}</Button>
 }
