@@ -2,7 +2,6 @@ import { prisma } from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { articleCreationSchema } from "../validationSchema";
 
-
 /**
  * @swagger
  * /api/articles:
@@ -13,17 +12,31 @@ import { articleCreationSchema } from "../validationSchema";
  *         description: return the list of all articles
  */
 
-
 export async function GET(req: NextRequest) {
-  
   try {
-    const articles = await prisma.article.findMany({
+    const pendingArticles = await prisma.article.findMany({
+      where: {
+        status: {
+          equals: "PENDING",
+        },
+      },
       include: {
         auteur: true,
         critiques: true,
       },
     });
-    return NextResponse.json(articles, { status: 200 });
+    const articles = await prisma.article.findMany({
+      where: {
+        status: {
+          not: "PENDING",
+        },
+      },
+      include: {
+        auteur: true,
+        critiques: true,
+      },
+    });
+    return NextResponse.json({ pendingArticles, articles }, { status: 200 });
   } catch (err) {
     return NextResponse.json(
       { message: "Error fetching articles", err },
