@@ -7,10 +7,10 @@ type CustomInputProps={
     placeholder:string;
     label?: string;
     
-}
+}& React.InputHTMLAttributes<HTMLInputTypeAttribute>
 
 export const CustomInput: React.FC<CustomInputProps> = (props) => {
-    const{placeholder,label,type}=props;
+    const{placeholder,label,type, ...inputProps}=props;
 
    
     return (

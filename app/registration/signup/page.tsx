@@ -128,7 +128,7 @@ export default function Signup() {
               size="xl"
               fw={900}
               variant="gradient"
-              gradient={{ from: 'blue', to: 'green', deg: 90 }}
+              gradient={{ from: 'green', to: 'teal', deg: 90 }}
              >
               Créer un compte e-Science
             </Text>
@@ -136,7 +136,7 @@ export default function Signup() {
               <Stack className="w-full">
                 <CustomInput  placeholder="Nom" label="Nom"/>
                 <CustomInput placeholder="Prenom" label="Prenom"/>
-                <CustomInput placeholder="Email" label="Email"/>
+                <CustomInput placeholder="Email" label="Email"   {...form.getInputProps("email")}/>
                 {/* <CustomInput placeholder="Mot de passe" label="Mot de passe"/> */}
                 <PasswordInput
                     classNames={{
