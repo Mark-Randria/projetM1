@@ -10,11 +10,12 @@ import {
   Paper,
   PasswordInput,
   Stack,
-  TextInput, Text
+  TextInput,
+  Text,
 } from "@mantine/core";
 import useSignupUser from "@/app/hooks/auth/useSignupUser";
 import { CustomButton } from "@/app/components/Button";
-import { CustomInput } from "@/app/components/Input";
+import { CustomInput, CustomPasswordInput } from "@/app/components/Input";
 import { headImage } from "@/app/constants/images";
 
 interface IFormInput {
@@ -46,6 +47,7 @@ export default function Signup() {
   const { mutate: signup, isPending } = useSignupUser(signupTriggered);
 
   const handleSubmit = (values: IFormInput) => {
+    console.log("CLicked");
     const { nom, prenom, email, password } = values;
     signup(
       { nom, prenom, email, password },
@@ -54,13 +56,15 @@ export default function Signup() {
           console.log(data);
         },
         onSettled() {},
-        onError() {},
+        onError(err) {
+          console.log(err);
+        },
       }
     );
   };
   return (
-   <>
-     {/* <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+    <>
+      {/* <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
       <Container size="sm h-fit">
         <Box
           style={{
@@ -116,48 +120,63 @@ export default function Signup() {
         </Box>
       </Container>
     </form> */}
-    <Container className="pt-8">
-    <Paper shadow="sm" radius="md" withBorder className="">
-      <div className="flex gap-2 w-full ">
-          <div className=" relative border-2  w-3/5">
-            <Image src={headImage} alt="head" className="object-cover"/>
-            <div className="absolute inset-0 bg-teal-400 opacity-30 filter " /> 
-          </div>
-          <div className=" flex flex-col w-2/5 px-4 mt-8">
-            <Text
-              size="xl"
-              fw={900}
-              variant="gradient"
-              gradient={{ from: 'green', to: 'teal', deg: 90 }}
-             >
-              Créer un compte e-Science
-            </Text>
-            <form className="flex flex-col gap-5 mt-8 items-center" onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-              <Stack className="w-full">
-                <CustomInput  placeholder="Nom" label="Nom"/>
-                <CustomInput placeholder="Prenom" label="Prenom"/>
-                <CustomInput placeholder="Email" label="Email"   {...form.getInputProps("email")}/>
-                {/* <CustomInput placeholder="Mot de passe" label="Mot de passe"/> */}
-                <PasswordInput
-                    classNames={{
-                      input:"",
-                      root:"  w-full"
-                    }}
-                    withAsterisk
-                    label="Mot de passe"
-                    type="password"
-                    {...form.getInputProps("password")}
-                  />
-              </Stack>
-              <div className=" flex flex-col gap-1 w-1/2 ">
-                <CustomButton text={isPending ? ("Please wait...") : ("S'inscrire")} disabled={isPending} type="submit" variant="filled" size='lg'  />
+      <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+        <Container className="pt-8">
+          <Paper shadow="sm" radius="md" withBorder className="">
+            <div className="flex gap-2 w-full ">
+              <div className=" relative border-2  w-3/5">
+                <Image src={headImage} alt="head" className="object-cover" />
+                <div className="absolute inset-0 bg-teal-400 opacity-30 filter " />
               </div>
-          </form>
-          </div>
-      </div>
-    </Paper>
-  </Container>
-    
-   </>
+              <div className=" flex flex-col w-2/5 px-4 mt-8">
+                <Text
+                  size="xl"
+                  fw={900}
+                  variant="gradient"
+                  gradient={{ from: "green", to: "teal", deg: 90 }}
+                >
+                  Créer un compte e-Science
+                </Text>
+                <div className="flex flex-col gap-5 mt-8 items-center">
+                  <Stack className="w-full">
+                    <CustomInput
+                      placeholder="Nom"
+                      label="Nom"
+                      {...form.getInputProps("nom")}
+                    />
+                    <CustomInput
+                      placeholder="Prenom"
+                      label="Prenom"
+                      {...form.getInputProps("prenom")}
+                    />
+                    <CustomInput
+                      placeholder="Email"
+                      label="Email"
+                      {...form.getInputProps("email")}
+                    />
+                    <CustomPasswordInput
+                      withAsterisk
+                      label="Mot de passe"
+                      type="password"
+                      {...form.getInputProps("password")}
+                    />
+                  </Stack>
+                  <div className=" flex flex-col gap-1 w-1/2 ">
+                    <CustomButton
+                      disabled={isPending}
+                      type="submit"
+                      variant="filled"
+                      size="lg"
+                    >
+                      {isPending ? "Please wait..." : "S'inscrire"}
+                    </CustomButton>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Paper>
+        </Container>
+      </form>
+    </>
   );
 }

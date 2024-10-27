@@ -1,31 +1,25 @@
-import { TextInput } from "@mantine/core";
-import { HTMLInputTypeAttribute, useState } from "react";
+import { TextInput, PasswordInput } from "@mantine/core";
 
+export const CustomInput: React.FC<any> = ({ ...props }) => {
+  return (
+    <TextInput
+      classNames={{
+        input: " focus:border-teal-500 focus:border-2 outline-none",
+        root: "w-full",
+      }}
+      {...props}
+    />
+  );
+};
 
-type CustomInputProps={
-    type?:string,
-    placeholder:string;
-    label?: string;
-    
-}& React.InputHTMLAttributes<HTMLInputTypeAttribute>
-
-export const CustomInput: React.FC<CustomInputProps> = (props) => {
-    const{placeholder,label,type, ...inputProps}=props;
-
-   
-    return (
-        <TextInput
-        classNames={{
-          input:" focus:border-teal-500 focus:border-2 outline-none",
-          root:"w-full"
-        }}
-        type={type}
-        radius="md"
-        size="md"
-        placeholder={placeholder}
-        label={label}
-        />
-      
-      );
-
-}
+export const CustomPasswordInput: React.FC<any> = ({ ...props }) => {
+  return (
+    <PasswordInput
+      classNames={{
+        input: " focus:border-teal-500 focus:border-2 outline-none",
+        root: "w-full",
+      }}
+      {...props}
+    />
+  );
+};
