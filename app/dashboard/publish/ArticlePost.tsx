@@ -1,7 +1,7 @@
 "use client";
 
 import usePostArticle from "@/app/hooks/article/usePostArticle";
-import { Box, Button, TextInput, Textarea } from "@mantine/core";
+import { Box, Button, TextInput, Textarea, FileInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 interface IProps {
@@ -11,6 +11,7 @@ interface IProps {
 interface IFormInput {
   title: string;
   content: string;
+  pdfFile: File | null;
 }
 
 export default function ArticlePost({ userId }: IProps) {
@@ -19,11 +20,16 @@ export default function ArticlePost({ userId }: IProps) {
     initialValues: {
       title: "",
       content: "",
+      pdfFile: null,
     },
 
     validate: {
       title: (value) => (value !== "" ? null : "Empty title"),
       content: (value) => (value !== "" ? null : "Empty content"),
+      pdfFile: (value) =>
+        value !== null && value.type === "application/pdf"
+          ? null
+          : "File must be a PDF",
     },
   });
 
@@ -36,19 +42,19 @@ export default function ArticlePost({ userId }: IProps) {
   } = usePostArticle(() => onSuccessCallback());
 
   const handleSubmit = (values: any) => {
-    const { title, content } = values;
-    postArticle(
-      {
-        titreArticle: title,
-        contenu: content,
-        auteurId: userId,
-      },
-      {
-        onSuccess(data) {},
-        onSettled() {},
-        onError() {},
-      }
-    );
+    const { title, content, pdfFile } = values;
+
+    const formData = new FormData();
+    formData.append("titreArticle", title);
+    formData.append("contenu", content);
+    formData.append("auteurId", userId.toString());
+    formData.append("pdfFile", pdfFile);
+
+    postArticle(formData, {
+      onSuccess(data) {},
+      onSettled() {},
+      onError() {},
+    });
   };
 
   return (
@@ -70,6 +76,13 @@ export default function ArticlePost({ userId }: IProps) {
           description="Input description"
           placeholder="Input placeholder"
           {...form.getInputProps("content")}
+        />
+        <FileInput
+          clearable
+          label="Upload files"
+          placeholder="Upload files"
+          accept="application/pdf"
+          {...form.getInputProps("pdfFile")}
         />
         <Button type="submit" disabled={isPending}>
           {isPending ? "Loading..." : "Soumettre"}

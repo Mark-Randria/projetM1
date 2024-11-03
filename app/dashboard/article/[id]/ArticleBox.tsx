@@ -119,6 +119,11 @@ export default function ArticleBox({ userId, articleId }: IProps) {
           <p>{article.titreArticle}</p>
           <p>{article.contenu}</p>
           <p>{article.archive}</p>
+          {article.pdfPath ? (
+            <Link href={`${article.pdfPath}`}>See file</Link>
+          ) : (
+            <>No File attached</>
+          )}
           <p>
             posté le {new Date(article.datePubArticle).toLocaleString("fr")}
           </p>
