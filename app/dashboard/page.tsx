@@ -82,8 +82,7 @@ export default async function Dashboard({ searchParams }: IProps) {
       >
         {filteredArticles.length > 0 ? (
           filteredArticles.map((article) => (
-            
-            <CustomCard article={article}/>
+            <CustomCard key={article.id} article={article} />
 
             // <Box key={article.id} mb="20">
             //   <Text size="lg">Liste de mes articles</Text>
