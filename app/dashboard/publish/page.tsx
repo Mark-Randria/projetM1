@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Box, Button, Container } from "@mantine/core";
+import { Box, Button, Container, Title, Paper, Space } from "@mantine/core";
 import { getSession } from "@/app/lib/sessionManagement";
 import jwt from "jsonwebtoken";
 import { IToken } from "@/app/types/type";
@@ -12,9 +12,12 @@ export default async function PublishArticle() {
   const userId = decoded.user.id;
 
   return (
-    <Container>
-      <Box>Publish a new article for user {userId.toString()}</Box>
-      <ArticlePost userId={userId}/>
+    <Container className="pt-8">
+     <Paper shadow="sm" radius="md" withBorder className="px-4 py-6">
+        <Title order={2}>Publier un nouveau article {userId.toString()}</Title>
+        <Space h="xl"/>
+        <ArticlePost userId={userId}/>
+     </Paper>
     </Container>
   );
 }
