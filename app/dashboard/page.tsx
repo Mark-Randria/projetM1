@@ -10,6 +10,7 @@ import {
 } from "../constants/url";
 import SearchBar from "./SearchBar";
 import CustomCard from "../components/CustomCard";
+import CarouselBox from "./CarouselBox";
 
 interface IProps {
   searchParams: { title?: string; content?: string };
@@ -74,64 +75,9 @@ export default async function Dashboard({ searchParams }: IProps) {
           Publish new Article
         </Button>
       </Box>
-      <Box
-        style={{
-          display: "flex",
-          justifyContent: "space-evenly",
-        }}
-      >
-        {filteredArticles.length > 0 ? (
-          filteredArticles.map((article) => (
-            <CustomCard key={article.id} article={article} />
-
-            // <Box key={article.id} mb="20">
-            //   <Text size="lg">Liste de mes articles</Text>
-            //   <p>{article.titreArticle}</p>
-            //   <Text
-            //     c="blue"
-            //     td="underline"
-            //     component={Link}
-            //     href={`dashboard/article/${article.id}`}
-            //   >
-            //     See article
-            //   </Text>
-            //   <p>{article.contenu}</p>
-            //   <p>{article.status}</p>
-            //   <p>{article.archive}</p>
-            //   <p>
-            //     posté le {new Date(article.datePubArticle).toLocaleString("fr")}
-            //   </p>
-            //   <p>{article.auteur.nom}</p>
-            //   <p>{article.auteur.prenom}</p>
-            // </Box>
-          ))
-        ) : (
-          <Box>No article at the moment</Box>
-        )}
-        {articles.length > 0 ? (
-          critiques.map((critique) => (
-            <Box key={critique.id}>
-              <Text size="lg">Liste des articles a critiquer</Text>
-              <p>{critique.Article.titreArticle}</p>
-              <p>{critique.Article.contenu}</p>
-              <p>
-                critiqué le{" "}
-                {new Date(critique.datePubCritique).toLocaleString("fr")}
-              </p>
-
-              <Text
-                c="blue"
-                td="underline"
-                component={Link}
-                href={`dashboard/article/${critique.articleId}`}
-              >
-                See article
-              </Text>
-            </Box>
-          ))
-        ) : (
-          <Box>No Article to review</Box>
-        )}
+      <Box>
+        <CarouselBox articles={filteredArticles} />
+        <CarouselBox critiques={critiques} />
       </Box>
     </Container>
   );

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { TextInput, Button, Box } from "@mantine/core";
+import { Carousel } from "@mantine/carousel";
 
 export default function SearchBar() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -10,20 +11,20 @@ export default function SearchBar() {
 
   const handleSearch = () => {
     if (searchTerm) {
-      
       router.push(`/dashboard?title=${encodeURIComponent(searchTerm)}`);
     } else {
-      
       router.push("/dashboard");
     }
   };
 
   return (
-    <Box style={{
-      display: 'flex',
-      flexDirection: 'row',
-      gap: 20
-    }}>
+    <Box
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        gap: 20,
+      }}
+    >
       <TextInput
         placeholder="Search articles"
         value={searchTerm}

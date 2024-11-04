@@ -12,7 +12,7 @@ const CustomCard = ({ article }: CustomCardProps) => {
   // const { id,titreArticle, datePubArticle, auteur, contenu } = article;
 
   return (
-    <div className=" flex flex-col bg-teal-100 rounded-md w-[650px] h-52 px-6 py-4 border drop-shadow-sm">
+    <div className=" flex flex-col bg-teal-100 rounded-md h-52 px-6 py-4 border drop-shadow-sm">
       <div className="flex w-full justify-between">
         <Title order={3}> {article.titreArticle}</Title>
         <Badge color="yellow">{article.status}</Badge>
