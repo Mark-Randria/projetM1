@@ -5,13 +5,13 @@ import Link from "next/link";
 import { useDisclosure } from "@mantine/hooks";
 
 type CustomCardProps = {
-  article: IArticle ;
+  article?: IArticle ;
 };
 
 const CustomCard = ({ article }: CustomCardProps) => {
   // const { id,titreArticle, datePubArticle, auteur, contenu } = article;
-
-  return (
+  if(!article) return null;
+  return (  
     <div className=" flex flex-col bg-teal-100 rounded-md w-[650px] h-52 px-6 py-4 border drop-shadow-sm">
       <div className="flex w-full justify-between">
         <Title order={3}> {article.titreArticle}</Title>
