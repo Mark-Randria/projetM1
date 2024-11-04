@@ -19,6 +19,10 @@
   }
 }
 
+@layer tailwind{
+  @tailwind base;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

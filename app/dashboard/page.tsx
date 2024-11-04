@@ -9,6 +9,7 @@ import {
   GET_CRITIQUES_OF_AN_USER_URL,
 } from "../constants/url";
 import SearchBar from "./SearchBar";
+import CustomCard from "../components/CustomCard";
 
 interface IProps {
   searchParams: { title?: string; content?: string };
@@ -81,26 +82,29 @@ export default async function Dashboard({ searchParams }: IProps) {
       >
         {filteredArticles.length > 0 ? (
           filteredArticles.map((article) => (
-            <Box key={article.id} mb="20">
-              <Text size="lg">Liste de mes articles</Text>
-              <p>{article.titreArticle}</p>
-              <Text
-                c="blue"
-                td="underline"
-                component={Link}
-                href={`dashboard/article/${article.id}`}
-              >
-                See article
-              </Text>
-              <p>{article.contenu}</p>
-              <p>{article.status}</p>
-              <p>{article.archive}</p>
-              <p>
-                posté le {new Date(article.datePubArticle).toLocaleString("fr")}
-              </p>
-              <p>{article.auteur.nom}</p>
-              <p>{article.auteur.prenom}</p>
-            </Box>
+            
+            <CustomCard article={article}/>
+
+            // <Box key={article.id} mb="20">
+            //   <Text size="lg">Liste de mes articles</Text>
+            //   <p>{article.titreArticle}</p>
+            //   <Text
+            //     c="blue"
+            //     td="underline"
+            //     component={Link}
+            //     href={`dashboard/article/${article.id}`}
+            //   >
+            //     See article
+            //   </Text>
+            //   <p>{article.contenu}</p>
+            //   <p>{article.status}</p>
+            //   <p>{article.archive}</p>
+            //   <p>
+            //     posté le {new Date(article.datePubArticle).toLocaleString("fr")}
+            //   </p>
+            //   <p>{article.auteur.nom}</p>
+            //   <p>{article.auteur.prenom}</p>
+            // </Box>
           ))
         ) : (
           <Box>No article at the moment</Box>
