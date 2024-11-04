@@ -11,6 +11,7 @@ type CustomButtonProps = {
   size?: "md" | "lg" | "xl";
   variant: "filled" | "light" | "transparent";
   className?: string;
+  color?: string  ;
 };
 
 // export const CustomButton : React.FC<CustomButtonProps> = (props) => {

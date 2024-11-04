@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { TextInput, Button, Box, Select } from "@mantine/core";
+import { TextInput, Box, Select, ActionIcon, Button } from "@mantine/core";
 import useDeleteArticle from "../hooks/adminArticleAction/useDeleteArticle";
 import useUpdateArticle from "../hooks/adminArticleAction/useUpdateArticle";
+import { FileIcon } from "@/constants/icon";
+import { CustomButton } from "../components/Button";
 
 interface IArticleActionsProps {
   articleId: number;
@@ -57,23 +59,27 @@ export default function ArticleActions({
   };
 
   return (
-    <>
-      <Box>
-        <Select
-          maw="fit-content"
-          label="Status"
-          placeholder="PENDING"
-          data={selectData}
-          value={articleStatus}
-          onChange={setArticleStatus}
-        />
-      </Box>
-      <Button onClick={handleUpdateArticle} disabled={updateIsPending}>
-        Confirm
-      </Button>
-      <Button onClick={handleDeleteArticle} disabled={deleteIsPending}>
-        Delete Article
-      </Button>
-    </>
+    <div className="flex flex-col items-center justify-between">
+      <Select
+        classNames={{
+          input: " rounded-md  focus:border-teal-500 focus:border-2 outline-none",
+          wrapper: "w-full",
+          root: "w-full",
+        }}
+        maw="fit-content"
+        placeholder="PENDING"
+        data={selectData}
+        value={articleStatus}
+        onChange={setArticleStatus}
+      />
+      <div className="flex flex-row items-center gap-2">
+        <CustomButton  onClick={handleUpdateArticle} disabled={updateIsPending}>
+          Confirm
+        </CustomButton>
+        <Button color="red.4" onClick={handleDeleteArticle} disabled={deleteIsPending}>
+          Delete  
+        </Button>
+      </div>
+    </div>
   );
 }
