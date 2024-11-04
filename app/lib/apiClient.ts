@@ -21,7 +21,8 @@ class APIClient<T> {
       .get<T>(`${this.endpoint}`)
       .then((res) => res.data);
   };
-  post = (data: Partial<T>) => {
+  post = (data: Partial<T> | FormData) => {
+    const config = data instanceof FormData ? { headers: { "Content-Type": "multipart/form-data" } } : undefined;
     return axiosInstance.post<any>(this.endpoint, data).then((res) => res.data);
   };
   delete = () => {

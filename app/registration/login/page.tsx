@@ -67,10 +67,10 @@ export default function Login() {
                 <CustomButton  disabled={isPending} type="submit" variant="filled" size='lg' > {isPending ? ("Please wait...") : ("Login")}</CustomButton>
                 <div>
                   <Text size="sm" className="text-center">
-                    Vous n'avez pas de compte ?
+                    Vous n&apos;avez pas de compte ?
                     
                     <Text fs="italic" td="underline" ml={2} c="teal.4" component={Link} className="underline-offset-1" href="/registration/signup">
-                      S'inscrire
+                      S&apos;inscrire
                     </Text>
                   </Text>
                  

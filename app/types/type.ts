@@ -18,6 +18,7 @@ export interface IArticle {
   datePubArticle: Date;
   auteurId: number;
   auteur: IAuteur;
+  pdfPath: string;
   critiques: ICritique[];
 }
 

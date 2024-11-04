@@ -60,6 +60,7 @@ model Article {
   auteurId           Int
   auteur             Utilisateur          @relation(fields: [auteurId], references: [id])
   UtilisateurArticle UtilisateurArticle[]
+  pdfPath            String?
 }
 
 enum Status {
