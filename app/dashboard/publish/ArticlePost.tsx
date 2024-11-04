@@ -1,7 +1,9 @@
 "use client";
 
+import { CustomButton } from "@/app/components/Button";
 import usePostArticle from "@/app/hooks/article/usePostArticle";
-import { Box, Button, TextInput, Textarea, FileInput } from "@mantine/core";
+import { FileIcon } from "@/constants/icon";
+import { Box, Button, TextInput, Textarea, FileInput, Stack, Space } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 interface IProps {
@@ -60,33 +62,54 @@ export default function ArticlePost({ userId }: IProps) {
   return (
     <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
       <Box>
-        Da components {userId.toString()}
+        <Stack>
         <TextInput
-          classNames={{
-            label: "bg-red-100",
-          }}
+         classNames={{
+          input: " focus:border-teal-500 focus:border-2 outline-none",
+          root: "w-full",
+        }}
           withAsterisk
-          label="titre"
-          placeholder="titre de l'article"
+          label="Titre de l'article"
+          placeholder="Titre de l'article"
           {...form.getInputProps("title")}
         />
         <Textarea
-          variant="filled"
-          label="Contenu"
-          description="Input description"
-          placeholder="Input placeholder"
+           classNames={{
+            input: " focus:border-teal-500 focus:border-2 outline-none",
+            root: "w-full",
+          }}
+         
+          label="Despription"
+          placeholder="Description de l'article"
           {...form.getInputProps("content")}
         />
-        <FileInput
-          clearable
-          label="Upload files"
-          placeholder="Upload files"
-          accept="application/pdf"
-          {...form.getInputProps("pdfFile")}
-        />
-        <Button type="submit" disabled={isPending}>
+       
+          <FileInput
+             classNames={{
+              input: " border-2 border-red-200 focus:border-teal-500 focus:border-2 outline-none",
+             
+              root: "w-1/4",
+            }}
+            // leftSection={<FileIcon/>}
+            variant="filled"
+            clearable
+            label="Joindre Article"
+            placeholder="Joindre un article PDF"
+            accept="application/pdf"
+            {...form.getInputProps("pdfFile")}
+          />
+      
+        </Stack>
+        <Space h="xl"/>
+       <Box  style={{
+          display: "flex",
+          justifyContent: "space-evenly",
+          alignItems:"center",
+        }}>
+        <CustomButton fullWidth size="lg" radius="lg" type="submit" disabled={isPending}>
           {isPending ? "Loading..." : "Soumettre"}
-        </Button>
+        </CustomButton>
+       </Box>
       </Box>
     </form>
   );
