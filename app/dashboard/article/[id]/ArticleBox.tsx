@@ -40,14 +40,15 @@ export default function ArticleBox({ userId, articleId }: IProps) {
       titreCritique: (value) =>
         value.length > 0 ? null : "le titre ne doit pas etre vide",
       descriptionCritique: (value) =>
-        value.length > 0 ? null : "le contenu ne doit pas etre vide",
+        value.length > 0 ? null : "la description ne doit pas etre vide",
     },
   });
 
-  const { data: article, isLoading } = useGetOneArticle(
-    userId.toString(),
-    articleId.toString()
-  );
+  const {
+    data: article,
+    isLoading,
+    isError,
+  } = useGetOneArticle(userId.toString(), articleId.toString());
 
   const onSuccessCallback = () => {};
 
@@ -92,8 +93,6 @@ export default function ArticleBox({ userId, articleId }: IProps) {
 
   const message = userId === article?.auteurId ? "Author" : "Reviewer";
 
-  if (article === undefined) return <p>Article not found</p>;
-
   if (isLoading)
     return (
       <LoadingOverlay
@@ -102,11 +101,13 @@ export default function ArticleBox({ userId, articleId }: IProps) {
         overlayProps={{ radius: "sm", blur: 2 }}
       />
     );
+
+  if (isError) return <>Une erreur s&apos;est produite</>;
   return (
     <>
       Hallo {message} of Article
       <Box
-        key={article.id}
+        key={article!.id}
         mb="20"
         style={{
           display: "flex",
@@ -116,25 +117,29 @@ export default function ArticleBox({ userId, articleId }: IProps) {
       >
         <Box>
           <Text size="lg">Title : {article?.titreArticle}</Text>
-          <p>{article.titreArticle}</p>
-          <p>{article.contenu}</p>
-          <p>{article.archive}</p>
-          {article.pdfPath ? (
-            <Link href={`${article.pdfPath}`}>See file</Link>
+          <p>{article!.titreArticle}</p>
+          <p>{article!.contenu}</p>
+          <p>{article!.archive}</p>
+          {article!.pdfPath ? (
+            <Link href={`${article!.pdfPath}`}>See file</Link>
           ) : (
             <>No File attached</>
           )}
           <p>
-            posté le {new Date(article.datePubArticle).toLocaleString("fr")}
+            posté le {new Date(article!.datePubArticle).toLocaleString("fr")}
           </p>
         </Box>
-        <Box className="bg-red-300">
-          <Modal opened={opened} onClose={close} title="Modification">
-            About the edit
+        <Box>
+          <Modal opened={opened} onClose={close} title="Supprimer">
+            Voulez-vous vraiment supprimer ?
           </Modal>
-          <Button disabled={message === "Reviewer"} onClick={open}>
-            {message === "Reviewer" ? "you're not the author" : "Edit"}
-          </Button>
+          {message === "Author" ? (
+            <>
+              <Button onClick={open} color="red">
+                Effacer
+              </Button>
+            </>
+          ) : null}
         </Box>
       </Box>
       <form
@@ -174,8 +179,8 @@ export default function ArticleBox({ userId, articleId }: IProps) {
         <Text size="lg" mb={10}>
           Liste des critiques
         </Text>
-        {article.critiques.length > 0 ? (
-          article.critiques.map((critique) => (
+        {article!.critiques.length > 0 ? (
+          article!.critiques.map((critique) => (
             <Box key={critique.id} mb="20">
               <p>{critique.titreCritique}</p>
               <p>{critique.descriptionCritique}</p>

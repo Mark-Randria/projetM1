@@ -16,7 +16,6 @@ export default async function MyArticle({ params: { id } }: IProps) {
 
   return (
     <Container>
-      <Box>SALAMA</Box>
       <ArticleBox userId={decoded.user.id} articleId={id} />
     </Container>
   );
