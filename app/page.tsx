@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Box, Button, Container } from "@mantine/core";
 import { CustomButton } from "./components/Button";
 import { CustomInput } from "./components/Input";
+import CustomCard from "./components/CustomCard";
 
 export default function Home() {
 
@@ -28,7 +29,7 @@ export default function Home() {
         <Button className="btn-link" component={Link} href="/items/lists">Lien</Button>
         <Button variant="filled" color="teal">Button</Button>
         <CustomInput label="Nom" placeholder="Nom" type="password"/>
-  
+        <CustomCard/>
       </Box>
     </Container>
   );
