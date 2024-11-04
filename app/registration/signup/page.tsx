@@ -17,6 +17,7 @@ import useSignupUser from "@/app/hooks/auth/useSignupUser";
 import { CustomButton } from "@/app/components/Button";
 import { CustomInput, CustomPasswordInput } from "@/app/components/Input";
 import { headImage } from "@/app/constants/images";
+import { useRouter } from "next/navigation";
 
 interface IFormInput {
   nom: string;
@@ -26,6 +27,9 @@ interface IFormInput {
 }
 
 export default function Signup() {
+
+  
+
   const form = useForm<IFormInput>({
     mode: "uncontrolled",
     initialValues: {
@@ -46,6 +50,8 @@ export default function Signup() {
   const signupTriggered = () => {};
   const { mutate: signup, isPending } = useSignupUser(signupTriggered);
 
+  const router = useRouter();
+
   const handleSubmit = (values: IFormInput) => {
     console.log("CLicked");
     const { nom, prenom, email, password } = values;
@@ -53,7 +59,8 @@ export default function Signup() {
       { nom, prenom, email, password },
       {
         onSuccess(data) {
-          console.log(data);
+          console.log(data)
+          router.push('/registration/login');
         },
         onSettled() {},
         onError(err) {
@@ -64,62 +71,6 @@ export default function Signup() {
   };
   return (
     <>
-      {/* <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
-      <Container size="sm h-fit">
-        <Box
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            display: "flex",
-            flexDirection: "column",
-            gap: 4,
-          }}
-        >
-          <TextInput
-            classNames={{
-              label: "bg-red-100",
-            }}
-            withAsterisk
-            label="Nom"
-            {...form.getInputProps("nom")}
-          />
-          <TextInput
-            classNames={{
-              label: "bg-red-100",
-            }}
-            withAsterisk
-            label="Prenom"
-            {...form.getInputProps("prenom")}
-          />
-          <TextInput
-            classNames={{
-              label: "bg-red-100",
-            }}
-            withAsterisk
-            label="email"
-            placeholder="JohnDoe@email.com"
-            {...form.getInputProps("email")}
-          />
-          <PasswordInput
-            classNames={{
-              label: "bg-blue-100",
-            }}
-            withAsterisk
-            label="Mot de passe"
-            type="password"
-            {...form.getInputProps("password")}
-          />
-          <Button
-            className="btn btn-primary"
-            type="submit"
-            disabled={isPending}
-          >
-            Signup
-          </Button>
-          <Button onClick={() => form.reset()}>Reset</Button>
-        </Box>
-      </Container>
-    </form> */}
       <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
         <Container className="pt-8">
           <Paper shadow="sm" radius="md" withBorder className="">

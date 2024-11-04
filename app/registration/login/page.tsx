@@ -3,11 +3,12 @@
 import { useForm } from "@mantine/form";
 import Image from "next/image";
 import Link from "next/link";
-import { Paper, Button, Container, PasswordInput, TextInput, Stack, Title,Text } from "@mantine/core";
+import { Paper, Button, Container, PasswordInput, TextInput, Stack, Title,Text, Space } from "@mantine/core";
 import useLoginUser from "@/app/hooks/auth/useLoginUser";
 import { CustomInput } from "@/app/components/Input";
 import { CustomButton } from "@/app/components/Button";
 import { headImage } from "@/app/constants/images";
+
 
 interface IFormInput {
   email: string;
@@ -59,18 +60,20 @@ export default function Login() {
             </Text>
             <form className="flex flex-col gap-5 mt-8 items-center" onSubmit={form.onSubmit((values) => handleSubmit(values))}>
               <Stack className="w-full">
-                <CustomInput placeholder="Email" label="Email"/>
-                <CustomInput placeholder="Mot de passe" label="Mot de passe"/>
+                <CustomInput placeholder="Email" label="Email" {...form.getInputProps("email")}/>
+                <CustomInput placeholder="Mot de passe" label="Mot de passe"  {...form.getInputProps("password")}/>
               </Stack>
               <div className=" flex flex-col gap-1 w-1/2 ">
-                <CustomButton text={isPending ? ("Please wait...") : ("Login")} disabled={isPending} type="submit" variant="filled" size='lg'  />
+                <CustomButton  disabled={isPending} type="submit" variant="filled" size='lg' > {isPending ? ("Please wait...") : ("Login")}</CustomButton>
                 <div>
                   <Text size="sm" className="text-center">
-                    Vous n'avez pas de compte ? 
+                    Vous n'avez pas de compte ?
+                    
+                    <Text fs="italic" td="underline" ml={2} c="teal.4" component={Link} className="underline-offset-1" href="/registration/signup">
+                      S'inscrire
+                    </Text>
                   </Text>
-                  <Link href="/registration/signup">
-                      <CustomButton variant='transparent' text="S'inscrire" size='md'/>
-                    </Link>
+                 
                 </div>
               </div>
               {/* <Button classNames={{root:"w-80"}} onClick={() => form.reset()}>Reset</Button> */}
