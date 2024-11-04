@@ -75,8 +75,11 @@ export default async function Dashboard({ searchParams }: IProps) {
           Publish new Article
         </CustomButton>
       </div>
+      <Space h="xl" />
       <Box>
         <CarouselBox articles={filteredArticles} />
+        <Space h="xl" />
+        <Text c="cyan">Critiques</Text>
         <CarouselBox critiques={critiques} />
       </Box>
     </div>

@@ -128,13 +128,17 @@ export default function ArticleBox({ userId, articleId }: IProps) {
             posté le {new Date(article.datePubArticle).toLocaleString("fr")}
           </p>
         </Box>
-        <Box className="bg-red-300">
-          <Modal opened={opened} onClose={close} title="Modification">
-            About the edit
+        <Box>
+          <Modal opened={opened} onClose={close} title="Supprimer">
+            Voulez-vous vraiment supprimer ?
           </Modal>
-          <Button disabled={message === "Reviewer"} onClick={open}>
-            {message === "Reviewer" ? "you're not the author" : "Edit"}
-          </Button>
+          {message === "Author" ? (
+            <>
+              <Button onClick={open} color="red">
+                Effacer
+              </Button>
+            </>
+          ) : null}
         </Box>
       </Box>
       <form

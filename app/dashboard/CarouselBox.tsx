@@ -25,32 +25,18 @@ export default function CarouselBox({ articles, critiques }: CarouselBoxProps) {
       {articles && articles.length > 0 ? (
         articles.map((article) => (
           <Carousel.Slide key={article.id}>
-            <CustomCard article={article} />
+            <CustomCard stuff={article} />
           </Carousel.Slide>
         ))
       ) : critiques && critiques.length > 0 ? (
         critiques.map((critique) => (
           <Carousel.Slide key={critique.id}>
-            <Box>
-              <Text size="lg">Liste des articles à critiquer</Text>
-              <p>{critique.Article.titreArticle}</p>
-              <p>{critique.Article.contenu}</p>
-              <p>
-                critiqué le{" "}
-                {new Date(critique.datePubCritique).toLocaleString("fr")}
-              </p>
-              <Text
-                component={Link}
-                href={`dashboard/article/${critique.articleId}`}
-              >
-                See article
-              </Text>
-            </Box>
+            <CustomCard stuff={critique} />
           </Carousel.Slide>
         ))
       ) : (
         <Carousel.Slide>
-          <Box>No items available</Box>
+          <Box>Aucun article trouvé</Box>
         </Carousel.Slide>
       )}
     </Carousel>
