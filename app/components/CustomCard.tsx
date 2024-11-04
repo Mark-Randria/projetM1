@@ -14,7 +14,7 @@ const CustomCard = ({article}:CustomCardProps) => {
 
   return (
  
-   <div className=' flex flex-col bg-teal-100 rounded-md w-[650px] h-52 px-6 py-4 '>
+   <div className=' flex flex-col bg-teal-100 rounded-md w-[650px] h-52 px-6 py-4 border drop-shadow-sm'>
     <Title order={3}>La science applique {titreArticle}</Title>
     <Space h="md"/>
     <Text lineClamp={4}>
