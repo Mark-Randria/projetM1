@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Button, Space, Text, Title } from "@mantine/core";
+import { Box, Button, Container, Space, Text, Title } from "@mantine/core";
 import { getSession } from "../lib/sessionManagement";
 import jwt from "jsonwebtoken";
 import { IToken, IArticle, ICritique } from "../types/type";
@@ -9,8 +9,9 @@ import {
   GET_CRITIQUES_OF_AN_USER_URL,
 } from "../constants/url";
 import SearchBar from "./SearchBar";
-import { Carousel } from '@mantine/carousel';
+import { Carousel } from "@mantine/carousel";
 import CustomCard from "../components/CustomCard";
+import CarouselBox from "./CarouselBox";
 import { CustomButton } from "../components/Button";
 
 interface IProps {
@@ -60,77 +61,24 @@ export default async function Dashboard({ searchParams }: IProps) {
   return (
     <div className="pt-4">
       <div className="flex justify-between mx-6 ">
-       <div>
-        <Title order={2}>Bienvenue {capitalizeFirstLetter(decoded.user.prenom)}</Title>
-        
-       </div>
+        <div>
+          <Title order={2}>
+            Bienvenue {capitalizeFirstLetter(decoded.user.prenom)}
+          </Title>
+        </div>
         <SearchBar />
-        <CustomButton variant="light" component={Link} href="/dashboard/publish">
+        <CustomButton
+          variant="light"
+          component={Link}
+          href="/dashboard/publish"
+        >
           Publish new Article
         </CustomButton>
       </div>
-      <Space h="xl" />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-evenly",
-        }}
-      >
-        {filteredArticles.length > 0 ? (
-          filteredArticles.map((article) => (
-            <CustomCard key={article.id} article={article} />  
-
-          ))
-        ) : (
-          <div>No article at the moment</div>
-        )}
-        {/* {articles.length > 0 ? (
-          critiques.map((critique) => (
-            <div key={critique.id}>
-              <Text size="lg">Liste des articles a critiquer</Text>
-              <p>{critique.Article.titreArticle}</p>
-              <p>{critique.Article.contenu}</p>
-              <p>
-                critiqué le{" "}
-                {new Date(critique.datePubCritique).toLocaleString("fr")}
-              </p>
-
-              <Text
-                c="blue"
-                td="underline"
-                component={Link}
-                href={`dashboard/article/${critique.articleId}`}
-              >
-                See article
-              </Text>
-            </div>
-          ))
-        ) : (
-          <div>No Article to review</div>
-        )} */}
-      </div>
+      <Box>
+        <CarouselBox articles={filteredArticles} />
+        <CarouselBox critiques={critiques} />
+      </Box>
     </div>
   );
 }
-
-
-// <div key={article.id} mb="20">
-            //   <Text size="lg">Liste de mes articles</Text>
-            //   <p>{article.titreArticle}</p>
-            //   <Text
-            //     c="blue"
-            //     td="underline"
-            //     component={Link}
-            //     href={`dashboard/article/${article.id}`}
-            //   >
-            //     See article
-            //   </Text>
-            //   <p>{article.contenu}</p>
-            //   <p>{article.status}</p>
-            //   <p>{article.archive}</p>
-            //   <p>
-            //     posté le {new Date(article.datePubArticle).toLocaleString("fr")}
-            //   </p>
-            //   <p>{article.auteur.nom}</p>
-            //   <p>{article.auteur.prenom}</p>
-            // </div>
