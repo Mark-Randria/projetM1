@@ -22,7 +22,6 @@ export default function SearchBar() {
       style={{
         display: "flex",
         flexDirection: "row",
-        gap: 20,
       }}
     >
       <TextInput
@@ -30,7 +29,7 @@ export default function SearchBar() {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <Button onClick={handleSearch}>Search</Button>
+      <Button onClick={handleSearch}>O</Button>
     </Box>
   );
 }

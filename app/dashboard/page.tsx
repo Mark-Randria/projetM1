@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Box, Button, Container, Space, Text } from "@mantine/core";
+import { Box, Button, Container, Space, Text, Title } from "@mantine/core";
 import { getSession } from "../lib/sessionManagement";
 import jwt from "jsonwebtoken";
 import { IToken, IArticle, ICritique } from "../types/type";
@@ -9,8 +9,10 @@ import {
   GET_CRITIQUES_OF_AN_USER_URL,
 } from "../constants/url";
 import SearchBar from "./SearchBar";
+import { Carousel } from "@mantine/carousel";
 import CustomCard from "../components/CustomCard";
 import CarouselBox from "./CarouselBox";
+import { CustomButton } from "../components/Button";
 
 interface IProps {
   searchParams: { title?: string; content?: string };
@@ -50,35 +52,32 @@ export default async function Dashboard({ searchParams }: IProps) {
     return matchesTitle && matchesContent;
   });
 
+  const capitalizeFirstLetter = (string: any) => {
+    if (!string) return ""; // Gérer les cas où la chaîne est vide ou nulle
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+  };
+
   return (
-    <Container>
-      <Box
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          marginBottom: 10,
-        }}
-      >
-        <Text size="md">Not an organisateur</Text>
-      </Box>
-      <Box
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-evenly",
-        }}
-      >
+    <div className="pt-4">
+      <div className="flex justify-between mx-6 ">
+        <div>
+          <Title order={2}>
+            Bienvenue {capitalizeFirstLetter(decoded.user.prenom)}
+          </Title>
+        </div>
         <SearchBar />
-        <Space h="md" />
-        <Button variant="light" component={Link} href="/dashboard/publish">
+        <CustomButton
+          variant="light"
+          component={Link}
+          href="/dashboard/publish"
+        >
           Publish new Article
-        </Button>
-      </Box>
+        </CustomButton>
+      </div>
       <Box>
         <CarouselBox articles={filteredArticles} />
         <CarouselBox critiques={critiques} />
       </Box>
-    </Container>
+    </div>
   );
 }
