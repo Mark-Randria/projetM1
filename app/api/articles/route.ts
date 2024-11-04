@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
 
       const buffer = Buffer.from(await file.arrayBuffer());
 
-      await fs.promises.writeFile(uploadPath, buffer);
+      await fs.promises.writeFile(uploadPath, new Uint8Array(buffer));
 
       relativePath = `/uploads/${uniqueFilename}`;
     }

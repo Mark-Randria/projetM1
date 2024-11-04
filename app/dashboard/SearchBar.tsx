@@ -22,14 +22,14 @@ export default function SearchBar() {
     <Box style={{
       display: 'flex',
       flexDirection: 'row',
-      gap: 20
+    
     }}>
       <TextInput
         placeholder="Search articles"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <Button onClick={handleSearch}>Search</Button>
+      <Button  onClick={handleSearch}>O</Button>
     </Box>
   );
 }

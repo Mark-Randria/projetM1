@@ -2,6 +2,7 @@
 import { CustomButton } from "@/app/components/Button";
 import { CustomTextArea } from "@/app/components/CustomTextArea";
 import { CustomInput } from "@/app/components/Input";
+import { Carousel } from "@mantine/carousel";
 import { Paper, Space, Stack, Title } from "@mantine/core";
 import Link from "next/link";
 import React from "react";
@@ -32,6 +33,12 @@ const Page = () => {
             <CustomButton variant="filled" text="Publier" onClick={afficher} />
           </Stack>
         </Paper>
+    <Carousel withIndicators height={200}>
+      <Carousel.Slide>1</Carousel.Slide>
+      <Carousel.Slide>2</Carousel.Slide>
+      <Carousel.Slide>3</Carousel.Slide>
+      {/* ...other slides */}
+    </Carousel>
       </form>
     </div>
   );
