@@ -51,6 +51,7 @@ export default async function Dashboard({ searchParams }: IProps) {
     return matchesTitle && matchesContent;
   });
 
+  // Pour mettre la premiere lettre majuscule
   const capitalizeFirstLetter = (string:any) => {
     if (!string) return ''; // Gérer les cas où la chaîne est vide ou nulle
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();

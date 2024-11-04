@@ -11,10 +11,16 @@ export default async function PublishArticle() {
   const decoded = jwt.decode(JSON.parse(session!)) as IToken;
   const userId = decoded.user.id;
 
+  // Pour mettre la premiere lettre majuscule
+  const capitalizeFirstLetter = (string:any) => {
+    if (!string) return ''; // Gérer les cas où la chaîne est vide ou nulle
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+  };
+
   return (
     <Container className="pt-8">
      <Paper shadow="sm" radius="md" withBorder className="px-4 py-6">
-        <Title order={2}>Publier un nouveau article {userId.toString()}</Title>
+        <Title order={2}>Publier un nouveau article  {capitalizeFirstLetter(decoded.user.prenom)}</Title>
         <Space h="xl"/>
         <ArticlePost userId={userId}/>
      </Paper>
