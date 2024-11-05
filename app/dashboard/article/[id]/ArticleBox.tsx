@@ -7,9 +7,12 @@ import {
   Button,
   LoadingOverlay,
   Modal,
+  Paper,
+  Space,
   Text,
   TextInput,
   Textarea,
+  Title,
 } from "@mantine/core";
 import Link from "next/link";
 import usePostCritique from "@/app/hooks/critique/usePostCritique";
@@ -105,7 +108,7 @@ export default function ArticleBox({ userId, articleId }: IProps) {
   if (isError) return <>Une erreur s&apos;est produite</>;
   return (
     <>
-      Hallo {message} of Article
+      {/* Hallo {message} of Article */}
       <Box
         key={article!.id}
         mb="20"
@@ -115,31 +118,38 @@ export default function ArticleBox({ userId, articleId }: IProps) {
           justifyContent: "space-between",
         }}
       >
-        <Box>
-          <Text size="lg">Title : {article?.titreArticle}</Text>
-          <p>{article!.titreArticle}</p>
-          <p>{article!.contenu}</p>
+        <div className="bg-white px-4 py-6 rounded-md">
+          <Title order={2}> {article?.titreArticle}</Title>
+          <Text size="md">{article!.contenu}</Text>
           <p>{article!.archive}</p>
+          <Space h="sm" />
           {article!.pdfPath ? (
-            <Link href={`${article!.pdfPath}`}>See file</Link>
+            <Text
+              c="blue"
+              td="underline"
+              component={Link}
+              href={`${article!.pdfPath}`}
+            >
+              See file
+            </Text>
           ) : (
             <>No File attached</>
           )}
-          <p>
-            posté le {new Date(article!.datePubArticle).toLocaleString("fr")}
-          </p>
-        </Box>
+          <div className=" flex flex-row justify-between ml-2 mt-2">
+            <Text size="sm">
+              Posté le {new Date(article!.datePubArticle).toLocaleString("fr")}
+            </Text>
+            {message === "Author" ? (
+              <Button onClick={open} color="red">
+                Effacer
+              </Button>
+            ) : null}
+          </div>
+        </div>
         <Box>
           <Modal opened={opened} onClose={close} title="Supprimer">
             Voulez-vous vraiment supprimer ?
           </Modal>
-          {message === "Author" ? (
-            <>
-              <Button onClick={open} color="red">
-                Effacer
-              </Button>
-            </>
-          ) : null}
         </Box>
       </Box>
       <form
