@@ -166,14 +166,14 @@ export default function ArticleBox({ userId, articleId }: IProps) {
           }}
         >
           <Stack>
-            <div  className="ml-2">
+            <div className="ml-2 ">
               <Text size="lg" fw={700}>
                 Poster un critique en tant que {message} de l&apos;article
               </Text>
             </div>
             <TextInput
               classNames={{
-                input: " focus:border-teal-500 focus:border-2 outline-none",
+                input: "focus:border-teal-500 focus:border-2 outline-none",
                 root: "w-full",
               }}
               label="Titre du critique"
