@@ -19,7 +19,7 @@ import {
 import Link from "next/link";
 import usePostCritique from "@/app/hooks/critique/usePostCritique";
 import { useForm } from "@mantine/form";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import useDeleteCritique from "@/app/hooks/critique/useDeleteCritique";
 import useDeleteArticle from "@/app/hooks/adminArticleAction/useDeleteArticle";
 
@@ -61,6 +61,7 @@ export default function ArticleBox({ userId, articleId }: IProps) {
 
   const onSuccessCallback = () => {
     router.push("/dashboard");
+    window.location.reload();
   };
 
   const { mutate: postCritique, isPending: isPostingPending } = usePostCritique(
@@ -129,7 +130,10 @@ export default function ArticleBox({ userId, articleId }: IProps) {
       />
     );
 
-  if (isError) return <>Une erreur s&apos;est produite</>;
+  if (isError) {
+    router.push('/dashboard');
+    return <>Une erreur s&apos;est produite</>;
+  }
   return (
     <div className="flex flex-row gap-4">
       {/* Hallo {message} of Article */}
@@ -168,12 +172,12 @@ export default function ArticleBox({ userId, articleId }: IProps) {
           </div>
         </div>
         <Box className="flex justify-between">
-          <Modal opened={opened} onClose={close} title="Supprimer">
+          {/* <Modal opened={opened} onClose={close} title="Supprimer">
             Voulez-vous vraiment supprimer ?
             <Button onClick={() => handleDeleteArticle()} color="red">
               Oui
             </Button>
-          </Modal>
+          </Modal> */}
         </Box>
       </div>
 
