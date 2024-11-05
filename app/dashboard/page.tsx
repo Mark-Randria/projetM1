@@ -14,6 +14,7 @@ import CustomCard from "../components/CustomCard";
 import CarouselBox from "./CarouselBox";
 import { CustomButton } from "../components/Button";
 import Header from "../admin/Header";
+import{} from"@tabler/icons-react"
 
 interface IProps {
   searchParams: { title?: string; content?: string };
@@ -62,28 +63,29 @@ export default async function Dashboard({ searchParams }: IProps) {
   console.log(critiques);
 
   return (
-    <div className="pt-4">
-      <Header>Dashboard de {capitalizeFirstLetter(decoded.user.prenom)}</Header>
-      <div className="flex justify-between mx-6 ">
-        <div>
-          <Title order={2}>Bienvenue</Title>
-        </div>
-        <SearchBar />
-        <CustomButton
-          variant="light"
-          component={Link}
-          href="/dashboard/publish"
-        >
-          Publier un article
-        </CustomButton>
+    <div className=" relativemin-h-screen  pt-4 px-4">
+      <div className="ml-3">
+        <Header>Bienvenue {capitalizeFirstLetter(decoded.user.prenom)}</Header>
       </div>
+      {/* <div className="flex justify-between mx-6 ">      
+        <SearchBar />
+       
+      </div> */}
       <Space h="xl" />
-      <Box>
+      <div>
         <CarouselBox articles={filteredArticles} />
         <Space h="xl" />
         <Text c="cyan">Critiques</Text>
         <CarouselBox critiques={critiques} />
-      </Box>
+      </div>
+
+      <div className="absolute bottom-20 right-20">
+        <Button classNames={{
+          root:"h-12 w-12 within"
+        }} variant="filled" size="xl" radius="xl" color="teal.4" component={Link} href="/dashboard/publish">
+          Publier
+        </Button>
+      </div>
     </div>
   );
 }

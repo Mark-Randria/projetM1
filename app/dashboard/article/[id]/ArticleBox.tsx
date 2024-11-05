@@ -19,7 +19,7 @@ import {
 import Link from "next/link";
 import usePostCritique from "@/app/hooks/critique/usePostCritique";
 import { useForm } from "@mantine/form";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import useDeleteCritique from "@/app/hooks/critique/useDeleteCritique";
 import useDeleteArticle from "@/app/hooks/adminArticleAction/useDeleteArticle";
 
