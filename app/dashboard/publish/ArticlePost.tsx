@@ -3,8 +3,18 @@
 import { CustomButton } from "@/app/components/Button";
 import usePostArticle from "@/app/hooks/article/usePostArticle";
 import { FileIcon } from "@/constants/icon";
-import { Box, Button, TextInput, Textarea, FileInput, Stack, Space } from "@mantine/core";
+import {
+  Box,
+  Button,
+  TextInput,
+  Textarea,
+  FileInput,
+  Stack,
+  Space,
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 
 interface IProps {
@@ -58,7 +68,19 @@ export default function ArticlePost({ userId }: IProps) {
     formData.append("pdfFile", pdfFile);
 
     postArticle(formData, {
-      onSuccess(data) {},
+      onSuccess() {
+        toast.success("Article publié avec succès", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          
+        });
+        form.reset();
+      },
       onSettled() {},
       onError() {},
     });
@@ -68,31 +90,31 @@ export default function ArticlePost({ userId }: IProps) {
     <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
       <Box>
         <Stack>
-        <TextInput
-         classNames={{
-          input: " focus:border-teal-500 focus:border-2 outline-none",
-          root: "w-full",
-        }}
-          withAsterisk
-          label="Titre de l'article"
-          placeholder="Titre de l'article"
-          {...form.getInputProps("title")}
-        />
-        <Textarea
-           classNames={{
-            input: " focus:border-teal-500 focus:border-2 outline-none",
-            root: "w-full",
-          }}
-         
-          label="Despription"
-          placeholder="Description de l'article"
-          {...form.getInputProps("content")}
-        />
-       
+          <TextInput
+            classNames={{
+              input: " focus:border-teal-500 focus:border-2 outline-none",
+              root: "w-full",
+            }}
+            withAsterisk
+            label="Titre de l'article"
+            placeholder="Titre de l'article"
+            {...form.getInputProps("title")}
+          />
+          <Textarea
+            classNames={{
+              input: " focus:border-teal-500 focus:border-2 outline-none",
+              root: "w-full",
+            }}
+            label="Despription"
+            placeholder="Description de l'article"
+            {...form.getInputProps("content")}
+          />
+
           <FileInput
-             classNames={{
-              input: " border-2 border-red-200 focus:border-teal-500 focus:border-2 outline-none",
-             
+            classNames={{
+              input:
+                " border-2 border-red-200 focus:border-teal-500 focus:border-2 outline-none",
+
               root: "w-1/4",
             }}
             // leftSection={<FileIcon/>}
@@ -103,19 +125,27 @@ export default function ArticlePost({ userId }: IProps) {
             accept="application/pdf"
             {...form.getInputProps("pdfFile")}
           />
-      
         </Stack>
-        <Space h="xl"/>
-       <Box  style={{
-          display: "flex",
-          justifyContent: "space-evenly",
-          alignItems:"center",
-        }}>
-        <CustomButton fullWidth size="lg" radius="lg" type="submit" disabled={isPending}>
-          {isPending ? "Loading..." : "Soumettre"}
-        </CustomButton>
-       </Box>
+        <Space h="xl" />
+        <Box
+          style={{
+            display: "flex",
+            justifyContent: "space-evenly",
+            alignItems: "center",
+          }}
+        >
+          <CustomButton
+            fullWidth
+            size="lg"
+            radius="lg"
+            type="submit"
+            disabled={isPending}
+          >
+            {isPending ? "Loading..." : "Soumettre"}
+          </CustomButton>
+        </Box>
       </Box>
+      <ToastContainer />
     </form>
   );
 }
