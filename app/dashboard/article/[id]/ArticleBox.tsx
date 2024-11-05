@@ -9,6 +9,7 @@ import {
   Modal,
   Paper,
   Space,
+  Stack,
   Text,
   TextInput,
   Textarea,
@@ -116,9 +117,10 @@ export default function ArticleBox({ userId, articleId }: IProps) {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
+          paddingTop: "20px",
         }}
       >
-        <div className="bg-white px-4 py-6 rounded-md">
+        <div className="bg-white px-4 py-6 rounded-md ">
           <Title order={2}> {article?.titreArticle}</Title>
           <Text size="md">{article!.contenu}</Text>
           <p>{article!.archive}</p>
@@ -153,7 +155,7 @@ export default function ArticleBox({ userId, articleId }: IProps) {
         </Box>
       </Box>
       <form
-        className="bg-red-100"
+        className="bg-teal-100 px-4 py-6 rounded-lg"
         hidden={message === "Author"}
         onSubmit={form.onSubmit((values) => handlePostCritique(values))}
       >
@@ -163,26 +165,36 @@ export default function ArticleBox({ userId, articleId }: IProps) {
             flexDirection: "column",
           }}
         >
-          Poster critique
-          <TextInput
-            classNames={{
-              label: "bg-red-100",
-            }}
-            withAsterisk
-            label="Titre du critique"
-            placeholder="titre du critique"
-            {...form.getInputProps("titreCritique")}
-          />
-          <Textarea
-            variant="filled"
-            label="Contenu du critique"
-            description="Input description"
-            placeholder="Input placeholder"
-            {...form.getInputProps("descriptionCritique")}
-          />
-          <Button type="submit" disabled={isPostingPending}>
-            Poster
-          </Button>
+          <Stack>
+            <div  className="ml-2">
+              <Text size="lg" fw={700}>
+                Poster un critique en tant que {message} de l&apos;article
+              </Text>
+            </div>
+            <TextInput
+              classNames={{
+                input: " focus:border-teal-500 focus:border-2 outline-none",
+                root: "w-full",
+              }}
+              label="Titre du critique"
+              placeholder="titre du critique"
+              {...form.getInputProps("titreCritique")}
+            />
+            <Textarea
+              classNames={{
+                input: " focus:border-teal-500 focus:border-2 outline-none",
+                root: "w-full",
+              }}
+              withAsterisk
+              variant="filled"
+              label="Contenu du critique"
+              placeholder="Input placeholder"
+              {...form.getInputProps("descriptionCritique")}
+            />
+            <Button color="teal.4" type="submit" disabled={isPostingPending}>
+              Poster
+            </Button>
+          </Stack>
         </Box>
       </form>
       <Box>
