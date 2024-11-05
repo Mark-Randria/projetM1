@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-gray-100 text-gray-800 h-screen`}>
+      <body className={`${inter.className} bg-gray-100 text-gray-800 min-h-screen m-0`}>
         <QueryClientProvider>
           <MantineProvider>{children}</MantineProvider>
         </QueryClientProvider>
