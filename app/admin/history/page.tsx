@@ -9,10 +9,10 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import ArticleActions from "./ArticleActions";
-import { ARTICLES_URL } from "../constants/url";
-import { IArticle } from "../types/type";
-import CustomCardAdmin from "../components/CustomCardAdmin";
+import ArticleActions from "../ArticleActions";
+import { ARTICLES_URL } from "../../constants/url";
+import { IArticle } from "../../types/type";
+import CustomCardAdminHistory from "@/app/components/CustomCardAdminHistory";
 
 interface IArticleProps {
   pendingArticles: IArticle[];
@@ -28,13 +28,10 @@ export default async function Page() {
 
   const articles = (await data.json()) as IArticleProps;
 
-  const { pendingArticles } = articles;
+  const { articles: notPendingArticles } = articles;
 
   return (
     <>
-      <div className="absolute top-4 left-4">
-        <Title order={2}>Dashboard Organisateur</Title>
-      </div>
       <Container size="sm" className="pt-4">
         <Box
           m={40}
@@ -46,27 +43,22 @@ export default async function Page() {
         >
           <Box>
             <Box className="flex flex-row justify-between items-center mx-2">
-              <Title order={3}>Articles à approuver</Title>
-              <Text
-                component={Link}
-                href={`admin/history`}
-                c="blue"
-                size="lg"
-                fw={500}
-              >
-                Historique des articles
+              <Title order={3}>Historique des articles</Title>
+              <Text component={Link} href={`/admin`} c="blue" size="lg" fw={500}>
+                Retour au dashboard
               </Text>
             </Box>
             <Space h="md" />
             <ScrollArea h={600}>
-              {pendingArticles.length > 0 ? (
-                pendingArticles.map((article) => (
-                  <CustomCardAdmin key={article.id} article={article}>
+              {notPendingArticles.length > 0 ? (
+                notPendingArticles.map((article) => (
+                  <CustomCardAdminHistory key={article.id} article={article}>
                     <ArticleActions
                       articleId={article.id}
                       status={article.status}
+                      selectDisabled
                     />
-                  </CustomCardAdmin>
+                  </CustomCardAdminHistory>
                 ))
               ) : (
                 <>No article at the moment</>

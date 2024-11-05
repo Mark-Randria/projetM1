@@ -11,11 +11,13 @@ import { CustomButton } from "../components/Button";
 interface IArticleActionsProps {
   articleId: number;
   status: string;
+  selectDisabled?: boolean;
 }
 
 export default function ArticleActions({
   articleId,
   status,
+  selectDisabled,
 }: IArticleActionsProps) {
   const [articleStatus, setArticleStatus] = useState<any>(status);
 
@@ -60,24 +62,36 @@ export default function ArticleActions({
 
   return (
     <div className="flex flex-col items-center justify-between">
-      <Select
-        classNames={{
-          input: " rounded-md  focus:border-teal-500 focus:border-2 outline-none",
-          wrapper: "w-full",
-          root: "w-full",
-        }}
-        maw="fit-content"
-        placeholder="PENDING"
-        data={selectData}
-        value={articleStatus}
-        onChange={setArticleStatus}
-      />
+      {selectDisabled ? null : (
+        <Select
+          classNames={{
+            input:
+              " rounded-md  focus:border-teal-500 focus:border-2 outline-none",
+            wrapper: "w-full",
+            root: "w-full",
+          }}
+          maw="fit-content"
+          placeholder="PENDING"
+          data={selectData}
+          value={articleStatus}
+          onChange={setArticleStatus}
+        />
+      )}
       <div className="flex flex-row items-center gap-2">
-        <CustomButton  onClick={handleUpdateArticle} disabled={updateIsPending}>
-          Confirm
-        </CustomButton>
-        <Button color="red.4" onClick={handleDeleteArticle} disabled={deleteIsPending}>
-          Delete  
+        {selectDisabled ? null : (
+          <CustomButton
+            onClick={handleUpdateArticle}
+            disabled={updateIsPending}
+          >
+            Confirm
+          </CustomButton>
+        )}
+        <Button
+          color="red.4"
+          onClick={handleDeleteArticle}
+          disabled={deleteIsPending}
+        >
+          Delete
         </Button>
       </div>
     </div>

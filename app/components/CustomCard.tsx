@@ -18,7 +18,17 @@ const CustomCard = ({ stuff }: CustomCardProps) => {
       <div className="flex flex-col bg-teal-100 rounded-md h-52 px-6 py-4 border drop-shadow-sm">
         <div className="flex w-full justify-between">
           <Title order={3}>{stuff.titreArticle}</Title>
-          <Badge color="yellow">{stuff.status}</Badge>
+          <Badge
+            color={
+              stuff.status === "APPROVED"
+                ? "blue"
+                : stuff.status === "REJECTED"
+                  ? "red"
+                  : "yellow"
+            }
+          >
+            {stuff.status}
+          </Badge>
         </div>
         <Space h="md" />
         <Text lineClamp={4}>{stuff.contenu}</Text>

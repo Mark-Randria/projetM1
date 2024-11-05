@@ -7,11 +7,26 @@ interface IProps {
 
 export async function GET(req: NextRequest, { params: { id } }: IProps) {
   try {
-    const userCritiques = await prisma.critique.findMany({
-      where: { reviewerId: Number(id) }, // Fetch all critiques by this bruh (reviewer)
-      include: { Article: true },
+    const userArticles = await prisma.article.findMany({
+      where: {
+        UtilisateurArticle: {
+          some: {
+            utilisateurId: Number(id),
+            role: "REVIEWER", // Ensure that the role is REVIEWER
+          },
+        },
+        AND: {
+          status: {
+            equals: "APPROVED",
+          },
+        }
+      },
+      include: {
+        auteur: true,
+        critiques: true,
+      },
     });
-    return NextResponse.json(userCritiques, { status: 200 });
+    return NextResponse.json(userArticles, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { message: "Error fetching user critiques", error },
