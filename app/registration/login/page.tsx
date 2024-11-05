@@ -16,7 +16,7 @@ import {
   Space,
 } from "@mantine/core";
 import useLoginUser from "@/app/hooks/auth/useLoginUser";
-import { CustomInput } from "@/app/components/Input";
+import { CustomInput, CustomPasswordInput } from "@/app/components/Input";
 import { CustomButton } from "@/app/components/Button";
 import { headImage } from "@/app/constants/images";
 import { LoadingOverlay } from "@mantine/core";
@@ -40,7 +40,6 @@ export default function Login() {
       password: (value) => (value.length >= 8 ? null : "Mot de passe invalide"),
     },
   });
-
 
   const loginTriggered = () => {};
   const { mutate: login, isPending, isSuccess } = useLoginUser(loginTriggered);
@@ -87,7 +86,7 @@ export default function Login() {
                   label="Email"
                   {...form.getInputProps("email")}
                 />
-                <CustomInput
+                <CustomPasswordInput
                   placeholder="Mot de passe"
                   label="Mot de passe"
                   {...form.getInputProps("password")}

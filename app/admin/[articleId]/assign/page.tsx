@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Box,
   Button,
@@ -12,6 +13,7 @@ import useAssignReviewer from "@/app/hooks/adminArticleAction/useAssignReviewer"
 import useGetUser from "@/app/hooks/useGetUser";
 import useGetAssignedReviewers from "@/app/hooks/useGetAssignedReviewers";
 import { useState } from "react";
+import useGetArticle from "@/app/hooks/article/useGetArticle";
 
 interface IProps {
   params: { articleId: number };
@@ -49,12 +51,14 @@ export default function AssignPage({ params: { articleId } }: IProps) {
     );
   };
 
-  const availableReviewer = userList?.filter(
-    (user) =>
-      !reviewerList?.some(
-        (reviewer) => reviewer.email === user.email || user.isAdmin
-      )
-  );
+  const availableReviewer = userList?.filter((user) => {
+    const isReviewerAssigned = reviewerList?.some(
+      (reviewer) => reviewer.email === user.email
+    );
+    const isAdmin = user.isAdmin;
+
+    return !isReviewerAssigned && !isAdmin;
+  });
 
   const selectedUser = userList?.find(
     (user) => `${user.nom} ${user.prenom}` === selectedReviewer
@@ -72,32 +76,32 @@ export default function AssignPage({ params: { articleId } }: IProps) {
         overlayProps={{ radius: "sm", blur: 2 }}
       />
     );
-  console.log(selectedUser?.id);
   return (
-     <Container size='xs' className="pt-10">
-       <div className=" flex flex-col w-full items-center justify-center rounded-lg bg-teal-200 py-6 ">
-       <Stack  justify="space-around" gap="xl">
-       <Title order={3}>Assigner l&apos;article {articleId} aux reviewers</Title>
-        <Box>
-          <Select
-            label="Noms des Reviewers"
-            placeholder="Choisir un reviewer"
-            data={selectData || []}
-            value={selectedReviewer}
-            onChange={setSelectedReviewer}
-          />
-        </Box>
-        <Button
-          color="teal.4"
-          variant="filled"
-          disabled={selectedReviewer === "" || isPending}
-          onClick={handleAssignReviewer}
-        >
-          {isPending ? "Loading..." : "Assigner"}
-        </Button>
-       </Stack>
+    <Container size="xs" className="pt-10">
+      <div className=" flex flex-col w-full items-center justify-center rounded-lg bg-teal-200 py-6 ">
+        <Stack justify="space-around" gap="xl">
+          <Title order={3}>
+            Assigner l&apos;article {articleId} aux reviewers
+          </Title>
+          <Box>
+            <Select
+              label="Noms des Reviewers"
+              placeholder="Choisir un reviewer"
+              data={selectData || []}
+              value={selectedReviewer}
+              onChange={setSelectedReviewer}
+            />
+          </Box>
+          <Button
+            color="teal.4"
+            variant="filled"
+            disabled={selectedReviewer === "" || isPending}
+            onClick={handleAssignReviewer}
+          >
+            {isPending ? "Loading..." : "Assigner"}
+          </Button>
+        </Stack>
       </div>
-     </Container>
-    
+    </Container>
   );
 }
