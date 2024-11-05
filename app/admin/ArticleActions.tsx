@@ -26,7 +26,7 @@ export default function ArticleActions({
   const selectData = ["APPROVED", "REJECTED"];
 
   const onSuccessCallback = () => {
-    router.push("/dashboard");
+    router.refresh();
   };
 
   const { mutate: deleteArticle, isPending: deleteIsPending } =

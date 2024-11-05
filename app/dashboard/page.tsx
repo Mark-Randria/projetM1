@@ -14,6 +14,8 @@ import CustomCard from "../components/CustomCard";
 import CarouselBox from "./CarouselBox";
 import { CustomButton } from "../components/Button";
 import Header from "../admin/Header";
+import {} from "@tabler/icons-react";
+import { capitalizeFirstLetter } from "../lib/letterManipulation";
 
 interface IProps {
   searchParams: { title?: string; content?: string };
@@ -53,37 +55,38 @@ export default async function Dashboard({ searchParams }: IProps) {
     return matchesTitle && matchesContent;
   });
 
-  // Pour mettre la premiere lettre majuscule
-  const capitalizeFirstLetter = (string: any) => {
-    if (!string) return ""; // Gérer les cas où la chaîne est vide ou nulle
-    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-  };
-
-  console.log(critiques);
-
   return (
-    <div className="pt-4">
-      <Header>Dashboard de {capitalizeFirstLetter(decoded.user.prenom)}</Header>
-      <div className="flex justify-between mx-6 ">
-        <div>
-          <Title order={2}>Bienvenue</Title>
-        </div>
+    <div className="relative min-h-screen  pt-4 px-4">
+      <div className="ml-3">
+        <Header>Bienvenue {capitalizeFirstLetter(decoded.user.prenom)}</Header>
+      </div>
+      {/* <div className="flex justify-between mx-6 ">      
         <SearchBar />
-        <CustomButton
-          variant="light"
+       
+      </div> */}
+      <Space h="xl" />
+      <div>
+        <CarouselBox articles={filteredArticles} />
+        <Space h="xl" />
+        <Title order={2}>Liste des articles à critiquer</Title>
+        <CarouselBox critiques={critiques} />
+      </div>
+
+      <div className="absolute bottom-20 right-20">
+        <Button
+          classNames={{
+            root: "h-12 w-12 within",
+          }}
+          variant="filled"
+          size="xl"
+          radius="xl"
+          color="teal.4"
           component={Link}
           href="/dashboard/publish"
         >
-          Publier un article
-        </CustomButton>
+          Publier
+        </Button>
       </div>
-      <Space h="xl" />
-      <Box>
-        <CarouselBox articles={filteredArticles} />
-        <Space h="xl" />
-        <Text c="cyan">Critiques</Text>
-        <CarouselBox critiques={critiques} />
-      </Box>
     </div>
   );
 }

@@ -10,7 +10,7 @@ const Header = ({ children }: any) => {
   );
 
   return (
-    <div className="flex pt-4 justify-around mb-2">
+    <div className="flex pt-4 justify-between mb-2">
       <Title order={2}>{children}</Title>
       <form
         action={async () => {
@@ -22,7 +22,7 @@ const Header = ({ children }: any) => {
         <Button
           rightSection={icon}
           radius="lg"
-          size="lg"
+          size="md"
           color="dark"
           type="submit"
         >

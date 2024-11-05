@@ -41,7 +41,7 @@ const CustomCardAdminHistory = ({
             {new Date(article.datePubArticle).toLocaleString("fr")}
           </Text>
           <Space h="md" />
-          <ListReviewerModals critiques={critiques} />
+          <ListReviewerModals critiques={critiques} bigData={article} />
         </div>
       </div>
       <Box className="flex flex-col justify-between">

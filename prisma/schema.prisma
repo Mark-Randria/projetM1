@@ -32,7 +32,7 @@ model UtilisateurArticle {
   role          Role
 
   utilisateur Utilisateur @relation(fields: [utilisateurId], references: [id])
-  article     Article     @relation(fields: [articleId], references: [id])
+  article     Article     @relation(fields: [articleId], references: [id], onDelete: Cascade)
 
   @@id([utilisateurId, articleId])
   @@index([articleId, role])
@@ -46,7 +46,7 @@ model Critique {
   articleId           Int
   titreCritique       String
   descriptionCritique String
-  Article             Article     @relation(fields: [articleId], references: [id])
+  Article             Article     @relation(fields: [articleId], references: [id], onDelete: Cascade)
 }
 
 model Article {
