@@ -27,7 +27,11 @@ const CustomCard = ({ stuff }: CustomCardProps) => {
                   : "yellow"
             }
           >
-            {stuff.status}
+            {stuff.status === "APPROVED"
+              ? "Approuvé"
+              : stuff.status === "REJECTED"
+                ? "Rejeté"
+                : "En attente"}
           </Badge>
         </div>
         <Space h="md" />

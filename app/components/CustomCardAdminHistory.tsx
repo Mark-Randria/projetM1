@@ -23,9 +23,9 @@ const CustomCardAdminHistory = ({
   article,
   children,
 }: CustomCardAdminProps) => {
-    if (!article) return null;
-    const { critiques } = article
-    console.log(critiques)
+  if (!article) return null;
+  const { critiques } = article;
+  console.log(critiques);
   return (
     <div className=" flex flex-row gap-3 mb-2 justify-between bg-teal-100 rounded-md w-[650px] h-[200px] px-6 py-4 border drop-shadow-sm">
       <div className="flex flex-col">
@@ -46,7 +46,11 @@ const CustomCardAdminHistory = ({
       </div>
       <Box className="flex flex-col justify-between">
         <Badge color={article.status === "APPROVED" ? "blue" : "red"}>
-          {article.status}
+          {article.status === "APPROVED"
+            ? "Approuvé"
+            : article.status === "REJECTED"
+              ? "Rejeté"
+              : "En attente"}
         </Badge>
         {children}
       </Box>

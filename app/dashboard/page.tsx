@@ -13,6 +13,7 @@ import { Carousel } from "@mantine/carousel";
 import CustomCard from "../components/CustomCard";
 import CarouselBox from "./CarouselBox";
 import { CustomButton } from "../components/Button";
+import Header from "../admin/Header";
 
 interface IProps {
   searchParams: { title?: string; content?: string };
@@ -53,20 +54,19 @@ export default async function Dashboard({ searchParams }: IProps) {
   });
 
   // Pour mettre la premiere lettre majuscule
-  const capitalizeFirstLetter = (string:any) => {
-    if (!string) return ''; // Gérer les cas où la chaîne est vide ou nulle
+  const capitalizeFirstLetter = (string: any) => {
+    if (!string) return ""; // Gérer les cas où la chaîne est vide ou nulle
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
   };
 
-  console.log(critiques)
+  console.log(critiques);
 
   return (
     <div className="pt-4">
+      <Header>Dashboard de {capitalizeFirstLetter(decoded.user.prenom)}</Header>
       <div className="flex justify-between mx-6 ">
         <div>
-          <Title order={2}>
-            Bienvenue {capitalizeFirstLetter(decoded.user.prenom)}
-          </Title>
+          <Title order={2}>Bienvenue</Title>
         </div>
         <SearchBar />
         <CustomButton
@@ -74,7 +74,7 @@ export default async function Dashboard({ searchParams }: IProps) {
           component={Link}
           href="/dashboard/publish"
         >
-          Publish new Article
+          Publier un article
         </CustomButton>
       </div>
       <Space h="xl" />

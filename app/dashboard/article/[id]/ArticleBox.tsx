@@ -19,7 +19,9 @@ import {
 import Link from "next/link";
 import usePostCritique from "@/app/hooks/critique/usePostCritique";
 import { useForm } from "@mantine/form";
+import { useRouter } from "next/router";
 import useDeleteCritique from "@/app/hooks/critique/useDeleteCritique";
+import useDeleteArticle from "@/app/hooks/adminArticleAction/useDeleteArticle";
 
 interface IProps {
   userId: number;
@@ -32,6 +34,8 @@ interface IFormInput {
 }
 
 export default function ArticleBox({ userId, articleId }: IProps) {
+  const router = useRouter();
+
   const [opened, { open, close }] = useDisclosure(false);
 
   const form = useForm<IFormInput>({
@@ -55,7 +59,9 @@ export default function ArticleBox({ userId, articleId }: IProps) {
     isError,
   } = useGetOneArticle(userId.toString(), articleId.toString());
 
-  const onSuccessCallback = () => {};
+  const onSuccessCallback = () => {
+    router.push("/dashboard");
+  };
 
   const { mutate: postCritique, isPending: isPostingPending } = usePostCritique(
     () => onSuccessCallback()
@@ -63,6 +69,22 @@ export default function ArticleBox({ userId, articleId }: IProps) {
 
   const { mutate: deleteCritique, isPending: isDeletePending } =
     useDeleteCritique(() => onSuccessCallback());
+
+  const { mutate: deleteArticle, isPending: deleteIsPending } =
+    useDeleteArticle(() => onSuccessCallback());
+
+  const handleDeleteArticle = () => {
+    deleteArticle(
+      {
+        articleId: articleId.toString(),
+      },
+      {
+        onSuccess(data) {},
+        onSettled() {},
+        onError() {},
+      }
+    );
+  };
 
   const handlePostCritique = (values: IFormInput) => {
     const { titreCritique, descriptionCritique } = values;
@@ -129,10 +151,10 @@ export default function ArticleBox({ userId, articleId }: IProps) {
               component={Link}
               href={`${article!.pdfPath}`}
             >
-              See file
+              Voir le fichier
             </Text>
           ) : (
-            <>No File attached</>
+            <>Aucun fichier</>
           )}
           <div className=" flex flex-row justify-between ml-2 mt-2">
             <Text size="sm">
@@ -145,9 +167,12 @@ export default function ArticleBox({ userId, articleId }: IProps) {
             ) : null}
           </div>
         </div>
-        <Box>
+        <Box className="flex justify-between">
           <Modal opened={opened} onClose={close} title="Supprimer">
             Voulez-vous vraiment supprimer ?
+            <Button onClick={() => handleDeleteArticle()} color="red">
+              Oui
+            </Button>
           </Modal>
         </Box>
       </div>

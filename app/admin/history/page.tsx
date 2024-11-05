@@ -61,7 +61,7 @@ export default async function Page() {
                   </CustomCardAdminHistory>
                 ))
               ) : (
-                <>No article at the moment</>
+                <>Aucun article pour le moment</>
               )}
             </ScrollArea>
           </Box>

@@ -11,6 +11,14 @@ interface IProps {
 export default function ListReviewerModals({ critiques }: IProps) {
   const [opened, { open, close }] = useDisclosure(false);
   if (!critiques) return null;
+
+  const uniqueReviewers = Array.from(
+    new Map(
+      critiques.map((critique) => [critique.reviewer.id, critique.reviewer])
+    ).values()
+  );
+
+  console.log(critiques);
   return (
     <Box>
       <Text
@@ -25,13 +33,15 @@ export default function ListReviewerModals({ critiques }: IProps) {
         Voir les reviewers
       </Text>
 
-      <Modal opened={opened} onClose={close} title="List of Reviewers">
-        {critiques.length > 0 ? (
-          critiques.map((critique, index) => (
-            <Box key={critique.id}></Box>
+      <Modal opened={opened} onClose={close} title="Liste des Reviewers">
+        {uniqueReviewers.length > 0 ? (
+          uniqueReviewers.map((reviewer) => (
+            <Box key={reviewer.id}>
+              <Text>{`${reviewer.nom} ${reviewer.prenom}`}</Text>
+            </Box>
           ))
         ) : (
-          <Text>Aucun reviewer trouvé</Text>
+          <Text>Aucun reviewer assigné</Text>
         )}
       </Modal>
     </Box>

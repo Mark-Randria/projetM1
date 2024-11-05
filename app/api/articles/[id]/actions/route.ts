@@ -82,7 +82,7 @@ export async function PATCH(req: NextRequest, { params: { id } }: IProps) {
 export async function DELETE(req: NextRequest, { params: { id } }: IProps) {
   try {
     const deletedArticle = await prisma.article.delete({
-      where: { id: id },
+      where: { id: Number(id) },
     });
     return NextResponse.json(deletedArticle, { status: 200 });
   } catch (error) {
