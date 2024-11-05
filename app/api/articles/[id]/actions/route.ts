@@ -19,6 +19,7 @@ export async function GET(req: NextRequest, { params: { id } }: IProps) {
     const article = await prisma.article.findUnique({
       where: { id: Number(id) },
       include: {
+        auteur: true,
         UtilisateurArticle: true,
         critiques: {
           include: {

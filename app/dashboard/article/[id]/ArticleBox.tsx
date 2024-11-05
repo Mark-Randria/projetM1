@@ -22,6 +22,7 @@ import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
 import useDeleteCritique from "@/app/hooks/critique/useDeleteCritique";
 import useDeleteArticle from "@/app/hooks/adminArticleAction/useDeleteArticle";
+import { capitalizeFirstLetter } from "@/app/lib/letterManipulation";
 
 interface IProps {
   userId: number;
@@ -60,8 +61,7 @@ export default function ArticleBox({ userId, articleId }: IProps) {
   } = useGetOneArticle(userId.toString(), articleId.toString());
 
   const onSuccessCallback = () => {
-    router.push("/dashboard");
-    window.location.reload();
+    router.refresh();
   };
 
   const { mutate: postCritique, isPending: isPostingPending } = usePostCritique(
@@ -131,12 +131,10 @@ export default function ArticleBox({ userId, articleId }: IProps) {
     );
 
   if (isError) {
-    router.push('/dashboard');
     return <>Une erreur s&apos;est produite</>;
   }
   return (
     <div className="flex flex-row gap-4">
-      {/* Hallo {message} of Article */}
       <div key={article!.id}>
         <div className="ml-2">
           <Title order={2}>Details de l'article</Title>
@@ -160,15 +158,14 @@ export default function ArticleBox({ userId, articleId }: IProps) {
           ) : (
             <>Aucun fichier</>
           )}
-          <div className=" flex flex-row justify-between ml-2 mt-2">
+          <div className=" flex flex-col justify-between ml-2 mt-2">
             <Text size="sm">
               Posté le {new Date(article!.datePubArticle).toLocaleString("fr")}
             </Text>
-            {message === "Author" ? (
-              <Button onClick={open} color="red">
-                Effacer
-              </Button>
-            ) : null}
+            <Text size="sm">
+              Par {capitalizeFirstLetter(article!.auteur.prenom)}{" "}
+              {capitalizeFirstLetter(article!.auteur.nom)}
+            </Text>
           </div>
         </div>
         <Box className="flex justify-between">
@@ -273,7 +270,9 @@ export default function ArticleBox({ userId, articleId }: IProps) {
                 </div>
               ))
             ) : (
-              <Box>No critique at the moment</Box>
+              <Box className="ml-2">
+                Cet article n'a pas encore été critiqué
+              </Box>
             )}
           </ScrollArea>
         </Box>

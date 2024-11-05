@@ -13,6 +13,7 @@ import useAssignReviewer from "@/app/hooks/adminArticleAction/useAssignReviewer"
 import useGetUser from "@/app/hooks/useGetUser";
 import useGetAssignedReviewers from "@/app/hooks/useGetAssignedReviewers";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import useGetArticle from "@/app/hooks/article/useGetArticle";
 
 interface IProps {
@@ -20,6 +21,8 @@ interface IProps {
 }
 
 export default function AssignPage({ params: { articleId } }: IProps) {
+  const router = useRouter();
+  
   const [selectedReviewer, setSelectedReviewer] = useState<string | null>("");
 
   const {
@@ -30,7 +33,9 @@ export default function AssignPage({ params: { articleId } }: IProps) {
 
   const { data: userList, isLoading, isError } = useGetUser();
 
-  const onSuccessCallback = () => {};
+  const onSuccessCallback = () => {
+    router.refresh();
+  };
   const { mutate: assign, isPending } = useAssignReviewer(
     () => onSuccessCallback
   );

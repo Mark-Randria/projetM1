@@ -5,6 +5,7 @@ import usePostArticle from "@/app/hooks/article/usePostArticle";
 import { FileIcon } from "@/constants/icon";
 import { Box, Button, TextInput, Textarea, FileInput, Stack, Space } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useRouter } from "next/navigation";
 
 interface IProps {
   userId: number;
@@ -17,6 +18,8 @@ interface IFormInput {
 }
 
 export default function ArticlePost({ userId }: IProps) {
+  const router = useRouter();
+  
   const form = useForm<IFormInput>({
     mode: "uncontrolled",
     initialValues: {
@@ -35,7 +38,9 @@ export default function ArticlePost({ userId }: IProps) {
     },
   });
 
-  const onSuccessCallback = () => {};
+  const onSuccessCallback = () => {
+    router.replace('/dashboard');
+  };
 
   const {
     mutate: postArticle,
