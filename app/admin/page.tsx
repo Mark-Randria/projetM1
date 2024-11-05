@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Container,
+  rem,
   ScrollArea,
   Space,
   Text,
@@ -13,6 +14,10 @@ import ArticleActions from "./ArticleActions";
 import { ARTICLES_URL } from "../constants/url";
 import { IArticle } from "../types/type";
 import CustomCardAdmin from "../components/CustomCardAdmin";
+import { IconLogout } from '@tabler/icons-react';
+import { logoutSession } from "../lib/sessionManagement";
+import Header from "./Header";
+
 
 interface IArticleProps {
   pendingArticles: IArticle[];
@@ -30,12 +35,12 @@ export default async function Page() {
 
   const { pendingArticles } = articles;
 
+  
+
   return (
     <>
-      <div className="absolute top-4 left-4">
-        <Title order={2}>Dashboard Organisateur</Title>
-      </div>
-      <Container size="sm" className="pt-4">
+      <Header />
+      <Container size="sm" className="py-2 rounded-lg bg-white">
         <Box
           m={40}
           style={{
@@ -45,7 +50,7 @@ export default async function Page() {
           }}
         >
           <Box>
-            <Box className="flex flex-row justify-between items-center mx-2">
+            <Box className="flex flex-row justify-between items-center ">
               <Title order={3}>Articles à approuver</Title>
               <Text
                 component={Link}
@@ -58,7 +63,7 @@ export default async function Page() {
               </Text>
             </Box>
             <Space h="md" />
-            <ScrollArea h={600}>
+            <ScrollArea h={500}>
               {pendingArticles.length > 0 ? (
                 pendingArticles.map((article) => (
                   <CustomCardAdmin key={article.id} article={article}>
