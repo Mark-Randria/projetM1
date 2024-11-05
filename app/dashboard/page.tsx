@@ -29,7 +29,7 @@ export default async function Dashboard({ searchParams }: IProps) {
     GET_ARTICLES_OF_AN_USER_URL(decoded.user.id.toString()),
     {
       next: {
-        revalidate: 10,
+        revalidate: 0,
       },
     }
   );
@@ -37,7 +37,7 @@ export default async function Dashboard({ searchParams }: IProps) {
     GET_CRITIQUES_OF_AN_USER_URL(decoded.user.id.toString()),
     {
       next: {
-        revalidate: 10,
+        revalidate: 0,
       },
     }
   );
@@ -57,6 +57,8 @@ export default async function Dashboard({ searchParams }: IProps) {
     if (!string) return ''; // Gérer les cas où la chaîne est vide ou nulle
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
   };
+
+  console.log(critiques)
 
   return (
     <div className="pt-4">
