@@ -19,7 +19,7 @@ export default function CarouselBox({ articles, critiques }: CarouselBoxProps) {
       slideSize="33.333333%"
       controlSize={40}
       slideGap="xs"
-      align="start"
+      align="center"
       slidesToScroll={3}
     >
       {articles && articles.length > 0 ? (
@@ -36,7 +36,7 @@ export default function CarouselBox({ articles, critiques }: CarouselBoxProps) {
         ))
       ) : (
         <Carousel.Slide>
-          <Box>Aucun article trouvé</Box>
+          <Box className="flex justify-center">Aucun article trouvé</Box>
         </Carousel.Slide>
       )}
     </Carousel>

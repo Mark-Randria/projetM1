@@ -34,6 +34,14 @@ export async function GET(req: NextRequest) {
         },
       },
       include: {
+        UtilisateurArticle: {
+          where: {
+            role: "REVIEWER",
+          },
+          include: {
+            utilisateur: { select: { nom: true, prenom: true, id: true } }, // Get user details
+          },
+        },
         auteur: true,
         critiques: {
           include: {

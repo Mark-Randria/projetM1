@@ -6,9 +6,10 @@ import { ICritique } from "../types/type";
 
 interface IProps {
   critiques: ICritique[];
+  bigData: any;
 }
 
-export default function ListReviewerModals({ critiques }: IProps) {
+export default function ListReviewerModals({ critiques, bigData }: IProps) {
   const [opened, { open, close }] = useDisclosure(false);
   if (!critiques) return null;
 
@@ -18,7 +19,7 @@ export default function ListReviewerModals({ critiques }: IProps) {
     ).values()
   );
 
-  console.log(critiques);
+  console.log(bigData);
   return (
     <Box>
       <Text
@@ -34,15 +35,17 @@ export default function ListReviewerModals({ critiques }: IProps) {
       </Text>
 
       <Modal opened={opened} onClose={close} title="Liste des Reviewers">
-        {uniqueReviewers.length > 0 ? (
-          uniqueReviewers.map((reviewer) => (
-            <Box key={reviewer.id}>
-              <Text>{`${reviewer.nom} ${reviewer.prenom}`}</Text>
-            </Box>
-          ))
-        ) : (
-          <Text>Aucun reviewer assigné</Text>
-        )}
+        <Box>
+          {uniqueReviewers.length > 0 ? (
+            uniqueReviewers.map((reviewer, index) => (
+              <Box key={reviewer.id}>
+                <Text>{` ${index + 1} -  ${reviewer.nom} ${reviewer.prenom}`}</Text>
+              </Box>
+            ))
+          ) : (
+            <Text>Aucun reviewer assigné</Text>
+          )}
+        </Box>
       </Modal>
     </Box>
   );

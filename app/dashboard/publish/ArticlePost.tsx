@@ -15,6 +15,7 @@ import {
 import { useForm } from "@mantine/form";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
 
 interface IProps {
   userId: number;
@@ -27,6 +28,8 @@ interface IFormInput {
 }
 
 export default function ArticlePost({ userId }: IProps) {
+  const router = useRouter();
+  
   const form = useForm<IFormInput>({
     mode: "uncontrolled",
     initialValues: {
@@ -45,7 +48,9 @@ export default function ArticlePost({ userId }: IProps) {
     },
   });
 
-  const onSuccessCallback = () => {};
+  const onSuccessCallback = () => {
+    router.replace('/dashboard');
+  };
 
   const {
     mutate: postArticle,
