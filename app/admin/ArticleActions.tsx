@@ -19,11 +19,15 @@ export default function ArticleActions({
   status,
   selectDisabled,
 }: IArticleActionsProps) {
+  const router = useRouter();
+
   const [articleStatus, setArticleStatus] = useState<any>(status);
 
   const selectData = ["APPROVED", "REJECTED"];
 
-  const onSuccessCallback = () => {};
+  const onSuccessCallback = () => {
+    router.push("/dashboard");
+  };
 
   const { mutate: deleteArticle, isPending: deleteIsPending } =
     useDeleteArticle(() => onSuccessCallback());
@@ -66,7 +70,7 @@ export default function ArticleActions({
         <Select
           classNames={{
             input:
-              " rounded-md  focus:border-teal-500 focus:border-2 outline-none",
+              "rounded-md  focus:border-teal-500 focus:border-2 outline-none",
             wrapper: "w-full",
             root: "w-full",
           }}
@@ -83,7 +87,7 @@ export default function ArticleActions({
             onClick={handleUpdateArticle}
             disabled={updateIsPending}
           >
-            Confirm
+            Confirmer
           </CustomButton>
         )}
         <Button
@@ -91,7 +95,7 @@ export default function ArticleActions({
           onClick={handleDeleteArticle}
           disabled={deleteIsPending}
         >
-          Delete
+          Supprimer
         </Button>
       </div>
     </div>

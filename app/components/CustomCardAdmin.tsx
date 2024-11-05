@@ -32,7 +32,7 @@ const CustomCardAdmin = ({ article, children }: CustomCardAdminProps) => {
             component={Link}
             href={`admin/${article.id}/assign`}
           >
-            Assign reviewer
+            Assigner un reviewer
           </Text>
         </div>
       </div>

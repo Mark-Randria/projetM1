@@ -14,10 +14,9 @@ import ArticleActions from "./ArticleActions";
 import { ARTICLES_URL } from "../constants/url";
 import { IArticle } from "../types/type";
 import CustomCardAdmin from "../components/CustomCardAdmin";
-import { IconLogout } from '@tabler/icons-react';
+import { IconLogout } from "@tabler/icons-react";
 import { logoutSession } from "../lib/sessionManagement";
 import Header from "./Header";
-
 
 interface IArticleProps {
   pendingArticles: IArticle[];
@@ -35,11 +34,9 @@ export default async function Page() {
 
   const { pendingArticles } = articles;
 
-  
-
   return (
     <>
-      <Header />
+      <Header>Dashboard Organisateur</Header>
       <Container size="sm" className="py-2 rounded-lg bg-white">
         <Box
           m={40}
