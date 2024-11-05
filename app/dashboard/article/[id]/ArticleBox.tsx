@@ -7,14 +7,21 @@ import {
   Button,
   LoadingOverlay,
   Modal,
+  Paper,
+  ScrollArea,
+  Space,
+  Stack,
   Text,
   TextInput,
   Textarea,
+  Title,
 } from "@mantine/core";
 import Link from "next/link";
 import usePostCritique from "@/app/hooks/critique/usePostCritique";
 import { useForm } from "@mantine/form";
+import { useRouter } from "next/router";
 import useDeleteCritique from "@/app/hooks/critique/useDeleteCritique";
+import useDeleteArticle from "@/app/hooks/adminArticleAction/useDeleteArticle";
 
 interface IProps {
   userId: number;
@@ -27,6 +34,8 @@ interface IFormInput {
 }
 
 export default function ArticleBox({ userId, articleId }: IProps) {
+  const router = useRouter();
+
   const [opened, { open, close }] = useDisclosure(false);
 
   const form = useForm<IFormInput>({
@@ -40,16 +49,19 @@ export default function ArticleBox({ userId, articleId }: IProps) {
       titreCritique: (value) =>
         value.length > 0 ? null : "le titre ne doit pas etre vide",
       descriptionCritique: (value) =>
-        value.length > 0 ? null : "le contenu ne doit pas etre vide",
+        value.length > 0 ? null : "la description ne doit pas etre vide",
     },
   });
 
-  const { data: article, isLoading } = useGetOneArticle(
-    userId.toString(),
-    articleId.toString()
-  );
+  const {
+    data: article,
+    isLoading,
+    isError,
+  } = useGetOneArticle(userId.toString(), articleId.toString());
 
-  const onSuccessCallback = () => {};
+  const onSuccessCallback = () => {
+    router.push("/dashboard");
+  };
 
   const { mutate: postCritique, isPending: isPostingPending } = usePostCritique(
     () => onSuccessCallback()
@@ -57,6 +69,22 @@ export default function ArticleBox({ userId, articleId }: IProps) {
 
   const { mutate: deleteCritique, isPending: isDeletePending } =
     useDeleteCritique(() => onSuccessCallback());
+
+  const { mutate: deleteArticle, isPending: deleteIsPending } =
+    useDeleteArticle(() => onSuccessCallback());
+
+  const handleDeleteArticle = () => {
+    deleteArticle(
+      {
+        articleId: articleId.toString(),
+      },
+      {
+        onSuccess(data) {},
+        onSettled() {},
+        onError() {},
+      }
+    );
+  };
 
   const handlePostCritique = (values: IFormInput) => {
     const { titreCritique, descriptionCritique } = values;
@@ -92,8 +120,6 @@ export default function ArticleBox({ userId, articleId }: IProps) {
 
   const message = userId === article?.auteurId ? "Author" : "Reviewer";
 
-  if (article === undefined) return <p>Article not found</p>;
-
   if (isLoading)
     return (
       <LoadingOverlay
@@ -102,106 +128,152 @@ export default function ArticleBox({ userId, articleId }: IProps) {
         overlayProps={{ radius: "sm", blur: 2 }}
       />
     );
+
+  if (isError) return <>Une erreur s&apos;est produite</>;
   return (
-    <>
-      Hallo {message} of Article
-      <Box
-        key={article.id}
-        mb="20"
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <Box>
-          <Text size="lg">Title : {article?.titreArticle}</Text>
-          <p>{article.titreArticle}</p>
-          <p>{article.contenu}</p>
-          <p>{article.archive}</p>
-          {article.pdfPath ? (
-            <Link href={`${article.pdfPath}`}>See file</Link>
+    <div className="flex flex-row gap-4">
+      {/* Hallo {message} of Article */}
+      <div key={article!.id}>
+        <div className="ml-2">
+          <Title order={2}>Details de l'article</Title>
+        </div>
+        <Space h="md" />
+        <div className="bg-white px-4 py-6 rounded-md ">
+          <Title order={3}> {article?.titreArticle}</Title>
+          <Space h="md" />
+          <Text size="md">{article!.contenu}</Text>
+          <p>{article!.archive}</p>
+          <Space h="sm" />
+          {article!.pdfPath ? (
+            <Text
+              c="blue"
+              td="underline"
+              component={Link}
+              href={`${article!.pdfPath}`}
+            >
+              Voir le fichier
+            </Text>
           ) : (
-            <>No File attached</>
+            <>Aucun fichier</>
           )}
-          <p>
-            posté le {new Date(article.datePubArticle).toLocaleString("fr")}
-          </p>
-        </Box>
-        <Box className="bg-red-300">
-          <Modal opened={opened} onClose={close} title="Modification">
-            About the edit
+          <div className=" flex flex-row justify-between ml-2 mt-2">
+            <Text size="sm">
+              Posté le {new Date(article!.datePubArticle).toLocaleString("fr")}
+            </Text>
+            {message === "Author" ? (
+              <Button onClick={open} color="red">
+                Effacer
+              </Button>
+            ) : null}
+          </div>
+        </div>
+        <Box className="flex justify-between">
+          <Modal opened={opened} onClose={close} title="Supprimer">
+            Voulez-vous vraiment supprimer ?
+            <Button onClick={() => handleDeleteArticle()} color="red">
+              Oui
+            </Button>
           </Modal>
-          <Button disabled={message === "Reviewer"} onClick={open}>
-            {message === "Reviewer" ? "you're not the author" : "Edit"}
-          </Button>
         </Box>
-      </Box>
-      <form
-        className="bg-red-100"
-        hidden={message === "Author"}
-        onSubmit={form.onSubmit((values) => handlePostCritique(values))}
-      >
-        <Box
-          style={{
-            display: "flex",
-            flexDirection: "column",
-          }}
+      </div>
+
+      {/* Section gauche      */}
+
+      <div>
+        <form
+          className="bg-teal-100 px-4 py-6 rounded-lg"
+          hidden={message === "Author"}
+          onSubmit={form.onSubmit((values) => handlePostCritique(values))}
         >
-          Poster critique
-          <TextInput
-            classNames={{
-              label: "bg-red-100",
+          <Box
+            style={{
+              display: "flex",
+              flexDirection: "column",
             }}
-            withAsterisk
-            label="Titre du critique"
-            placeholder="titre du critique"
-            {...form.getInputProps("titreCritique")}
-          />
-          <Textarea
-            variant="filled"
-            label="Contenu du critique"
-            description="Input description"
-            placeholder="Input placeholder"
-            {...form.getInputProps("descriptionCritique")}
-          />
-          <Button type="submit" disabled={isPostingPending}>
-            Poster
-          </Button>
+          >
+            <Stack>
+              <div className="ml-2 ">
+                <Text size="lg" fw={700}>
+                  Poster un critique en tant que {message} de l&apos;article
+                </Text>
+              </div>
+              <TextInput
+                classNames={{
+                  input: "focus:border-teal-500 focus:border-2 outline-none",
+                  root: "w-full",
+                }}
+                label="Titre de la critique"
+                placeholder="titre du critique"
+                {...form.getInputProps("titreCritique")}
+              />
+              <Textarea
+                classNames={{
+                  input: " focus:border-teal-500 focus:border-2 outline-none",
+                  root: "w-full",
+                }}
+                withAsterisk
+                variant="filled"
+                label="Contenu de la critique"
+                placeholder="Ajouter un critique de l'article"
+                {...form.getInputProps("descriptionCritique")}
+              />
+              <Button color="teal.4" type="submit" disabled={isPostingPending}>
+                Poster
+              </Button>
+            </Stack>
+          </Box>
+        </form>
+        <Box>
+          <Space h="md" />
+          <div className="ml-2">
+            <Text size="lg" fw={500} mb={10}>
+              Liste des critiques
+            </Text>
+          </div>
+          <ScrollArea h={350}>
+            {article!.critiques.length > 0 ? (
+              article!.critiques.map((critique) => (
+                <div
+                  className="px-4 py-6 bg-red-300 mb-3 rounded-md"
+                  key={critique.id}
+                >
+                  <Title order={3}>{critique.titreCritique}</Title>
+                  <Space h="md" />
+                  <Text lineClamp={3}>{critique.descriptionCritique}</Text>
+                  <div className="flex justify-between mt-4">
+                    <div>
+                      <Text size="xs">
+                        Posté le{" "}
+                        {new Date(critique.datePubCritique).toLocaleString(
+                          "fr"
+                        )}
+                      </Text>
+                      <Text size="xs">Par {critique.reviewer.nom}</Text>
+                    </div>
+                    <>
+                      {critique.reviewer.id === userId ? (
+                        <Button
+                          color="red"
+                          disabled={isDeletePending}
+                          onClick={() =>
+                            handleDeleteCritique(critique.id.toString())
+                          }
+                        >
+                          Delete
+                        </Button>
+                      ) : (
+                        <Button disabled>Cannot delete</Button>
+                      )}
+                    </>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <Box>No critique at the moment</Box>
+            )}
+          </ScrollArea>
         </Box>
-      </form>
-      <Box>
-        <Text size="lg" mb={10}>
-          Liste des critiques
-        </Text>
-        {article.critiques.length > 0 ? (
-          article.critiques.map((critique) => (
-            <Box key={critique.id} mb="20">
-              <p>{critique.titreCritique}</p>
-              <p>{critique.descriptionCritique}</p>
-              <p>
-                {critique.reviewer.id === userId ? (
-                  <Button
-                    disabled={isDeletePending}
-                    onClick={() => handleDeleteCritique(critique.id.toString())}
-                  >
-                    Delete
-                  </Button>
-                ) : (
-                  <Button disabled>Cannot delete</Button>
-                )}
-              </p>
-              <p>
-                posté le{" "}
-                {new Date(critique.datePubCritique).toLocaleString("fr")}
-              </p>
-              <p>par {critique.reviewer.nom}</p>
-            </Box>
-          ))
-        ) : (
-          <Box>No critique at the moment</Box>
-        )}
-      </Box>
-    </>
+      </div>
+    </div>
   );
 }

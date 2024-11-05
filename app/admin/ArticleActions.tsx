@@ -2,24 +2,32 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { TextInput, Button, Box, Select } from "@mantine/core";
+import { TextInput, Box, Select, ActionIcon, Button } from "@mantine/core";
 import useDeleteArticle from "../hooks/adminArticleAction/useDeleteArticle";
 import useUpdateArticle from "../hooks/adminArticleAction/useUpdateArticle";
+import { FileIcon } from "@/constants/icon";
+import { CustomButton } from "../components/Button";
 
 interface IArticleActionsProps {
   articleId: number;
   status: string;
+  selectDisabled?: boolean;
 }
 
 export default function ArticleActions({
   articleId,
   status,
+  selectDisabled,
 }: IArticleActionsProps) {
+  const router = useRouter();
+
   const [articleStatus, setArticleStatus] = useState<any>(status);
 
   const selectData = ["APPROVED", "REJECTED"];
 
-  const onSuccessCallback = () => {};
+  const onSuccessCallback = () => {
+    router.push("/dashboard");
+  };
 
   const { mutate: deleteArticle, isPending: deleteIsPending } =
     useDeleteArticle(() => onSuccessCallback());
@@ -57,23 +65,39 @@ export default function ArticleActions({
   };
 
   return (
-    <>
-      <Box>
+    <div className="flex flex-col items-center justify-between">
+      {selectDisabled ? null : (
         <Select
+          classNames={{
+            input:
+              "rounded-md  focus:border-teal-500 focus:border-2 outline-none",
+            wrapper: "w-full",
+            root: "w-full",
+          }}
           maw="fit-content"
-          label="Status"
           placeholder="PENDING"
           data={selectData}
           value={articleStatus}
           onChange={setArticleStatus}
         />
-      </Box>
-      <Button onClick={handleUpdateArticle} disabled={updateIsPending}>
-        Confirm
-      </Button>
-      <Button onClick={handleDeleteArticle} disabled={deleteIsPending}>
-        Delete Article
-      </Button>
-    </>
+      )}
+      <div className="flex flex-row items-center gap-2">
+        {selectDisabled ? null : (
+          <CustomButton
+            onClick={handleUpdateArticle}
+            disabled={updateIsPending}
+          >
+            Confirmer
+          </CustomButton>
+        )}
+        <Button
+          color="red.4"
+          onClick={handleDeleteArticle}
+          disabled={deleteIsPending}
+        >
+          Supprimer
+        </Button>
+      </div>
+    </div>
   );
 }

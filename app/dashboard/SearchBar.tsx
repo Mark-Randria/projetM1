@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { TextInput, Button, Box } from "@mantine/core";
-import { Carousel } from "@mantine/carousel";
+import { TextInput, Button, Box, Space } from "@mantine/core";
+import { IconSearch } from "@tabler/icons-react";
 
 export default function SearchBar() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -23,13 +23,16 @@ export default function SearchBar() {
         display: "flex",
         flexDirection: "row",
       }}
+      className="gap-x-2"
     >
       <TextInput
-        placeholder="Search articles"
+        placeholder="Rechercher mon article"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <Button onClick={handleSearch}>O</Button>
+      <Button onClick={handleSearch}>
+        <IconSearch />
+      </Button>
     </Box>
   );
 }

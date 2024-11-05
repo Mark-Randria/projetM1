@@ -16,9 +16,10 @@ import {
   Space,
 } from "@mantine/core";
 import useLoginUser from "@/app/hooks/auth/useLoginUser";
-import { CustomInput } from "@/app/components/Input";
+import { CustomInput, CustomPasswordInput } from "@/app/components/Input";
 import { CustomButton } from "@/app/components/Button";
 import { headImage } from "@/app/constants/images";
+import { LoadingOverlay } from "@mantine/core";
 
 interface IFormInput {
   email: string;
@@ -41,7 +42,7 @@ export default function Login() {
   });
 
   const loginTriggered = () => {};
-  const { mutate: login, isPending } = useLoginUser(loginTriggered);
+  const { mutate: login, isPending, isSuccess } = useLoginUser(loginTriggered);
 
   const handleSubmit = (values: IFormInput) => {
     const { email, password } = values;
@@ -59,6 +60,11 @@ export default function Login() {
   };
   return (
     <Container className="pt-8">
+      <LoadingOverlay
+        visible={isSuccess}
+        zIndex={1000}
+        overlayProps={{ radius: "sm", blur: 2 }}
+      />
       <Paper shadow="sm" radius="md" withBorder className="">
         <div className="flex gap-2 w-full ">
           <div className=" flex flex-col w-2/5 px-4 mt-8">
@@ -80,7 +86,7 @@ export default function Login() {
                   label="Email"
                   {...form.getInputProps("email")}
                 />
-                <CustomInput
+                <CustomPasswordInput
                   placeholder="Mot de passe"
                   label="Mot de passe"
                   {...form.getInputProps("password")}

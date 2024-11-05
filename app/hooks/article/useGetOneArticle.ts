@@ -8,7 +8,8 @@ const useGetOneArticle = (userKey: string, articleId: string) => {
     queryKey: [CACHE_KEY.article[0], userKey],
     queryFn: () =>
       findOneArticleService.findOneArticle<IArticle>(articleId).findOne(),
-    staleTime: 0, 
+    staleTime: 0,
+    retry: 3,
   });
 };
 

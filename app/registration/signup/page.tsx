@@ -12,6 +12,7 @@ import {
   Stack,
   TextInput,
   Text,
+  LoadingOverlay,
 } from "@mantine/core";
 import useSignupUser from "@/app/hooks/auth/useSignupUser";
 import { CustomButton } from "@/app/components/Button";
@@ -27,9 +28,6 @@ interface IFormInput {
 }
 
 export default function Signup() {
-
-  
-
   const form = useForm<IFormInput>({
     mode: "uncontrolled",
     initialValues: {
@@ -48,7 +46,11 @@ export default function Signup() {
   });
 
   const signupTriggered = () => {};
-  const { mutate: signup, isPending } = useSignupUser(signupTriggered);
+  const {
+    mutate: signup,
+    isPending,
+    isSuccess,
+  } = useSignupUser(signupTriggered);
 
   const router = useRouter();
 
@@ -59,8 +61,8 @@ export default function Signup() {
       { nom, prenom, email, password },
       {
         onSuccess(data) {
-          console.log(data)
-          router.push('/registration/login');
+          console.log(data);
+          router.push("/dashboard");
         },
         onSettled() {},
         onError(err) {
@@ -72,6 +74,11 @@ export default function Signup() {
   return (
     <>
       <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+        <LoadingOverlay
+          visible={isSuccess}
+          zIndex={1000}
+          overlayProps={{ radius: "sm", blur: 2 }}
+        />
         <Container className="pt-8">
           <Paper shadow="sm" radius="md" withBorder className="">
             <div className="flex gap-2 w-full ">

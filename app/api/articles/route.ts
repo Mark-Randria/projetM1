@@ -35,7 +35,11 @@ export async function GET(req: NextRequest) {
       },
       include: {
         auteur: true,
-        critiques: true,
+        critiques: {
+          include: {
+            reviewer: { select: { nom: true, prenom: true, id: true } },
+          },
+        },
       },
     });
     return NextResponse.json({ pendingArticles, articles }, { status: 200 });

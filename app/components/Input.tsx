@@ -16,7 +16,7 @@ export const CustomPasswordInput: React.FC<any> = ({ ...props }) => {
   return (
     <PasswordInput
       classNames={{
-        input: " focus:border-teal-500 focus:border-2 outline-none",
+        input: "focus-within:border-teal-500 focus-within:border-2 outline-none",
         root: "w-full",
       }}
       {...props}
