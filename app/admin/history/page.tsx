@@ -56,6 +56,7 @@ export default async function Page() {
                     <ArticleActions
                       articleId={article.id}
                       status={article.status}
+                      archived={article.archive}
                       selectDisabled
                     />
                   </CustomCardAdminHistory>

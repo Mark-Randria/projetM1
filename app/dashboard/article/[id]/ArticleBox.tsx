@@ -23,6 +23,7 @@ import { useRouter } from "next/navigation";
 import useDeleteCritique from "@/app/hooks/critique/useDeleteCritique";
 import useDeleteArticle from "@/app/hooks/adminArticleAction/useDeleteArticle";
 import { capitalizeFirstLetter } from "@/app/lib/letterManipulation";
+import { infoToast, successToast } from "@/app/lib/toast";
 
 interface IProps {
   userId: number;
@@ -40,7 +41,7 @@ export default function ArticleBox({ userId, articleId }: IProps) {
   const [opened, { open, close }] = useDisclosure(false);
 
   const form = useForm<IFormInput>({
-    mode: "uncontrolled",
+    mode: "controlled",
     initialValues: {
       titreCritique: "",
       descriptionCritique: "",
@@ -58,10 +59,12 @@ export default function ArticleBox({ userId, articleId }: IProps) {
     data: article,
     isLoading,
     isError,
+    refetch,
   } = useGetOneArticle(userId.toString(), articleId.toString());
 
   const onSuccessCallback = () => {
-    router.refresh();
+    refetch();
+    form.reset();
   };
 
   const { mutate: postCritique, isPending: isPostingPending } = usePostCritique(
@@ -98,7 +101,7 @@ export default function ArticleBox({ userId, articleId }: IProps) {
       },
       {
         onSuccess(data) {
-          console.log(data);
+          successToast("Critique postée avec succès");
         },
         onSettled() {},
         onError() {},
@@ -112,7 +115,9 @@ export default function ArticleBox({ userId, articleId }: IProps) {
         critiqueId: critiqueId,
       },
       {
-        onSuccess(data) {},
+        onSuccess(data) {
+          infoToast("Critique retirée avec succès");
+        },
         onSettled() {},
         onError(err) {},
       }
@@ -144,7 +149,6 @@ export default function ArticleBox({ userId, articleId }: IProps) {
           <Title order={3}> {article?.titreArticle}</Title>
           <Space h="md" />
           <Text size="md">{article!.contenu}</Text>
-          <p>{article!.archive}</p>
           <Space h="sm" />
           {article!.pdfPath ? (
             <Text
@@ -194,15 +198,22 @@ export default function ArticleBox({ userId, articleId }: IProps) {
           >
             <Stack>
               <div className="ml-2 ">
-                <Text size="lg" fw={700}>
-                  Poster un critique en tant que {message} de l&apos;article
-                </Text>
+                {article!.archive ? (
+                  <Text size="lg" fw={700}>
+                    Article archivé, impossible de poster un critique
+                  </Text>
+                ) : (
+                  <Text size="lg" fw={700}>
+                    Poster un critique en tant que {message} de l&apos;article
+                  </Text>
+                )}
               </div>
               <TextInput
                 classNames={{
                   input: "focus:border-teal-500 focus:border-2 outline-none",
                   root: "w-full",
                 }}
+                disabled={article!.archive}
                 label="Titre de la critique"
                 placeholder="titre du critique"
                 {...form.getInputProps("titreCritique")}
@@ -212,14 +223,23 @@ export default function ArticleBox({ userId, articleId }: IProps) {
                   input: " focus:border-teal-500 focus:border-2 outline-none",
                   root: "w-full",
                 }}
+                disabled={article!.archive}
                 withAsterisk
                 variant="filled"
                 label="Contenu de la critique"
                 placeholder="Ajouter un critique de l'article"
                 {...form.getInputProps("descriptionCritique")}
               />
-              <Button color="teal.4" type="submit" disabled={isPostingPending}>
-                Poster
+              <Button
+                color="teal.4"
+                type="submit"
+                disabled={isPostingPending || article!.archive}
+              >
+                {isPostingPending
+                  ? "Loading..."
+                  : article!.archive
+                    ? "Archivé"
+                    : "Poster"}
               </Button>
             </Stack>
           </Box>
@@ -249,22 +269,22 @@ export default function ArticleBox({ userId, articleId }: IProps) {
                           "fr"
                         )}
                       </Text>
-                      <Text size="xs">Par {critique.reviewer.nom}</Text>
+                      <Text size="xs">
+                        Par {critique.reviewer.prenom} {critique.reviewer.nom}
+                      </Text>
                     </div>
                     <>
                       {critique.reviewer.id === userId ? (
                         <Button
                           color="red"
-                          disabled={isDeletePending}
+                          disabled={isDeletePending || article!.archive}
                           onClick={() =>
                             handleDeleteCritique(critique.id.toString())
                           }
                         >
-                          Delete
+                          Retirer
                         </Button>
-                      ) : (
-                        <Button disabled>Cannot delete</Button>
-                      )}
+                      ) : null}
                     </>
                   </div>
                 </div>

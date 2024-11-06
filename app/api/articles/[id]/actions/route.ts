@@ -65,11 +65,11 @@ export async function PATCH(req: NextRequest, { params: { id } }: IProps) {
   if (!validation.success)
     return NextResponse.json(validation.error.errors, { status: 400 });
 
-  const { status } = body; // "APPROVED" or "REJECTED"
+  const { status, archive } = body; // "APPROVED" or "REJECTED"
   try {
     const updatedArticle = await prisma.article.update({
       where: { id: Number(id) },
-      data: { status },
+      data: { status, archive },
     });
     return NextResponse.json(updatedArticle, { status: 200 });
   } catch (error) {

@@ -71,7 +71,7 @@ export default async function Page() {
                   </CustomCardAdmin>
                 ))
               ) : (
-                <>No article at the moment</>
+                <Container>Aucun article pour le moment</Container>
               )}
             </ScrollArea>
           </Box>

@@ -16,7 +16,7 @@ const useAssignReviewer = (onSuccessCallback: () => void) => {
         .assignReviewer<typeof reviewerData>(articleId)
         .post(reviewerData),
 
-    retry: 3,
+    retry: 1,
 
     onSuccess: () => {
       queryClient.invalidateQueries({

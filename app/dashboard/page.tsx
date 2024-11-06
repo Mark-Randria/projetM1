@@ -18,7 +18,7 @@ import {} from "@tabler/icons-react";
 import { capitalizeFirstLetter } from "../lib/letterManipulation";
 
 interface IProps {
-  searchParams: { search?: string | string[]; content?: string };
+  searchParams: { search?: string | string[] };
 }
 
 export default async function Dashboard({ searchParams }: IProps) {
@@ -26,7 +26,6 @@ export default async function Dashboard({ searchParams }: IProps) {
   const decoded = jwt.decode(JSON.parse(session!)) as IToken;
 
   const search = searchParams.search;
-  const content = searchParams.content?.toLowerCase() || "";
 
   const searchArray = Array.isArray(search)
     ? search.map((s) => s.toLowerCase())
@@ -53,23 +52,20 @@ export default async function Dashboard({ searchParams }: IProps) {
   const critiques = (await critiqueData.json()) as ICritique[];
 
   const filteredArticles = articles.filter((article) => {
-    // If searchArray is empty or only contains an empty string, skip the status filter
     const matchesStatus =
-      searchArray.length === 0 || (searchArray.length === 1 && searchArray[0] === "") ||
+      searchArray.length === 0 ||
+      (searchArray.length === 1 && searchArray[0] === "") ||
       searchArray.some((status) => article.status.toLowerCase() === status);
-  
-    const matchesContent = article.contenu.toLowerCase().includes(content);
-  
-    return matchesStatus && matchesContent;
+
+    return matchesStatus;
   });
 
-  
   return (
     <div className="relative min-h-screen  pt-4 px-4">
       <div className="ml-3">
         <Header>Bienvenue {capitalizeFirstLetter(decoded.user.prenom)}</Header>
       </div>
-      <div className="flex justify-between mx-6 ">
+      <div className="flex justify-between ml-3 ">
         <SearchBar />
       </div>
       <Space h="xl" />

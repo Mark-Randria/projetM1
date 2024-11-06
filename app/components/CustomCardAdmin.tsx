@@ -13,12 +13,26 @@ const CustomCardAdmin = ({ article, children }: CustomCardAdminProps) => {
   // const { id,titreArticle, datePubArticle, auteur, contenu } = article;
   if (!article) return null;
   return (
-    <div className=" flex flex-row gap-3 mb-2 justify-between bg-teal-100 rounded-md w-[650px] h-[200px] px-6 py-4 border drop-shadow-sm">
+    <div className=" flex flex-row gap-3 mb-2 justify-between bg-teal-100 rounded-md w-[650px] h-fit px-6 py-4 border drop-shadow-sm">
       <div className="flex flex-col">
         <Title order={3}> {article.titreArticle}</Title>
         <Space h="md" />
         <Text lineClamp={4}>{article.contenu}</Text>
         <Space h="md" />
+        {article!.pdfPath ? (
+          <Text
+            size="sm"
+            c="blue.7"
+            td="underline"
+            component={Link}
+            href={`${article!.pdfPath}`}
+          >
+            Voir le fichier
+          </Text>
+        ) : (
+          <Text>Aucun fichier</Text>
+        )}
+        <Space h="xs" />
         <div className="ml-2">
           <Text size="xs">
             Ecrit par {article.auteur.prenom} {article.auteur.nom}
