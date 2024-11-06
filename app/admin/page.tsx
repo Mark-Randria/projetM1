@@ -35,8 +35,8 @@ export default async function Page() {
   const { pendingArticles } = articles;
 
   return (
-    <>
-      <Header>Dashboard Organisateur</Header>
+    <div className="px-4">
+      <Header text="Dasshboard Organisateur"></Header>
       <Container size="sm" className="py-2 rounded-lg bg-white">
         <Box
           m={40}
@@ -77,6 +77,6 @@ export default async function Page() {
           </Box>
         </Box>
       </Container>
-    </>
+    </div>
   );
 }

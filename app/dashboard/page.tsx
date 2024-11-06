@@ -55,32 +55,36 @@ export default async function Dashboard({ searchParams }: IProps) {
   const filteredArticles = articles.filter((article) => {
     // If searchArray is empty or only contains an empty string, skip the status filter
     const matchesStatus =
-      searchArray.length === 0 || (searchArray.length === 1 && searchArray[0] === "") ||
+      searchArray.length === 0 ||
+      (searchArray.length === 1 && searchArray[0] === "") ||
       searchArray.some((status) => article.status.toLowerCase() === status);
-  
+
     const matchesContent = article.contenu.toLowerCase().includes(content);
-  
+
     return matchesStatus && matchesContent;
   });
 
-  
   return (
     <div className="relative min-h-screen  pt-4 px-4">
       <div className="ml-3">
-        <Header>Bienvenue {capitalizeFirstLetter(decoded.user.prenom)}</Header>
-      </div>
-      <div className="flex justify-between mx-6 ">
-        <SearchBar />
+        <Header
+          text={`Bienvenue ${capitalizeFirstLetter(decoded.user.prenom)}`}
+        >
+          <SearchBar />
+        </Header>
       </div>
       <Space h="xl" />
       <div>
         <CarouselBox articles={filteredArticles} />
         <Space h="xl" />
-        <Title order={2}>Liste des articles à critiquer</Title>
+        <div className="ml-2">
+          <Title order={3}>Liste des articles à critiquer</Title>
+        </div>
+        <Space h="md" />
         <CarouselBox critiques={critiques} />
       </div>
 
-      <div className="absolute bottom-20 right-20">
+      <div className="absolute bottom-12 right-20">
         <Button
           classNames={{
             root: "h-12 w-12 within",

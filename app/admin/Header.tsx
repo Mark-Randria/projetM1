@@ -4,14 +4,15 @@ import { IconLogout } from "@tabler/icons-react";
 import { logoutSession } from "../lib/sessionManagement";
 import { redirect } from "next/navigation";
 
-const Header = ({ children }: any) => {
+const Header = ({  text, children }: any) => {
   const icon = (
     <IconLogout style={{ width: rem(18), height: rem(18) }} stroke={1.5} />
   );
 
   return (
-    <div className="flex pt-4 justify-between mb-2">
-      <Title order={2}>{children}</Title>
+    <div className="flex pt-4 justify-between items-center mb-2">
+      <Title order={2}>{text}</Title>
+      <div>{children}</div>
       <form
         action={async () => {
           "use server";

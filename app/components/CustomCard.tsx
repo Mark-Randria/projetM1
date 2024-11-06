@@ -35,8 +35,10 @@ const CustomCard = ({ stuff }: CustomCardProps) => {
           </Badge>
         </div>
         <Space h="md" />
-        <Text lineClamp={4}>{stuff.contenu}</Text>
-        <Space h="md" />
+        <div className="min-h-20">
+        <Text lineClamp={3}>{stuff.contenu}</Text>
+        </div>
+        <Space h="sm" />
         <div className="flex justify-between ">
           <div className="ml-2">
             <Text size="xs">

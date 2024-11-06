@@ -135,11 +135,7 @@ export default function ArticleBox({ userId, articleId }: IProps) {
   }
   return (
     <div className="flex flex-row gap-4">
-      <div key={article!.id}>
-        <div className="ml-2">
-          <Title order={2}>Details de l&apos;article</Title>
-        </div>
-        <Space h="md" />
+      <div className=" flex flex-col gap-5 w-1/2" key={article!.id}>
         <div className="bg-white px-4 py-6 rounded-md ">
           <Title order={3}> {article?.titreArticle}</Title>
           <Space h="md" />
@@ -176,11 +172,6 @@ export default function ArticleBox({ userId, articleId }: IProps) {
             </Button>
           </Modal> */}
         </Box>
-      </div>
-
-      {/* Section droite      */}
-
-      <div className=" bg-blue-500 w-1/2">
         <form
           className="bg-teal-100 px-4 py-6 rounded-lg"
           hidden={message === "Author"}
@@ -224,6 +215,11 @@ export default function ArticleBox({ userId, articleId }: IProps) {
             </Stack>
           </Box>
         </form>
+      </div>
+
+      {/* Section droite      */}
+
+      <div className="  w-1/2">
         <Box>
           <Space h="md" />
           <div className="ml-2">
@@ -231,7 +227,7 @@ export default function ArticleBox({ userId, articleId }: IProps) {
               Liste des critiques
             </Text>
           </div>
-          <ScrollArea h={350}>
+          <ScrollArea h={400}>
             {article!.critiques.length > 0 ? (
               article!.critiques.map((critique) => (
                 <div

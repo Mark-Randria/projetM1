@@ -81,6 +81,7 @@ export default function ArticleActions({
 
   return (
     <div className="flex flex-col items-center justify-between">
+      
       {selectDisabled ? null : (
         <Select
           classNames={{
@@ -112,6 +113,7 @@ export default function ArticleActions({
         >
           Supprimer
         </Button>
+        
       </div>
     </div>
   );
