@@ -16,7 +16,7 @@ const CustomCard = ({ stuff }: CustomCardProps) => {
   if (isArticle(stuff)) {
     return (
       <div className="flex flex-col bg-teal-100 rounded-md h-52 px-6 py-4 border drop-shadow-sm">
-        <div className="flex w-full justify-between items-center">
+        <div className="flex w-full justify-between items-start">
           <Title order={3}>{stuff.titreArticle}</Title>
           <Badge
             color={
