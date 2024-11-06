@@ -134,8 +134,12 @@ export default function ArticleBox({ userId, articleId }: IProps) {
     return <>Une erreur s&apos;est produite</>;
   }
   return (
-    <div className="flex flex-row gap-4 px-4 py2 min-h-screen ">
-      <div className=" bg-red-400 w-1/2" key={article!.id}>
+    <div className="flex flex-row gap-4">
+      <div key={article!.id}>
+        <div className="ml-2">
+          <Title order={2}>Details de l&apos;article</Title>
+        </div>
+        <Space h="md" />
         <div className="bg-white px-4 py-6 rounded-md ">
           <Title order={3}> {article?.titreArticle}</Title>
           <Space h="md" />
@@ -152,7 +156,7 @@ export default function ArticleBox({ userId, articleId }: IProps) {
               Voir le fichier
             </Text>
           ) : (
-            <>Aucun fichier</>
+            <Text>Aucun fichier</Text>
           )}
           <div className=" flex flex-col justify-between ml-2 mt-2">
             <Text size="sm">
@@ -266,8 +270,8 @@ export default function ArticleBox({ userId, articleId }: IProps) {
                 </div>
               ))
             ) : (
-              <Box className=" flex justify-center  ml-2">
-                Cet article n'a pas encore été critiqué
+              <Box className="ml-2">
+                Cet article n&apos;a pas encore été critiqué
               </Box>
             )}
           </ScrollArea>

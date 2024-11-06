@@ -2,21 +2,24 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { TextInput, Button, Box, Space } from "@mantine/core";
+import { TextInput, Button, Box, Space, MultiSelect } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
 
 export default function SearchBar() {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState<string[]>([]);
   const router = useRouter();
 
   const handleSearch = () => {
     if (searchTerm) {
-      router.push(`/dashboard?title=${encodeURIComponent(searchTerm)}`);
+      const params = searchTerm
+        .map((term) => `search=${encodeURIComponent(term)}`)
+        .join("&");
+      router.push(`/dashboard?${params}`);
     } else {
       router.push("/dashboard");
     }
   };
-
+  console.log(searchTerm);
   return (
     <Box
       style={{
@@ -25,10 +28,13 @@ export default function SearchBar() {
       }}
       className="gap-x-2"
     >
-      <TextInput
-        placeholder="Rechercher mon article"
+      <MultiSelect
+        placeholder="Filtrer mon article"
+        data={["PENDING", "REJECTED", "APPROVED", "Refusé"]}
+        searchable
+        nothingFoundMessage="Aucun Trouvé..."
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={setSearchTerm}
       />
       <Button onClick={handleSearch}>
         <IconSearch />

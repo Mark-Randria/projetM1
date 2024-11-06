@@ -20,6 +20,7 @@ import { CustomInput, CustomPasswordInput } from "@/app/components/Input";
 import { CustomButton } from "@/app/components/Button";
 import { headImage } from "@/app/constants/images";
 import { LoadingOverlay } from "@mantine/core";
+import { successToast } from "@/app/lib/toast";
 
 interface IFormInput {
   email: string;
@@ -41,7 +42,9 @@ export default function Login() {
     },
   });
 
-  const loginTriggered = () => {};
+  const loginTriggered = () => {
+    router.push("/dashboard");
+  };
   const { mutate: login, isPending, isSuccess } = useLoginUser(loginTriggered);
 
   const handleSubmit = (values: IFormInput) => {
@@ -50,11 +53,15 @@ export default function Login() {
       { email, password },
       {
         onSuccess(data) {
-          console.log(data);
-          router.push("/dashboard");
+          successToast("Connexion réussie");
         },
         onSettled() {},
-        onError() {},
+        onError(err) {
+          form.setErrors({
+            email: "Email ou mot de passe incorrect",
+            password: "Email ou mot de passe incorrect",
+          });
+        },
       }
     );
   };
