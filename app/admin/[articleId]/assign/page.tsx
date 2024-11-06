@@ -15,6 +15,7 @@ import useGetAssignedReviewers from "@/app/hooks/useGetAssignedReviewers";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import useGetArticle from "@/app/hooks/article/useGetArticle";
+import { errorToast, successToast } from "@/app/lib/toast";
 
 interface IProps {
   params: { articleId: number };
@@ -22,7 +23,7 @@ interface IProps {
 
 export default function AssignPage({ params: { articleId } }: IProps) {
   const router = useRouter();
-  
+
   const [selectedReviewer, setSelectedReviewer] = useState<string | null>("");
 
   const {
@@ -35,6 +36,7 @@ export default function AssignPage({ params: { articleId } }: IProps) {
 
   const onSuccessCallback = () => {
     router.refresh();
+    setSelectedReviewer("");
   };
   const { mutate: assign, isPending } = useAssignReviewer(
     () => onSuccessCallback
@@ -48,10 +50,13 @@ export default function AssignPage({ params: { articleId } }: IProps) {
       },
       {
         onSuccess(data) {
-          console.log(data);
+          successToast("Utilisateur assigné avec succès");
         },
         onSettled() {},
-        onError() {},
+        onError(err) {
+          //@ts-ignore
+          errorToast(err.response.data.message)
+        },
       }
     );
   };

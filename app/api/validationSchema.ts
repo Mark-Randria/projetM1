@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "../lib/fr-zod";
 
 export const userCreationSchema = z.object({
   nom: z.string().min(2),
@@ -13,7 +13,7 @@ export const userLoginSchema = z.object({
 });
 
 export const articleCreationSchema = z.object({
-  titreArticle: z.string(),
+  titreArticle: z.string().min(2),
   contenu: z.string(),
   auteurId: z.number(),
   file: z
@@ -21,15 +21,15 @@ export const articleCreationSchema = z.object({
     .refine(
       (file) => file === null || (file && file.type === "application/pdf"),
       {
-        message: "File must be a PDF",
+        message: "Le fichier doit être de type PDF",
       }
     )
     .optional(),
-    
 });
 
 export const articleStatusSchema = z.object({
-  status: z.enum(["APPROVED", "REJECTED"]),
+  status: z.enum(["APPROVED", "REJECTED"]).optional(),
+  archive: z.boolean().optional(),
 });
 
 export const assignReviewerSchema = z.object({
@@ -37,13 +37,13 @@ export const assignReviewerSchema = z.object({
 });
 
 export const critiqueCreationSchema = z.object({
-  titreCritique: z.string(),
+  titreCritique: z.string().min(2),
   descriptionCritique: z.string(),
   reviewerId: z.number(),
   articleId: z.number(),
 });
 
 export const critiqueUpdateSchema = z.object({
-  titreCritique: z.string(),
+  titreCritique: z.string().min(2),
   descriptionCritique: z.string(),
 });

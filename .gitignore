@@ -18,6 +18,9 @@ node_modules/
 # production
 /build
 
+#random pdf
+/public/uploads/
+
 # misc
 .DS_Store
 *.pem

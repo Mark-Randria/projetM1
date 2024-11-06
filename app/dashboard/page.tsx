@@ -18,15 +18,18 @@ import {} from "@tabler/icons-react";
 import { capitalizeFirstLetter } from "../lib/letterManipulation";
 
 interface IProps {
-  searchParams: { title?: string; content?: string };
+  searchParams: { search?: string | string[] };
 }
 
 export default async function Dashboard({ searchParams }: IProps) {
   const session = await getSession();
   const decoded = jwt.decode(JSON.parse(session!)) as IToken;
 
-  const title = searchParams.title?.toLowerCase() || "";
-  const content = searchParams.content?.toLowerCase() || "";
+  const search = searchParams.search;
+
+  const searchArray = Array.isArray(search)
+    ? search.map((s) => s.toLowerCase())
+    : [search?.toLowerCase() || ""];
 
   let articleData = await fetch(
     GET_ARTICLES_OF_AN_USER_URL(decoded.user.id.toString()),
@@ -49,10 +52,12 @@ export default async function Dashboard({ searchParams }: IProps) {
   const critiques = (await critiqueData.json()) as ICritique[];
 
   const filteredArticles = articles.filter((article) => {
-    const matchesTitle = article.titreArticle.toLowerCase().includes(title);
-    const matchesContent = article.contenu.toLowerCase().includes(content);
+    const matchesStatus =
+      searchArray.length === 0 ||
+      (searchArray.length === 1 && searchArray[0] === "") ||
+      searchArray.some((status) => article.status.toLowerCase() === status);
 
-    return matchesTitle && matchesContent;
+    return matchesStatus;
   });
 
   return (
@@ -60,10 +65,9 @@ export default async function Dashboard({ searchParams }: IProps) {
       <div className="ml-3">
         <Header>Bienvenue {capitalizeFirstLetter(decoded.user.prenom)}</Header>
       </div>
-      {/* <div className="flex justify-between mx-6 ">      
+      <div className="flex justify-between ml-3 ">
         <SearchBar />
-       
-      </div> */}
+      </div>
       <Space h="xl" />
       <div>
         <CarouselBox articles={filteredArticles} />

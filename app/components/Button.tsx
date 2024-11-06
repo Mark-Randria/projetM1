@@ -47,7 +47,7 @@ export const CustomButton: React.FC<any> = ({
   children,
   ...props
 }: any) => {
-  return <Button  color='teal.4' {...props}> {children}</Button>;
+  return <Button color='teal.4' {...props}> {children}</Button>;
 };
 
 CustomButton.displayName = "Button component";

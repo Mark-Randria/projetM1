@@ -11,22 +11,39 @@ import { CustomButton } from "../components/Button";
 interface IArticleActionsProps {
   articleId: number;
   status: string;
+  archived?: boolean;
   selectDisabled?: boolean;
 }
 
 export default function ArticleActions({
   articleId,
   status,
+  archived,
   selectDisabled,
 }: IArticleActionsProps) {
   const router = useRouter();
 
-  const [articleStatus, setArticleStatus] = useState<any>(status);
+  const [articleStatus, setArticleStatus] = useState<string | null>(status);
 
-  const selectData = ["APPROVED", "REJECTED"];
+  enum Status {
+    PENDING = "PENDING",
+    APPROVED = "APPROVED",
+    REJECTED = "REJECTED",
+  }
+
+  const statusMapping = {
+    APPROVED: "Approuvé",
+    REJECTED: "Rejeté",
+  };
+
+  const selectData = [
+    { value: "APPROVED", label: statusMapping["APPROVED"] },
+    { value: "REJECTED", label: statusMapping["REJECTED"] },
+  ];
 
   const onSuccessCallback = () => {
     router.refresh();
+    setArticleStatus(null);
   };
 
   const { mutate: deleteArticle, isPending: deleteIsPending } =
@@ -40,7 +57,23 @@ export default function ArticleActions({
       {
         articleId: articleId.toString(),
         data: {
-          status: articleStatus,
+          status: articleStatus as Status,
+        },
+      },
+      {
+        onSuccess(data) {},
+        onSettled() {},
+        onError() {},
+      }
+    );
+  };
+
+  const handleArchiveArticle = () => {
+    updateArticle(
+      {
+        articleId: articleId.toString(),
+        data: {
+          archive: true,
         },
       },
       {
@@ -75,14 +108,21 @@ export default function ArticleActions({
             root: "w-full",
           }}
           maw="fit-content"
-          placeholder="PENDING"
+          placeholder="En Attente"
           data={selectData}
           value={articleStatus}
-          onChange={setArticleStatus}
+          onChange={(value) => setArticleStatus(value)}
         />
       )}
       <div className="flex flex-row items-center gap-2">
-        {selectDisabled ? null : (
+        {selectDisabled ? (
+          <CustomButton
+            onClick={handleArchiveArticle}
+            disabled={updateIsPending || archived}
+          >
+            {archived ? "Déja Archivé" : "Archiver"}
+          </CustomButton>
+        ) : (
           <CustomButton
             onClick={handleUpdateArticle}
             disabled={updateIsPending}
