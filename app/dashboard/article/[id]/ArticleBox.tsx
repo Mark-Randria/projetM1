@@ -137,7 +137,7 @@ export default function ArticleBox({ userId, articleId }: IProps) {
     <div className="flex flex-row gap-4">
       <div key={article!.id}>
         <div className="ml-2">
-          <Title order={2}>Details de l'article</Title>
+          <Title order={2}>Details de l&apos;article</Title>
         </div>
         <Space h="md" />
         <div className="bg-white px-4 py-6 rounded-md ">
@@ -156,7 +156,7 @@ export default function ArticleBox({ userId, articleId }: IProps) {
               Voir le fichier
             </Text>
           ) : (
-            <>Aucun fichier</>
+            <Text>Aucun fichier</Text>
           )}
           <div className=" flex flex-col justify-between ml-2 mt-2">
             <Text size="sm">
@@ -271,7 +271,7 @@ export default function ArticleBox({ userId, articleId }: IProps) {
               ))
             ) : (
               <Box className="ml-2">
-                Cet article n'a pas encore été critiqué
+                Cet article n&apos;a pas encore été critiqué
               </Box>
             )}
           </ScrollArea>
