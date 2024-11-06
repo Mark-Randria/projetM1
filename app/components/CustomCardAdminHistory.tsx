@@ -27,12 +27,26 @@ const CustomCardAdminHistory = ({
   const { critiques } = article;
   console.log(critiques);
   return (
-    <div className=" flex flex-row gap-3 mb-2 justify-between bg-teal-100 rounded-md w-[650px] h-[200px] px-6 py-4 border drop-shadow-sm">
+    <div className=" flex flex-row gap-3 mb-2 justify-between bg-teal-100 rounded-md w-[650px] h-fit px-6 py-4 border drop-shadow-sm">
       <div className="flex flex-col">
         <Title order={3}> {article.titreArticle}</Title>
         <Space h="md" />
         <Text lineClamp={4}>{article.contenu}</Text>
-        <Space h="md" />
+        <Space h="xs" />
+        {article!.pdfPath ? (
+          <Text
+            size="sm"
+            c="blue.7"
+            td="underline"
+            component={Link}
+            href={`${article!.pdfPath}`}
+          >
+            Voir le fichier
+          </Text>
+        ) : (
+          <Text>Aucun fichier</Text>
+        )}
+        <Space h="xs" />
         <div className="ml-2">
           <Text size="xs">
             Ecrit par {article.auteur.prenom} {article.auteur.nom}
@@ -44,7 +58,7 @@ const CustomCardAdminHistory = ({
           <ListReviewerModals critiques={critiques} bigData={article} />
         </div>
       </div>
-      <Box className="flex flex-col justify-between">
+      <Box className="flex flex-col justify-between items-center">
         <Badge color={article.status === "APPROVED" ? "blue" : "red"}>
           {article.status === "APPROVED"
             ? "Approuvé"

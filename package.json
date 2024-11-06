@@ -22,6 +22,7 @@
     "bcrypt": "^5.1.1",
     "embla-carousel-react": "7.1.0",
     "fast-sort": "^3.4.1",
+    "i18next": "^23.16.4",
     "jsonwebtoken": "^9.0.2",
     "multer": "^1.4.5-lts.1",
     "next": "14.2.3",
@@ -33,6 +34,7 @@
     "react-toastify": "^10.0.6",
     "swagger-ui-react": "^5.17.14",
     "zod": "^3.23.5",
+    "zod-i18n-map": "^2.27.0",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
