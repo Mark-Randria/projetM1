@@ -6,6 +6,7 @@ import '@mantine/carousel/styles.css';
 import "./globals.css";
 import QueryClientProvider from "./QueryClientProvider";
 import '@mantine/carousel/styles.css';
+import { ToastContainer } from "react-toastify";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({
         <QueryClientProvider>
           <MantineProvider>{children}</MantineProvider>
         </QueryClientProvider>
+        <ToastContainer />
       </body>
     </html>
   );

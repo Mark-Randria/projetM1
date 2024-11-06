@@ -44,7 +44,7 @@ const CustomCardAdminHistory = ({
           <ListReviewerModals critiques={critiques} bigData={article} />
         </div>
       </div>
-      <Box className="flex flex-col justify-between">
+      <Box className="flex flex-col justify-between items-center">
         <Badge color={article.status === "APPROVED" ? "blue" : "red"}>
           {article.status === "APPROVED"
             ? "Approuvé"
