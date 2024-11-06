@@ -15,7 +15,10 @@ export default async function MyArticle({ params: { id } }: IProps) {
   const decoded = jwt.decode(JSON.parse(session!)) as IToken;
 
   return (
-    <div className="px-4 py-2">
+    <div className="min-h-screen">
+      <div className="ml-2 ">
+        <Title order={2}>Details de l'article</Title>
+      </div>
       <ArticleBox userId={decoded.user.id} articleId={id} />
     </div>
   );

@@ -134,16 +134,12 @@ export default function ArticleBox({ userId, articleId }: IProps) {
     return <>Une erreur s&apos;est produite</>;
   }
   return (
-    <div className="flex flex-row gap-4">
-      <div key={article!.id}>
-        <div className="ml-2">
-          <Title order={2}>Details de l'article</Title>
-        </div>
-        <Space h="md" />
+    <div className="flex flex-row gap-4 px-4 py2 min-h-screen ">
+      <div className=" bg-red-400 w-1/2" key={article!.id}>
         <div className="bg-white px-4 py-6 rounded-md ">
           <Title order={3}> {article?.titreArticle}</Title>
           <Space h="md" />
-          <Text size="md">{article!.contenu}</Text>
+          <Text size="md" lineClamp={3}>{article!.contenu}</Text>
           <p>{article!.archive}</p>
           <Space h="sm" />
           {article!.pdfPath ? (
@@ -178,9 +174,9 @@ export default function ArticleBox({ userId, articleId }: IProps) {
         </Box>
       </div>
 
-      {/* Section gauche      */}
+      {/* Section droite      */}
 
-      <div>
+      <div className=" bg-blue-500 w-1/2">
         <form
           className="bg-teal-100 px-4 py-6 rounded-lg"
           hidden={message === "Author"}
@@ -204,7 +200,7 @@ export default function ArticleBox({ userId, articleId }: IProps) {
                   root: "w-full",
                 }}
                 label="Titre de la critique"
-                placeholder="titre du critique"
+                placeholder="Titre de la critique"
                 {...form.getInputProps("titreCritique")}
               />
               <Textarea
@@ -215,7 +211,7 @@ export default function ArticleBox({ userId, articleId }: IProps) {
                 withAsterisk
                 variant="filled"
                 label="Contenu de la critique"
-                placeholder="Ajouter un critique de l'article"
+                placeholder="Ajouter une critique de l'article"
                 {...form.getInputProps("descriptionCritique")}
               />
               <Button color="teal.4" type="submit" disabled={isPostingPending}>
@@ -249,7 +245,7 @@ export default function ArticleBox({ userId, articleId }: IProps) {
                           "fr"
                         )}
                       </Text>
-                      <Text size="xs">Par {critique.reviewer.nom}</Text>
+                      <Text size="xs">Par {critique.reviewer.prenom} {critique.reviewer.nom}</Text>
                     </div>
                     <>
                       {critique.reviewer.id === userId ? (
@@ -263,14 +259,14 @@ export default function ArticleBox({ userId, articleId }: IProps) {
                           Delete
                         </Button>
                       ) : (
-                        <Button disabled>Cannot delete</Button>
+                       null
                       )}
                     </>
                   </div>
                 </div>
               ))
             ) : (
-              <Box className="ml-2">
+              <Box className=" flex justify-center  ml-2">
                 Cet article n'a pas encore été critiqué
               </Box>
             )}
