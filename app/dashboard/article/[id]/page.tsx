@@ -17,7 +17,7 @@ export default async function MyArticle({ params: { id } }: IProps) {
   return (
     <div className="min-h-screen px-4 pt-6">
       <div className="ml-2 ">
-        <Title order={2}>Details de l'article</Title>
+        <Title order={2}>Details de l&apos;article</Title>
       </div>
       <Space h="md" />
       <ArticleBox userId={decoded.user.id} articleId={id} />
