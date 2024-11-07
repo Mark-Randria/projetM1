@@ -11,12 +11,14 @@ import { CustomButton } from "../components/Button";
 interface IArticleActionsProps {
   articleId: number;
   status: string;
+  archived?: boolean;
   selectDisabled?: boolean;
 }
 
 export default function ArticleActions({
   articleId,
   status,
+  archived,
   selectDisabled,
 }: IArticleActionsProps) {
   const router = useRouter();
@@ -66,6 +68,22 @@ export default function ArticleActions({
     );
   };
 
+  const handleArchiveArticle = () => {
+    updateArticle(
+      {
+        articleId: articleId.toString(),
+        data: {
+          archive: true,
+        },
+      },
+      {
+        onSuccess(data) {},
+        onSettled() {},
+        onError() {},
+      }
+    );
+  };
+
   const handleDeleteArticle = () => {
     deleteArticle(
       {
@@ -98,7 +116,14 @@ export default function ArticleActions({
         />
       )}
       <div className="flex flex-row items-center gap-2">
-        {selectDisabled ? null : (
+        {selectDisabled ? (
+          <CustomButton
+            onClick={handleArchiveArticle}
+            disabled={updateIsPending || archived}
+          >
+            {archived ? "Déja Archivé" : "Archiver"}
+          </CustomButton>
+        ) : (
           <CustomButton
             onClick={handleUpdateArticle}
             disabled={updateIsPending}

@@ -2,7 +2,7 @@
 
 import { Box, Text, Modal, Button } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { ICritique } from "../types/type";
+import { IAuteur, ICritique } from "../types/type";
 
 interface IProps {
   critiques: ICritique[];
@@ -13,13 +13,8 @@ export default function ListReviewerModals({ critiques, bigData }: IProps) {
   const [opened, { open, close }] = useDisclosure(false);
   if (!critiques) return null;
 
-  const uniqueReviewers = Array.from(
-    new Map(
-      critiques.map((critique) => [critique.reviewer.id, critique.reviewer])
-    ).values()
-  );
+  const uniqueReviewers = bigData.UtilisateurArticle;
 
-  console.log(bigData);
   return (
     <Box>
       <Text
@@ -37,9 +32,9 @@ export default function ListReviewerModals({ critiques, bigData }: IProps) {
       <Modal opened={opened} onClose={close} title="Liste des Reviewers">
         <Box>
           {uniqueReviewers.length > 0 ? (
-            uniqueReviewers.map((reviewer, index) => (
-              <Box key={reviewer.id}>
-                <Text>{` ${index + 1} -  ${reviewer.nom} ${reviewer.prenom}`}</Text>
+            uniqueReviewers.map((u: any, index: number) => (
+              <Box key={u.utilisateur.id}>
+                <Text>{` ${index + 1} -  ${u.utilisateur.nom} ${u.utilisateur.prenom}`}</Text>
               </Box>
             ))
           ) : (

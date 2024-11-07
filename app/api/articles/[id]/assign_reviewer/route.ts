@@ -48,7 +48,7 @@ export async function POST(req: NextRequest, { params: { id } }: IProps) {
       return NextResponse.json(
         {
           message:
-            "The author cannot be assigned as a reviewer to their own article",
+            "L'auteur ne peut pas être assigné comme reviewer de son propre article",
         },
         { status: 400 }
       );

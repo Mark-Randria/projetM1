@@ -28,7 +28,8 @@ export const articleCreationSchema = z.object({
 });
 
 export const articleStatusSchema = z.object({
-  status: z.enum(["APPROVED", "REJECTED"]),
+  status: z.enum(["APPROVED", "REJECTED"]).optional(),
+  archive: z.boolean().optional(),
 });
 
 export const assignReviewerSchema = z.object({
