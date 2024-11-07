@@ -3,6 +3,7 @@
 import useGetOneArticle from "@/app/hooks/article/useGetOneArticle";
 import { useDisclosure } from "@mantine/hooks";
 import {
+  Badge,
   Box,
   Button,
   LoadingOverlay,
@@ -142,7 +143,14 @@ export default function ArticleBox({ userId, articleId }: IProps) {
     <div className="flex flex-row gap-4">
       <div className=" flex flex-col gap-5 w-1/2" key={article!.id}>
         <div className="bg-white px-4 py-6 rounded-md ">
-          <Title order={3}> {article?.titreArticle}</Title>
+          <Box className="flex flex-row justify-between items-center">
+            <Title order={3}> {article?.titreArticle}</Title>
+            {article!.archive ? (
+              <Badge color="gray" variant="filled">
+                Archivé
+              </Badge>
+            ) : null}
+          </Box>
           <Space h="md" />
           <Text size="md" lineClamp={3}>
             {article!.contenu}
@@ -171,14 +179,7 @@ export default function ArticleBox({ userId, articleId }: IProps) {
             </Text>
           </div>
         </div>
-        <Box className="flex justify-between">
-          {/* <Modal opened={opened} onClose={close} title="Supprimer">
-            Voulez-vous vraiment supprimer ?
-            <Button onClick={() => handleDeleteArticle()} color="red">
-              Oui
-            </Button>
-          </Modal> */}
-        </Box>
+        <Box className="flex justify-between"></Box>
         <form
           className="bg-teal-100 px-4 py-6 rounded-lg"
           hidden={message === "Author"}
@@ -289,9 +290,7 @@ export default function ArticleBox({ userId, articleId }: IProps) {
                 </div>
               ))
             ) : (
-              <Box className="ml-2">
-                Cet article n&apos;a pas encore été critiqué
-              </Box>
+              <Box className="ml-2">Aucune critique pour cet article</Box>
             )}
           </ScrollArea>
         </Box>

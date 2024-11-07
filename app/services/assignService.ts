@@ -8,4 +8,5 @@ class AssignService {
   };
 }
 
-export default new AssignService()
+const assignServiceInstance = new AssignService();
+export default assignServiceInstance;

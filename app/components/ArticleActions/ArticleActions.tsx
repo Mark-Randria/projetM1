@@ -3,10 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { TextInput, Box, Select, ActionIcon, Button } from "@mantine/core";
-import useDeleteArticle from "../hooks/adminArticleAction/useDeleteArticle";
-import useUpdateArticle from "../hooks/adminArticleAction/useUpdateArticle";
+import useDeleteArticle from "../../hooks/adminArticleAction/useDeleteArticle";
+import useUpdateArticle from "../../hooks/adminArticleAction/useUpdateArticle";
 import { FileIcon } from "@/constants/icon";
-import { CustomButton } from "../components/Button";
+import { CustomButton } from "../Button";
 
 interface IArticleActionsProps {
   articleId: number;

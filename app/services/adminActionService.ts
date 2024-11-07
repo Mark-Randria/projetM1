@@ -8,4 +8,6 @@ class AdminArticleActionService {
   };
 }
 
-export default new AdminArticleActionService();
+const adminArticleActionService = new AdminArticleActionService();
+
+export default adminArticleActionService;

@@ -14,6 +14,7 @@ import {
   Title,
   Text,
   Space,
+  Loader,
 } from "@mantine/core";
 import useLoginUser from "@/app/hooks/auth/useLoginUser";
 import { CustomInput, CustomPasswordInput } from "@/app/components/Input";
@@ -74,7 +75,7 @@ export default function Login() {
       />
       <Paper shadow="sm" radius="md" withBorder className="">
         <div className="flex gap-2 w-full ">
-          <div className=" flex flex-col w-2/5 px-4 mt-8">
+          <div className="flex flex-col m-auto sm:w-2/3 md:w-2/5 w-4/5 px-4 mt-8">
             <Text
               size="xl"
               fw={900}
@@ -107,7 +108,11 @@ export default function Login() {
                   size="lg"
                 >
                   {" "}
-                  {isPending ? "Please wait..." : "Login"}
+                  {isPending ? (
+                    <Loader color="teal.4" type="bars" size="sm" />
+                  ) : (
+                    "Se connecter"
+                  )}
                 </CustomButton>
                 <div>
                   <Text size="sm" className="text-center">
@@ -126,10 +131,9 @@ export default function Login() {
                   </Text>
                 </div>
               </div>
-              {/* <Button classNames={{root:"w-80"}} onClick={() => form.reset()}>Reset</Button> */}
             </form>
           </div>
-          <div className=" relative border-2  w-3/5">
+          <div className=" relative border-2 hidden md:block w-3/5">
             <Image src={headImage} alt="head" className="object-cover" />
             <div className="absolute inset-0 bg-teal-400 opacity-30 filter " />
           </div>
@@ -137,27 +141,4 @@ export default function Login() {
       </Paper>
     </Container>
   );
-}
-
-{
-  /* <TextInput
-            classNames={{
-              label: "bg-red-100",
-              input:"focus:border-red-700 focus:border-2 outline-none"
-            }}
-            withAsterisk
-            label="email"
-            placeholder="JohnDoe@email.com"
-            {...form.getInputProps("email")}
-          /> */
-}
-{
-  /* <PasswordInput
-            classNames={{
-              label: "bg-blue-100",
-            }}
-            withAsterisk
-            label="Mot de passe"
-            {...form.getInputProps("password")}
-          /> */
 }
