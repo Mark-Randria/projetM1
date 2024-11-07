@@ -13,12 +13,17 @@ import {
   TextInput,
   Text,
   LoadingOverlay,
+  Loader,
+  Space,
 } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 import useSignupUser from "@/app/hooks/auth/useSignupUser";
 import { CustomButton } from "@/app/components/Button";
 import { CustomInput, CustomPasswordInput } from "@/app/components/Input";
 import { headImage } from "@/app/constants/images";
 import { useRouter } from "next/navigation";
+import { errorToast, successToast } from "@/app/lib/toast";
+import { use } from "react";
 
 interface IFormInput {
   nom: string;
@@ -28,6 +33,8 @@ interface IFormInput {
 }
 
 export default function Signup() {
+  const matches = useMediaQuery("(min-width: 768px)");
+
   const form = useForm<IFormInput>({
     mode: "uncontrolled",
     initialValues: {
@@ -55,18 +62,17 @@ export default function Signup() {
   const router = useRouter();
 
   const handleSubmit = (values: IFormInput) => {
-    console.log("CLicked");
     const { nom, prenom, email, password } = values;
     signup(
       { nom, prenom, email, password },
       {
         onSuccess(data) {
-          console.log(data);
+          successToast("Connexion réussie");
           router.push("/dashboard");
         },
         onSettled() {},
         onError(err) {
-          console.log(err);
+          errorToast("Erreur lors de l'inscription");
         },
       }
     );
@@ -82,16 +88,16 @@ export default function Signup() {
         <Container className="pt-8">
           <Paper shadow="sm" radius="md" withBorder className="">
             <div className="flex gap-2 w-full ">
-              <div className=" relative border-2  w-3/5">
+              <div className="relative border-2 hidden md:block w-3/5">
                 <Image src={headImage} alt="head" className="object-cover" />
                 <div className="absolute inset-0 bg-teal-400 opacity-30 filter " />
               </div>
-              <div className=" flex flex-col w-2/5 px-4 mt-8">
+              <div className="flex flex-col m-auto sm:w-2/3 md:w-2/5 w-4/5 px-4 mt-8">
                 <Text
                   size="xl"
                   fw={900}
                   variant="gradient"
-                  gradient={{ from: "green", to: "teal", deg: 90 }}
+                  gradient={{ from: "blue", to: "green", deg: 90 }}
                 >
                   Créer un compte e-Science
                 </Text>
@@ -126,8 +132,29 @@ export default function Signup() {
                       variant="filled"
                       size="lg"
                     >
-                      {isPending ? "Please wait..." : "S'inscrire"}
+                      {isPending ? (
+                        <Loader color="teal.4" type="bars" size="sm" />
+                      ) : (
+                        "S'inscrire"
+                      )}
                     </CustomButton>
+                  </div>
+                  <div>
+                    <Text size="sm" className="text-center">
+                      Vous avez déjà un compte ?
+                      <Text
+                        fs="italic"
+                        td="underline"
+                        ml={2}
+                        c="teal.4"
+                        component={Link}
+                        className="underline-offset-1"
+                        href="/registration/login"
+                      >
+                        Se connecter
+                      </Text>
+                    </Text>
+                    <Space h="sm" />
                   </div>
                 </div>
               </div>

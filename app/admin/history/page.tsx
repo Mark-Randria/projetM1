@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import {
   Box,
@@ -9,7 +8,7 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import ArticleActions from "../ArticleActions";
+import ArticleActions from "../../components/ArticleActions/ArticleActions";
 import { ARTICLES_URL } from "../../constants/url";
 import { IArticle } from "../../types/type";
 import CustomCardAdminHistory from "@/app/components/CustomCardAdminHistory";
@@ -19,7 +18,7 @@ interface IArticleProps {
   articles: IArticle[];
 }
 
-export default async function Page() {
+export default async function History() {
   let data = await fetch(ARTICLES_URL, {
     next: {
       revalidate: 0,
@@ -71,3 +70,5 @@ export default async function Page() {
     </>
   );
 }
+
+export const dynamic = 'force-dynamic'

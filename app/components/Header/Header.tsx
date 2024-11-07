@@ -1,7 +1,7 @@
 import { Button, rem, Title } from "@mantine/core";
 import React from "react";
 import { IconLogout } from "@tabler/icons-react";
-import { logoutSession } from "../lib/sessionManagement";
+import { logoutSession } from "../../lib/sessionManagement";
 import { redirect } from "next/navigation";
 
 const Header = ({  text, children }: any) => {

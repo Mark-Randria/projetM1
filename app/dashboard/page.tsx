@@ -13,7 +13,7 @@ import { Carousel } from "@mantine/carousel";
 import CustomCard from "../components/CustomCard";
 import CarouselBox from "./CarouselBox";
 import { CustomButton } from "../components/Button";
-import Header from "../admin/Header";
+import Header from "../components/Header/Header";
 import {} from "@tabler/icons-react";
 import { capitalizeFirstLetter } from "../lib/letterManipulation";
 
