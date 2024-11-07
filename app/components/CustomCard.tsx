@@ -16,7 +16,7 @@ const CustomCard = ({ stuff }: CustomCardProps) => {
   if (isArticle(stuff)) {
     return (
       <div className="flex flex-col bg-teal-100 rounded-md h-52 px-6 py-4 border drop-shadow-sm">
-        <div className="flex w-full justify-between items-center">
+        <div className="flex w-full justify-between items-start">
           <Title order={3}>{stuff.titreArticle}</Title>
           <Badge
             color={
@@ -35,8 +35,10 @@ const CustomCard = ({ stuff }: CustomCardProps) => {
           </Badge>
         </div>
         <Space h="md" />
-        <Text lineClamp={4}>{stuff.contenu}</Text>
-        <Space h="md" />
+        <div className="min-h-20">
+        <Text lineClamp={3}>{stuff.contenu}</Text>
+        </div>
+        <Space h="sm" />
         <div className="flex justify-between ">
           <div className="ml-2">
             <Text size="xs">
