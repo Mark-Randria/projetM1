@@ -17,6 +17,7 @@ import Header from "../components/Header/Header";
 import {} from "@tabler/icons-react";
 import { capitalizeFirstLetter } from "../lib/letterManipulation";
 
+
 interface IProps {
   searchParams: { search?: string | string[] };
 }
@@ -26,6 +27,7 @@ export default async function Dashboard({ searchParams }: IProps) {
   const decoded = jwt.decode(JSON.parse(session!)) as IToken;
 
   const search = searchParams.search;
+  
 
   const searchArray = Array.isArray(search)
     ? search.map((s) => s.toLowerCase())
@@ -34,9 +36,10 @@ export default async function Dashboard({ searchParams }: IProps) {
   let articleData = await fetch(
     GET_ARTICLES_OF_AN_USER_URL(decoded.user.id.toString()),
     {
-      next: {
-        revalidate: 0,
-      },
+      // next: {
+      //   revalidate: 0,
+      // },
+      cache: "no-cache",
     }
   );
   let critiqueData = await fetch(
@@ -51,6 +54,8 @@ export default async function Dashboard({ searchParams }: IProps) {
   const articles = (await articleData.json()) as IArticle[];
   const critiques = (await critiqueData.json()) as ICritique[];
 
+  
+
   const filteredArticles = articles.filter((article) => {
     const matchesStatus =
       searchArray.length === 0 ||
@@ -59,6 +64,8 @@ export default async function Dashboard({ searchParams }: IProps) {
 
     return matchesStatus;
   });
+
+  
 
   return (
     <div className="relative min-h-screen  pt-4 px-4">

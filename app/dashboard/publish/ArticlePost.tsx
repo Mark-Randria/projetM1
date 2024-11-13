@@ -17,6 +17,7 @@ import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
 import { IconFileTypePdf } from "@tabler/icons-react";
 import { dismissToast, errorToast, successToast } from "@/app/lib/toast";
+import { Reload } from "../action";
 
 interface IProps {
   userId: number;
@@ -55,8 +56,9 @@ export default function ArticlePost({ userId }: IProps) {
     },
   });
 
-  const onSuccessCallback = () => {
-    router.back();
+  const onSuccessCallback = async () => {
+    router.refresh();
+    await Reload();
   };
 
   const {
