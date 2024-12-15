@@ -13,9 +13,10 @@ import { Carousel } from "@mantine/carousel";
 import CustomCard from "../components/CustomCard";
 import CarouselBox from "./CarouselBox";
 import { CustomButton } from "../components/Button";
-import Header from "../admin/Header";
+import Header from "../components/Header/Header";
 import {} from "@tabler/icons-react";
 import { capitalizeFirstLetter } from "../lib/letterManipulation";
+
 
 interface IProps {
   searchParams: { search?: string | string[] };
@@ -26,6 +27,7 @@ export default async function Dashboard({ searchParams }: IProps) {
   const decoded = jwt.decode(JSON.parse(session!)) as IToken;
 
   const search = searchParams.search;
+  
 
   const searchArray = Array.isArray(search)
     ? search.map((s) => s.toLowerCase())
@@ -34,9 +36,10 @@ export default async function Dashboard({ searchParams }: IProps) {
   let articleData = await fetch(
     GET_ARTICLES_OF_AN_USER_URL(decoded.user.id.toString()),
     {
-      next: {
-        revalidate: 0,
-      },
+      // next: {
+      //   revalidate: 0,
+      // },
+      cache: "no-cache",
     }
   );
   let critiqueData = await fetch(
@@ -51,6 +54,8 @@ export default async function Dashboard({ searchParams }: IProps) {
   const articles = (await articleData.json()) as IArticle[];
   const critiques = (await critiqueData.json()) as ICritique[];
 
+  
+
   const filteredArticles = articles.filter((article) => {
     const matchesStatus =
       searchArray.length === 0 ||
@@ -60,23 +65,29 @@ export default async function Dashboard({ searchParams }: IProps) {
     return matchesStatus;
   });
 
+  
+
   return (
     <div className="relative min-h-screen  pt-4 px-4">
       <div className="ml-3">
-        <Header>Bienvenue {capitalizeFirstLetter(decoded.user.prenom)}</Header>
-      </div>
-      <div className="flex justify-between ml-3 ">
-        <SearchBar />
+        <Header
+          text={`Bienvenue ${capitalizeFirstLetter(decoded.user.prenom)}`}
+        >
+          <SearchBar />
+        </Header>
       </div>
       <Space h="xl" />
       <div>
         <CarouselBox articles={filteredArticles} />
         <Space h="xl" />
-        <Title order={2}>Liste des articles à critiquer</Title>
+        <div className="ml-2">
+          <Title order={3}>Liste des articles à critiquer</Title>
+        </div>
+        <Space h="md" />
         <CarouselBox critiques={critiques} />
       </div>
 
-      <div className="absolute bottom-20 right-20">
+      <div className="absolute bottom-12 right-20">
         <Button
           classNames={{
             root: "h-12 w-12 within",

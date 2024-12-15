@@ -3,6 +3,7 @@
 import useGetOneArticle from "@/app/hooks/article/useGetOneArticle";
 import { useDisclosure } from "@mantine/hooks";
 import {
+  Badge,
   Box,
   Button,
   LoadingOverlay,
@@ -140,15 +141,21 @@ export default function ArticleBox({ userId, articleId }: IProps) {
   }
   return (
     <div className="flex flex-row gap-4">
-      <div key={article!.id}>
-        <div className="ml-2">
-          <Title order={2}>Details de l&apos;article</Title>
-        </div>
-        <Space h="md" />
+      <div className=" flex flex-col gap-5 w-1/2" key={article!.id}>
         <div className="bg-white px-4 py-6 rounded-md ">
-          <Title order={3}> {article?.titreArticle}</Title>
+          <Box className="flex flex-row justify-between items-center">
+            <Title order={3}> {article?.titreArticle}</Title>
+            {article!.archive ? (
+              <Badge color="gray" variant="filled">
+                Archivé
+              </Badge>
+            ) : null}
+          </Box>
           <Space h="md" />
-          <Text size="md">{article!.contenu}</Text>
+          <Text size="md" lineClamp={3}>
+            {article!.contenu}
+          </Text>
+          <p>{article!.archive}</p>
           <Space h="sm" />
           {article!.pdfPath ? (
             <Text
@@ -172,19 +179,7 @@ export default function ArticleBox({ userId, articleId }: IProps) {
             </Text>
           </div>
         </div>
-        <Box className="flex justify-between">
-          {/* <Modal opened={opened} onClose={close} title="Supprimer">
-            Voulez-vous vraiment supprimer ?
-            <Button onClick={() => handleDeleteArticle()} color="red">
-              Oui
-            </Button>
-          </Modal> */}
-        </Box>
-      </div>
-
-      {/* Section gauche      */}
-
-      <div>
+        <Box className="flex justify-between"></Box>
         <form
           className="bg-teal-100 px-4 py-6 rounded-lg"
           hidden={message === "Author"}
@@ -215,7 +210,7 @@ export default function ArticleBox({ userId, articleId }: IProps) {
                 }}
                 disabled={article!.archive}
                 label="Titre de la critique"
-                placeholder="titre du critique"
+                placeholder="Titre de la critique"
                 {...form.getInputProps("titreCritique")}
               />
               <Textarea
@@ -227,7 +222,7 @@ export default function ArticleBox({ userId, articleId }: IProps) {
                 withAsterisk
                 variant="filled"
                 label="Contenu de la critique"
-                placeholder="Ajouter un critique de l'article"
+                placeholder="Ajouter une critique de l'article"
                 {...form.getInputProps("descriptionCritique")}
               />
               <Button
@@ -244,6 +239,11 @@ export default function ArticleBox({ userId, articleId }: IProps) {
             </Stack>
           </Box>
         </form>
+      </div>
+
+      {/* Section droite      */}
+
+      <div className="  w-1/2">
         <Box>
           <Space h="md" />
           <div className="ml-2">
@@ -251,7 +251,7 @@ export default function ArticleBox({ userId, articleId }: IProps) {
               Liste des critiques
             </Text>
           </div>
-          <ScrollArea h={350}>
+          <ScrollArea h={400}>
             {article!.critiques.length > 0 ? (
               article!.critiques.map((critique) => (
                 <div
@@ -290,9 +290,7 @@ export default function ArticleBox({ userId, articleId }: IProps) {
                 </div>
               ))
             ) : (
-              <Box className="ml-2">
-                Cet article n&apos;a pas encore été critiqué
-              </Box>
+              <Box className="ml-2">Aucune critique pour cet article</Box>
             )}
           </ScrollArea>
         </Box>

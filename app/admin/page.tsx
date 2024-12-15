@@ -10,20 +10,20 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import ArticleActions from "./ArticleActions";
+import ArticleActions from "../components/ArticleActions/ArticleActions";
 import { ARTICLES_URL } from "../constants/url";
 import { IArticle } from "../types/type";
 import CustomCardAdmin from "../components/CustomCardAdmin";
 import { IconLogout } from "@tabler/icons-react";
 import { logoutSession } from "../lib/sessionManagement";
-import Header from "./Header";
+import Header from "../components/Header/Header";
 
 interface IArticleProps {
   pendingArticles: IArticle[];
   articles: IArticle[];
 }
 
-export default async function Page() {
+export default async function Admin() {
   let data = await fetch(ARTICLES_URL, {
     next: {
       revalidate: 0,
@@ -35,8 +35,8 @@ export default async function Page() {
   const { pendingArticles } = articles;
 
   return (
-    <>
-      <Header>Dashboard Organisateur</Header>
+    <div className="px-4">
+      <Header text="Dashboard Organisateur"></Header>
       <Container size="sm" className="py-2 rounded-lg bg-white">
         <Box
           m={40}
@@ -77,6 +77,8 @@ export default async function Page() {
           </Box>
         </Box>
       </Container>
-    </>
+    </div>
   );
 }
+
+export const dynamic = 'force-dynamic'
